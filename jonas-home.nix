@@ -25,7 +25,11 @@
     pkgs.firefox
     pkgs.tree
     pkgs.vlc
-    pkgs.overskride
+    pkgs.discord
+    pkgs.zoxide
+    pkgs.fzf
+    pkgs.starship
+    pkgs.kpcli
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -54,6 +58,25 @@
     };
     lfs.enable = true;
   };
+  programs.fish = {
+    enable = true;
+    shellAliases = {
+      "..." = "cd ../..";
+      ".." = "cd ..";
+    };
+  };
+  programs.starship.enable = true;
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+    options = ["--cmd cd"];
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   programs.waybar = {
     enable = true;
     systemd.enable = true;

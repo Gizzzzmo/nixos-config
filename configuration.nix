@@ -101,6 +101,9 @@
     parted
     kitty
     pavucontrol
+    nh
+    nix-output-monitor
+    nvd
   ];
   
   fonts.packages = with pkgs; [
