@@ -1,4 +1,4 @@
-{ nixpkgs, config, pkgs, ... }:
+{nixpkgs, config, pkgs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -31,6 +31,7 @@
     pkgs.starship
     pkgs.kpcli
     pkgs.home-manager
+    pkgs.qbittorrent
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello

@@ -104,6 +104,7 @@
     nh
     nix-output-monitor
     nvd
+    openvpn
   ];
   
   fonts.packages = with pkgs; [
