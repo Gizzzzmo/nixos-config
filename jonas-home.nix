@@ -32,6 +32,11 @@
     pkgs.kpcli
     pkgs.home-manager
     pkgs.qbittorrent
+    pkgs.openocd
+    pkgs.gdb
+    pkgs.clang
+    pkgs.grim
+    pkgs.slurp
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
