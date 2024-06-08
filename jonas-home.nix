@@ -18,6 +18,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.vscode
     pkgs.obsidian
     pkgs.git
     pkgs.waybar
@@ -37,6 +38,7 @@
     pkgs.clang
     pkgs.grim
     pkgs.slurp
+    pkgs.tmux
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -65,11 +67,21 @@
     };
     lfs.enable = true;
   };
+  programs.vscode = {
+    enable = true;
+    extensions = [
+      pkgs.vscode-extensions.rust-lang.rust-analyzer
+      pkgs.vscode-extensions.eamodio.gitlens
+      pkgs.vscode-extensions.arrterian.nix-env-selector
+      pkgs.vscode-extensions.vscodevim.vim
+    ];
+  };
   programs.fish = {
     enable = true;
     shellAliases = {
       "..." = "cd ../..";
       ".." = "cd ..";
+      "code" = "code --ozone-platform=wayland";
     };
   };
   programs.starship.enable = true;
