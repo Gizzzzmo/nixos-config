@@ -74,7 +74,18 @@
       pkgs.vscode-extensions.eamodio.gitlens
       pkgs.vscode-extensions.arrterian.nix-env-selector
       pkgs.vscode-extensions.vscodevim.vim
+      pkgs.vscode-extensions.jnoortheen.nix-ide
+      pkgs.vscode-extensions.llvm-vs-code-extensions.vscode-clangd
+      pkgs.vscode-extensions.ms-vscode.cmake-tools
     ];
+    userSettings = {
+      "[nix]"."editor.tabSize" = 2;
+      "editor.stickyScroll.enabled" = false;
+      "editor.fontFamily" = "CascadiaCode";
+      "editor.fontSize" = 14;
+      "extensions.ignoreRecommendations" = true;
+      
+    };
   };
   programs.fish = {
     enable = true;
