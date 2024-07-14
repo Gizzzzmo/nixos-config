@@ -72,7 +72,6 @@
     extensions = [
       pkgs.vscode-extensions.rust-lang.rust-analyzer
       pkgs.vscode-extensions.eamodio.gitlens
-      pkgs.vscode-extensions.arrterian.nix-env-selector
       pkgs.vscode-extensions.vscodevim.vim
       pkgs.vscode-extensions.jnoortheen.nix-ide
       pkgs.vscode-extensions.llvm-vs-code-extensions.vscode-clangd
@@ -84,8 +83,13 @@
       "editor.fontFamily" = "CascadiaCode";
       "editor.fontSize" = 14;
       "extensions.ignoreRecommendations" = true;
-      
-    };
+      "cmake.showOptionsMovedNotification" = false;
+      "cmake.showNotAllDocumentsSavedQuestion" = false;
+      "cmake.pinnedCommands"= [
+        "workbench.action.tasks.configureTaskRunner"
+        "workbench.action.tasks.runTask"
+      ];
+    }; # keybindings are in dotfiles/.config/Code/User/keybindings.json
   };
   programs.fish = {
     enable = true;
