@@ -19,6 +19,7 @@
   # environment.
   home.packages = [
     pkgs.vscode
+    pkgs.obs-studio
     pkgs.obsidian
     pkgs.git
     pkgs.waybar

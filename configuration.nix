@@ -52,7 +52,21 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-  }; 
+  };
+
+  # Enable sound.
+  sound.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    wireplumber.enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+
+    pulse.enable = true;
+    audio.enable = true;
+    jack.enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -64,12 +78,6 @@
   # ENable bluetooth
   hardware.bluetooth.enable = true;
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -106,6 +114,36 @@
     nvd
     openvpn
   ];
+
+  environment = {
+    variables = {
+      # If cursor is not visible, try to set this to "on".
+      XDG_CURRENT_DESKTOP = "Hyprland";
+      XDG_SESSION_TYPE = "wayland";
+      XDG_SESSION_DESKTOP = "Hyprland";
+    };
+    sessionVariables = {
+      MOZ_ENABLE_WAYLAND = "1";
+      NIXOS_OZONE_WL = "1";
+      T_QPA_PLATFORM = "wayland";
+      GDK_BACKEND = "wayland";
+      WLR_NO_HARDWARE_CURSORS = "1";
+    };
+  };
+
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    config = {
+      common.default = ["gtk"];
+      hyprland.default = ["gtk" "hyprland"];
+    };
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+  };
   
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = ["FiraCode" "CascadiaCode"]; })
