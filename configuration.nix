@@ -53,7 +53,8 @@
     enable = true;
     xwayland.enable = true;
   };
-
+  programs.steam.enable = true;
+  
   # Enable sound.
   sound.enable = true;
   security.rtkit.enable = true;
@@ -113,6 +114,7 @@
     nix-output-monitor
     nvd
     openvpn
+    vscode-fhs
   ];
 
   environment = {

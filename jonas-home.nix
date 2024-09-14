@@ -18,7 +18,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.vscode
+ #   pkgs.vscode
     pkgs.obs-studio
     pkgs.obsidian
     pkgs.git
@@ -68,30 +68,46 @@
     };
     lfs.enable = true;
   };
-  programs.vscode = {
-    enable = true;
-    extensions = [
-      pkgs.vscode-extensions.rust-lang.rust-analyzer
-      pkgs.vscode-extensions.eamodio.gitlens
-      pkgs.vscode-extensions.vscodevim.vim
-      pkgs.vscode-extensions.jnoortheen.nix-ide
-      pkgs.vscode-extensions.llvm-vs-code-extensions.vscode-clangd
-      pkgs.vscode-extensions.ms-vscode.cmake-tools
-    ];
-    userSettings = {
-      "[nix]"."editor.tabSize" = 2;
-      "editor.stickyScroll.enabled" = false;
-      "editor.fontFamily" = "CascadiaCode";
-      "editor.fontSize" = 14;
-      "extensions.ignoreRecommendations" = true;
-      "cmake.showOptionsMovedNotification" = false;
-      "cmake.showNotAllDocumentsSavedQuestion" = false;
-      "cmake.pinnedCommands"= [
-        "workbench.action.tasks.configureTaskRunner"
-        "workbench.action.tasks.runTask"
-      ];
-    }; # keybindings are in dotfiles/.config/Code/User/keybindings.json
-  };
+  #programs.vscode-fhs = {
+  #  enable = true;
+  #  extensions = with pkgs.vscode-extensions; [
+  #    rust-lang.rust-analyzer
+  #    eamodio.gitlens
+  #    vscodevim.vim
+  #    jnoortheen.nix-ide
+  #    llvm-vs-code-extensions.vscode-clangd
+  #    ms-vscode.cmake-tools
+  #  ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+  #    # binascii.hexlify(base64.b64decode('8QQmTUIxQZo3owpCNh+5IjtnoNNvd0M1FI3cJrFG5Rg=')).decode("utf-8")
+  #    #{
+  #    #  name = "codeium";
+  #    #  publisher = "Codeium";
+  #    #  version = "1.17.4";
+  #    #  sha256 = "bafae9048f2d7143fae122f5dd4400c2da3ee06614d131b4fb7bb79aa4c8869e";
+  #    #}
+  #    {
+  #      name = "cmake-language-support-vscode";
+  #      publisher = "josetr";
+  #      version = "0.0.9";
+  #      sha256 = "2cdb57619eb92e46b5969c5e2a8ccae8b074c9ac408c7b1f56c089f082d7f22a";
+  #    }
+  #  ];
+  #  userSettings = {
+  #    "[nix]"."editor.tabSize" = 2;
+  #    "editor.stickyScroll.enabled" = false;
+  #    "editor.fontFamily" = "CascadiaCode";
+  #    "editor.fontSize" = 14;
+  #    "extensions.ignoreRecommendations" = true;
+  #    "cmake.showOptionsMovedNotification" = false;
+  #    "cmake.showNotAllDocumentsSavedQuestion" = false;
+  #    "cmake.pinnedCommands"= [
+  #      "workbench.action.tasks.configureTaskRunner"
+  #      "workbench.action.tasks.runTask"
+  #    ];
+  #  }; # keybindings are in dotfiles/.config/Code/User/keybindings.json
+  #  enableExtensionUpdateCheck = false;
+  #  enableUpdateCheck = false;
+  #};
   programs.fish = {
     enable = true;
     shellAliases = {
@@ -116,18 +132,106 @@
     enable = true;
     systemd.enable = true;
     style = ''
-      * {
-        border:none;
-	border-radius: 0;
-	font-family: Cascadia Code;
-      }
-      window#waybar {
-        background: #16191C;
-	color: #AAB2BF;
-      }
-      #workspaces button {
-        padding: 0 5px;
-      }
+		* {
+	    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+	    font-size: 13px;
+	}
+
+	#waybar {
+	    background-color: #333333;
+	    color: #ffffff;
+	}
+
+	button {
+	    box-shadow: inset 0 -3px transparent;
+	    border: none;
+	    border-radius: 0;
+	    padding: 0 5px;
+	}
+
+	#workspaces button {
+	    background-color: #5f676a;
+	    color: #ffffff;
+	}
+
+	#workspaces button:hover {
+	    background: rgba(0,0,0,0.2);
+	}
+
+	#workspaces button.focused {
+	    background-color: #285577;
+	}
+
+	#workspaces button.urgent {
+	    background-color: #900000;
+	}
+
+	#workspaces button.active {
+	    background-color: #285577;
+	}
+
+	#clock,
+	#battery,
+	#cpu,
+	#memory,
+	#pulseaudio,
+	#tray,
+	#mode,
+	#idle_inhibitor,
+	#window,
+	#workspaces {
+	    margin: 0 5px;
+	}
+
+
+	.modules-left > widget:first-child > #workspaces {
+	    margin-left: 0;
+	}
+
+
+	.modules-right > widget:last-child > #workspaces {
+	    margin-right: 0;
+	}
+
+	@keyframes blink {
+	    to {
+		background-color: #ffffff;
+		color: #000000;
+	    }
+	}
+
+	#battery.critical:not(.charging) {
+	    background-color: #f53c3c;
+	    color: #ffffff;
+	    animation-name: blink;
+	    animation-duration: 0.5s;
+	    animation-timing-function: linear;
+	    animation-iteration-count: infinite;
+	    animation-direction: alternate;
+	}
+
+	label:focus {
+	    background-color: #000000;
+	}
+
+	#tray > .passive {
+	    -gtk-icon-effect: dim;
+	}
+
+	#tray > .needs-attention {
+	    -gtk-icon-effect: highlight;
+	    background-color: #eb4d4b;
+	}
+
+	#idle_inhibitor {
+	    font-size: 15px;
+	    background-color: #333333;
+	    padding: 5px;
+	}
+
+	#idle_inhibitor.activated {
+	    background-color: #285577;
+	}
     '';
   };
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
