@@ -1,4 +1,4 @@
-{nixpkgs, config, pkgs, ... }:
+{nixpkgs, config, pkgs, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -14,6 +14,8 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
+
+  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -40,6 +42,8 @@
     pkgs.grim
     pkgs.slurp
     pkgs.tmux
+    pkgs.foliate
+    pkgs.zathura
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -68,23 +72,23 @@
     };
     lfs.enable = true;
   };
-  #programs.vscode-fhs = {
+  #programs.vscode = {
   #  enable = true;
   #  extensions = with pkgs.vscode-extensions; [
   #    rust-lang.rust-analyzer
   #    eamodio.gitlens
-  #    vscodevim.vim
+  #    #vscodevim.vim
   #    jnoortheen.nix-ide
   #    llvm-vs-code-extensions.vscode-clangd
   #    ms-vscode.cmake-tools
   #  ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
   #    # binascii.hexlify(base64.b64decode('8QQmTUIxQZo3owpCNh+5IjtnoNNvd0M1FI3cJrFG5Rg=')).decode("utf-8")
-  #    #{
-  #    #  name = "codeium";
-  #    #  publisher = "Codeium";
-  #    #  version = "1.17.4";
-  #    #  sha256 = "bafae9048f2d7143fae122f5dd4400c2da3ee06614d131b4fb7bb79aa4c8869e";
-  #    #}
+  #    {
+  #      name = "codeium";
+  #      publisher = "Codeium";
+  #      version = "1.17.4";
+  #      sha256 = "bafae9048f2d7143fae122f5dd4400c2da3ee06614d131b4fb7bb79aa4c8869e";
+  #    }
   #    {
   #      name = "cmake-language-support-vscode";
   #      publisher = "josetr";
@@ -108,15 +112,24 @@
   #  enableExtensionUpdateCheck = false;
   #  enableUpdateCheck = false;
   #};
+
+  programs.nixvim = {
+    enable = true;
+    extraPlugins = with pkgs.vimPlugins; [
+      codeium-nvim
+    ];
+  };
+
   programs.fish = {
     enable = true;
     shellAliases = {
       "..." = "cd ../..";
       ".." = "cd ..";
-      "code" = "code --ozone-platform=wayland";
     };
   };
+
   programs.starship.enable = true;
+
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;

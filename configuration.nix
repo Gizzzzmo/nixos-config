@@ -56,7 +56,6 @@
   programs.steam.enable = true;
   
   # Enable sound.
-  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -109,12 +108,15 @@
     wget
     parted
     kitty
+    alacritty
+    vscode-fhs
     pavucontrol
     nh
     nix-output-monitor
     nvd
     openvpn
-    vscode-fhs
+    wofi
+    file
   ];
 
   environment = {
