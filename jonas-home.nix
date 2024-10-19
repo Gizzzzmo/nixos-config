@@ -20,6 +20,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.feh
     pkgs.vscode
     pkgs.obs-studio
     pkgs.obsidian
@@ -64,6 +65,10 @@
     # '')
   ];
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
+  programs.feh = {
+    enable = true;
+    
+  };
   programs.git = {
     enable = true;
     userName = "Jonas Beyer";
