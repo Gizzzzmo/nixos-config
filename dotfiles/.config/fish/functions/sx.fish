@@ -9,7 +9,7 @@ function sx
     
     set selection (eval $cmd | fzf)
     
-    echo "Enter a command to append the fzf selection (default: open):"
+    echo "Open with"
     set user_cmd
     read user_cmd
     
