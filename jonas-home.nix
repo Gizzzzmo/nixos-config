@@ -20,7 +20,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
- #   pkgs.vscode
+    pkgs.vscode
     pkgs.obs-studio
     pkgs.obsidian
     pkgs.git
@@ -32,7 +32,9 @@
     pkgs.discord
     pkgs.zoxide
     pkgs.fzf
+    pkgs.ripgrep
     pkgs.starship
+    pkgs.nushell
     pkgs.kpcli
     pkgs.home-manager
     pkgs.qbittorrent
@@ -52,7 +54,7 @@
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    (pkgs.nerdfonts.override { fonts = ["FiraCode" "CascadiaCode"]; })
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -72,46 +74,75 @@
     };
     lfs.enable = true;
   };
-  #programs.vscode = {
-  #  enable = true;
-  #  extensions = with pkgs.vscode-extensions; [
-  #    rust-lang.rust-analyzer
-  #    eamodio.gitlens
-  #    #vscodevim.vim
-  #    jnoortheen.nix-ide
-  #    llvm-vs-code-extensions.vscode-clangd
-  #    ms-vscode.cmake-tools
-  #  ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-  #    # binascii.hexlify(base64.b64decode('8QQmTUIxQZo3owpCNh+5IjtnoNNvd0M1FI3cJrFG5Rg=')).decode("utf-8")
-  #    {
-  #      name = "codeium";
-  #      publisher = "Codeium";
-  #      version = "1.17.4";
-  #      sha256 = "bafae9048f2d7143fae122f5dd4400c2da3ee06614d131b4fb7bb79aa4c8869e";
-  #    }
-  #    {
-  #      name = "cmake-language-support-vscode";
-  #      publisher = "josetr";
-  #      version = "0.0.9";
-  #      sha256 = "2cdb57619eb92e46b5969c5e2a8ccae8b074c9ac408c7b1f56c089f082d7f22a";
-  #    }
-  #  ];
-  #  userSettings = {
-  #    "[nix]"."editor.tabSize" = 2;
-  #    "editor.stickyScroll.enabled" = false;
-  #    "editor.fontFamily" = "CascadiaCode";
-  #    "editor.fontSize" = 14;
-  #    "extensions.ignoreRecommendations" = true;
-  #    "cmake.showOptionsMovedNotification" = false;
-  #    "cmake.showNotAllDocumentsSavedQuestion" = false;
-  #    "cmake.pinnedCommands"= [
-  #      "workbench.action.tasks.configureTaskRunner"
-  #      "workbench.action.tasks.runTask"
-  #    ];
-  #  }; # keybindings are in dotfiles/.config/Code/User/keybindings.json
-  #  enableExtensionUpdateCheck = false;
-  #  enableUpdateCheck = false;
-  #};
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      rust-lang.rust-analyzer
+      eamodio.gitlens
+      #vscodevim.vim
+      jnoortheen.nix-ide
+      llvm-vs-code-extensions.vscode-clangd
+      ms-vscode.cmake-tools
+      enkia.tokyo-night
+    ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      # binascii.hexlify(base64.b64decode('8QQmTUIxQZo3owpCNh+5IjtnoNNvd0M1FI3cJrFG5Rg=')).decode("utf-8")
+      #
+      # codeium tries to download its own language server binary which is incompatible with nix's non-fsh compliant filesystem, and it seems to be impossible to point the extension to another location for the language server binary
+      #{
+      #  name = "codeium";
+      #  publisher = "Codeium";
+      #  version = "1.17.4";
+      #  sha256 = "bafae9048f2d7143fae122f5dd4400c2da3ee06614d131b4fb7bb79aa4c8869e";
+      #}
+      {
+        name = "cmake-language-support-vscode";
+        publisher = "josetr";
+        version = "0.0.9";
+        sha256 = "2cdb57619eb92e46b5969c5e2a8ccae8b074c9ac408c7b1f56c089f082d7f22a";
+      }
+    ];
+    userSettings = {
+      "[nix]"."editor.tabSize" = 2;
+      "editor.stickyScroll.enabled" = false;
+      "editor.fontFamily" = "FiraCode Nerd Font";
+      "editor.fontSize" = 14;
+      "extensions.ignoreRecommendations" = true;
+      "cmake.showOptionsMovedNotification" = false;
+      "cmake.showNotAllDocumentsSavedQuestion" = false;
+      "cmake.pinnedCommands"= [
+        "workbench.action.tasks.configureTaskRunner"
+        "workbench.action.tasks.runTask"
+      ];
+      "update.mode"= "none";
+      "workbench.colorTheme" = "Tokyo Night Pure";
+    }; # keybindings are in dotfiles/.config/Code/User/keybindings.json
+    enableExtensionUpdateCheck = false;
+    enableUpdateCheck = false;
+  };
+
+  programs.command-not-found.enable = true;
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      import = [ "/home/jonas/.config/alacritty/tokyo-night.toml" ];
+      window = {
+        padding = {
+          x = 5;
+          y = 5;
+        };
+        opacity = 0.8;
+      };
+      font = {
+        normal = {
+          family = "CaskaydiaCove Nerd Font";
+          style = "Regular";
+        };
+        size = 12.5;
+      };
+    };
+
+  };
 
   programs.nixvim = {
     enable = true;
@@ -126,9 +157,18 @@
       "..." = "cd ../..";
       ".." = "cd ..";
     };
+    shellInit = "set fish_greeting";
   };
 
-  programs.starship.enable = true;
+  programs.nushell = {
+    enable = true;
+  };
+
+  programs.starship = {
+    enable = true; 
+    enableFishIntegration = true;
+    enableNushellIntegration = true;
+  };
 
   programs.zoxide = {
     enable = true;
@@ -145,8 +185,8 @@
     enable = true;
     systemd.enable = true;
     style = ''
-		* {
-	    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+	* {
+	    font-family: CaskaydiaCove Nerd Font, Roboto, Helvetica, Arial, sans-serif;
 	    font-size: 13px;
 	}
 
@@ -282,7 +322,7 @@
   #  /etc/profiles/per-user/jonas/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "code --wait";
   };
 
   # Let Home Manager install and manage itself.
