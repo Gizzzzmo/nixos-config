@@ -115,6 +115,7 @@
       ];
       "update.mode"= "none";
       "workbench.colorTheme" = "Tokyo Night Pure";
+      "window.menuBarVisibility" = "toggle";
     }; # keybindings are in dotfiles/.config/Code/User/keybindings.json
     enableExtensionUpdateCheck = false;
     enableUpdateCheck = false;
