@@ -139,7 +139,7 @@
           family = "CaskaydiaCove Nerd Font";
           style = "Regular";
         };
-        size = 12.5;
+        size = 14.5;
       };
     };
 
