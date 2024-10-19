@@ -22,7 +22,8 @@
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;
+  # Easiest to use and most distros use this by default.
   
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -104,12 +105,13 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    hyprpaper
+    neovim
     wget
     parted
     kitty
     alacritty
-    vscode-fhs
     pavucontrol
     nh
     nix-output-monitor
