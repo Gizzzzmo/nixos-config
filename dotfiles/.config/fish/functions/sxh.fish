@@ -1,6 +1,6 @@
 
 # search and execute, via fzf, default search is ls, default execute is open
-function sx
+function sxh
     if test (count $argv) -eq 0
         set cmd "ls"
     else
