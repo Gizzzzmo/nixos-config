@@ -190,107 +190,190 @@
   programs.waybar = {
     enable = true;
     systemd.enable = true;
+    settings = {
+      layer = "top";
+      position = "top"; # Waybar at the bottom of your screen
+      height = 24; # Waybar height
+      # width= 1366; // Waybar width
+      # Choose the order of the modules
+      modules-left = ["sway/workspaces" "sway/mode" "custom/spotify"];
+      modules-center= ["sway/window"];
+      modules-right= ["pulseaudio" "network" "cpu" "memory" "battery" "tray" "clock"];
+      "sway/workspaces" = {
+          disable-scroll = true;
+          all-outputs = false;
+          format = "{icon}";
+          format-icons = {
+              "1:web"= "";
+              "2:code" = "";
+              "3:term" = "";
+              "4:work" = "";
+              "5:music" = "";
+              "6:docs" = "";
+              urgent= "";
+              focused= "";
+              default= "";
+          };
+      };
+      "sway/mode" = {
+          format = "<span style=\italic\>{}</span>";
+      };
+      tray = {
+          # icon-size= 21;
+          spacing = 10;
+      };
+      clock = {
+          format-alt = "{=%Y-%m-%d}";
+      };
+      cpu = {
+          format = "{usage}% ";
+      };
+      memory = {
+          format= "{}% ";
+      };
+      battery = {
+          bat = "BAT0";
+          states = {
+              # good = 95;
+              warning = 30;
+              critical = 15
+          };
+          format = "{capacity}% {icon}";
+          # format-good = ; // An empty format will hide the module
+          # format-full = ;
+          format-icons = ["" "" "" "" ""];
+      };
+      network = {
+          # interface = wlp2s0; // (Optional) To force the use of this interface
+          format-wifi = "{essid} ({signalStrength}%) ";
+          format-ethernet = "{ifname}= {ipaddr}/{cidr} ;";
+          format-disconnected = "Disconnected ⚠";
+      };
+      pulseaudio= {
+          #scroll-step = 1;
+          format = "{volume}% {icon}";
+          format-bluetooth = "{volume}% {icon}";
+          format-muted = "";
+          format-icons = {
+              headphones = "";
+              handsfree = "";
+              headset = "";
+              phone = "";
+              portable = "";
+              car = "";
+              default = ["" ""];
+          };
+          on-click = "pavucontrol";
+      };
+      "custom/spotify" = {
+          format = " {}";
+          max-length = 40;
+          interval = 30; # Remove this if your script is endless and write in loop
+          exec = "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
+          exec-if = "pgrep spotify"
+      }
+    }
     style = ''
-	* {
-	    font-family: CaskaydiaCove Nerd Font, Roboto, Helvetica, Arial, sans-serif;
-	    font-size: 13px;
-	}
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "CaskaydiaCove Nerd Font";
+    font-size: 13px;
+    min-height: 0;
+}
 
-	#waybar {
-	    background-color: #333333;
-	    color: #ffffff;
-	}
+window#waybar {
+    background: transparent;
+    color: white;
+}
 
-	button {
-	    box-shadow: inset 0 -3px transparent;
-	    border: none;
-	    border-radius: 0;
-	    padding: 0 5px;
-	}
+#window {
+    font-weight: bold;
+    font-family: "CaskaydiaCove Nerd Font";
+}
+/*
+#workspaces {
+    padding: 0 5px;
+}
+*/
 
-	#workspaces button {
-	    background-color: #5f676a;
-	    color: #ffffff;
-	}
+#workspaces button {
+    padding: 0 5px;
+    background: transparent;
+    color: white;
+    border-top: 2px solid transparent;
+}
 
-	#workspaces button:hover {
-	    background: rgba(0,0,0,0.2);
-	}
+#workspaces button.focused {
+    color: #c9545d;
+    border-top: 2px solid #c9545d;
+}
 
-	#workspaces button.focused {
-	    background-color: #285577;
-	}
+#mode {
+    background: #64727D;
+    border-bottom: 3px solid white;
+}
 
-	#workspaces button.urgent {
-	    background-color: #900000;
-	}
+#clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
+    padding: 0 3px;
+    margin: 0 2px;
+}
 
-	#workspaces button.active {
-	    background-color: #285577;
-	}
+#clock {
+    font-weight: bold;
+}
 
-	#clock,
-	#battery,
-	#cpu,
-	#memory,
-	#pulseaudio,
-	#tray,
-	#mode,
-	#idle_inhibitor,
-	#window,
-	#workspaces {
-	    margin: 0 5px;
-	}
+#battery {
+}
 
+#battery icon {
+    color: red;
+}
 
-	.modules-left > widget:first-child > #workspaces {
-	    margin-left: 0;
-	}
+#battery.charging {
+}
 
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: black;
+    }
+}
 
-	.modules-right > widget:last-child > #workspaces {
-	    margin-right: 0;
-	}
+#battery.warning:not(.charging) {
+    color: white;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
 
-	@keyframes blink {
-	    to {
-		background-color: #ffffff;
-		color: #000000;
-	    }
-	}
+#cpu {
+}
 
-	#battery.critical:not(.charging) {
-	    background-color: #f53c3c;
-	    color: #ffffff;
-	    animation-name: blink;
-	    animation-duration: 0.5s;
-	    animation-timing-function: linear;
-	    animation-iteration-count: infinite;
-	    animation-direction: alternate;
-	}
+#memory {
+}
 
-	label:focus {
-	    background-color: #000000;
-	}
+#network {
+}
 
-	#tray > .passive {
-	    -gtk-icon-effect: dim;
-	}
+#network.disconnected {
+    background: #f53c3c;
+}
 
-	#tray > .needs-attention {
-	    -gtk-icon-effect: highlight;
-	    background-color: #eb4d4b;
-	}
+#pulseaudio {
+}
 
-	#idle_inhibitor {
-	    font-size: 15px;
-	    background-color: #333333;
-	    padding: 5px;
-	}
+#pulseaudio.muted {
+}
 
-	#idle_inhibitor.activated {
-	    background-color: #285577;
-	}
+#custom-spotify {
+    color: rgb(102, 220, 105);
+}
+
+#tray {
+}
     '';
   };
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
