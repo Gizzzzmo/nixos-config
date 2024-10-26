@@ -13,8 +13,8 @@ function sx
     set user_cmd (eval complete -C"" | awk '{print $1}' | fzf) 
     
     if test -z "$user_cmd"
-        set user_cmd "open"
+        set user_cmd "echo"
     end
     
-    eval $user_cmd $selection
+    eval $user_cmd "$selection"
 end
