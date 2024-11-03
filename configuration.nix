@@ -107,6 +107,7 @@
   environment.systemPackages = with pkgs; [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     hyprpaper
+    cmus
     neovim
     wget
     parted
@@ -117,8 +118,8 @@
     nix-output-monitor
     nvd
     openvpn
-    wofi
     file
+    dotnet-runtime
   ];
 
   environment = {
