@@ -107,6 +107,7 @@
   environment.systemPackages = with pkgs; [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     hyprpaper
+    pamixer
     cmus
     neovim
     wget
