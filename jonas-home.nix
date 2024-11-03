@@ -20,7 +20,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.feh
+    pkgs.eog
     pkgs.vscode
     pkgs.obs-studio
     pkgs.obsidian
@@ -28,6 +28,7 @@
     pkgs.waybar
     pkgs.gitui
     pkgs.firefox
+    pkgs.wofi
     pkgs.tree
     pkgs.vlc
     pkgs.discord
@@ -65,9 +66,85 @@
     # '')
   ];
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
-  programs.feh = {
+  programs.wofi = {
     enable = true;
-    
+    style = ''
+    /* ::root{ */
+/*     --accent: #5291e2; */
+/*     --dark:   #383C4A; */
+/*     --light:  #7C818C; */
+/*     --ld:     #404552; */
+/*     --dl:     #4B5162 */
+/*     --white:  white; */
+/* } */
+
+*{
+  font-family: FiraCode Nerd Font;
+  font-size: 1.04em;
+}
+
+window{
+  background-color: #7C818C;
+}
+
+#input {
+  margin: 5px;
+  border-radius: 3px;
+  border: none;
+  border-bottom: 3px solid grey;
+  background-color: #383C4A;
+  color: white;
+  font-size: 2em;
+}
+
+/* search icon */
+#input:first-child > :nth-child(1) {
+  min-height: 1.25em;
+  min-width: 1.25em;
+  background-image: -gtk-icontheme('open-menu-symbolic');
+}
+
+/* clear icon */
+#input:first-child > :nth-child(4){
+  min-height: 1.25em;
+  min-width: 1.25em;
+  background-image: -gtk-icontheme('window-close-symbolic');
+}
+
+#inner-box {
+  background-color: #383C4A;
+}
+
+#outer-box {
+
+  margin: 2px;
+  padding:0px;
+  background-color: #383C4A;
+}
+
+#text {
+  padding: 5px;
+  color: white;
+}
+
+#entry:selected {
+  background-color: #5291e2;
+}
+
+#text:selected {
+}
+
+#scroll {
+}
+
+#img {
+}
+
+/* Give color to even items */
+/* #entry:nth-child(even){ */
+/*     background-color: #404552; */
+/* } */
+    '';
   };
   programs.git = {
     enable = true;
@@ -144,7 +221,7 @@
           family = "CaskaydiaCove Nerd Font";
           style = "Regular";
         };
-        size = 14.5;
+        size = 12.5;
       };
     };
 
@@ -155,6 +232,12 @@
     extraPlugins = with pkgs.vimPlugins; [
       codeium-nvim
     ];
+    opts = {
+        number = true;
+	relativenumber = true;
+	shiftwidth = 4;
+	expandtab = true;
+    };
   };
 
   programs.fish = {
@@ -190,7 +273,7 @@
   programs.waybar = {
     enable = true;
     systemd.enable = true;
-    settings = {
+    settings = [{
       layer = "top";
       position = "top"; # Waybar at the bottom of your screen
       height = 24; # Waybar height
@@ -236,7 +319,7 @@
           states = {
               # good = 95;
               warning = 30;
-              critical = 15
+              critical = 15;
           };
           format = "{capacity}% {icon}";
           # format-good = ; // An empty format will hide the module
@@ -269,10 +352,18 @@
           format = " {}";
           max-length = 40;
           interval = 30; # Remove this if your script is endless and write in loop
-          exec = "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
-          exec-if = "pgrep spotify"
-      }
-    }
+          exec = pkgs.writeShellScript "mediaplayer" ''
+          player_status=$(playerctl status 2> /dev/null)
+          if [ "$player_status" = "Playing" ]; then
+              echo "$(playerctl metadata artist) - $(playerctl metadata title)"
+          elif [ "$player_status" = "Paused" ]; then
+              echo " $(playerctl metadata artist) - $(playerctl metadata title)"
+          fi
+          '';
+          #"$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
+          exec-if = "pgrep spotify";
+      };
+    }];
     style = ''
 * {
     border: none;
@@ -411,7 +502,7 @@ window#waybar {
   #  /etc/profiles/per-user/jonas/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "code --wait";
+    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.
