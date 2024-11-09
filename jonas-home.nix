@@ -20,8 +20,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.eog
     pkgs.vscode
+    pkgs.eog
     pkgs.obs-studio
     pkgs.obsidian
     pkgs.git
@@ -153,6 +153,7 @@ window{
     
     extraConfig = {
         init.defaultBranch = "main";
+        commit.gpgsign = true;
     };
     lfs.enable = true;
   };
@@ -208,13 +209,16 @@ window{
   programs.alacritty = {
     enable = true;
     settings = {
-      import = [ "/home/jonas/.config/alacritty/tokyo-night.toml" ];
+      import = [ 
+        #"/home/jonas/.config/alacritty/tokyo-night.toml"
+        "/home/jonas/.config/alacritty/catppuccin-mocha.toml"
+      ];
       window = {
         padding = {
           x = 5;
           y = 5;
         };
-        opacity = 0.8;
+        opacity = 0.9;
       };
       font = {
         normal = {

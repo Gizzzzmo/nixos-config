@@ -50,6 +50,12 @@
     theme = "where_is_my_sddm_theme";
   };
 
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -121,6 +127,9 @@
     openvpn
     file
     dotnet-runtime
+    gnupg
+    pinentry-rofi
+    pinentry
   ];
 
   environment = {
