@@ -36,7 +36,7 @@ format = "[$symbol]($style)"
 
 [username]
 # Don't display for normal logged in user
-disabled = true
+disabled = false 
 style_user = "#d3b987"
 format = "[$user]($style)"
 
@@ -48,7 +48,7 @@ format = "[@$hostname]($style)[ ](#767676)"
 
 [directory]
 read_only = " "
-truncation_length = 2
+truncation_length = 10
 truncate_to_repo = false
 repo_root_style = "#0087af"
 fish_style_pwd_dir_length = 2
@@ -129,11 +129,11 @@ symbol = " "
 format = "([  ](#767676)[$symbol$context]($style))"
 
 [nix_shell]
-symbol = " "
+symbol = "  "
 format = "[${symbol}nix ${state} ]($style)"
 
 [memory_usage]
-disabled = false
+disabled = true
 threshold = -1
 symbol = ""
 style = "#5f8787"
