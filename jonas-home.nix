@@ -19,7 +19,10 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = [ 
+    pkgs.python3
+    pkgs.fishPlugins.bass
+    pkgs.fishPlugins.colored-man-pages
     pkgs.vscode
     pkgs.eog
     pkgs.obs-studio
@@ -210,7 +213,7 @@ window{
   programs.alacritty = {
     enable = true;
     settings = {
-      import = [ 
+      general.import = [ 
         #"/home/jonas/.config/alacritty/tokyo-night.toml"
         "/home/jonas/.config/alacritty/catppuccin-mocha.toml"
       ];
@@ -223,7 +226,7 @@ window{
       };
       font = {
         normal = {
-          family = "CaskaydiaCove Nerd Font";
+          family = "FiraCode Nerd Font";
           style = "Regular";
         };
         size = 12.5;
@@ -310,9 +313,19 @@ window{
       "..." = "cd ../..";
       ".." = "cd ..";
       "ll" = "eza -l";
-      "ls" = "eza";
+      "lls" = "eza";
     };
     shellInit = "set fish_greeting";
+    plugins = [
+        {
+            name = "bass";
+            src = pkgs.fishPlugins.bass;
+        }
+        {
+            name = "colored-man-pages";
+            src = pkgs.fishPlugins.colored-man-pages;
+        }
+    ];
   };
 
   programs.nushell = {

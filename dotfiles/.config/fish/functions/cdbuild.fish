@@ -1,5 +1,8 @@
 function cdbuild
     set git_root (git rev-parse --show-toplevel)
+    if test $status -ne 0
+        return 1;
+    end
     if not test -d $git_root/build
         cd $git_root
         return
@@ -8,7 +11,7 @@ function cdbuild
         cd $git_root/build
         return
     end
-    bass source $git_root/build/.cdbuild
+    bass . $git_root/build/.cdbuild
     cd $git_root
     if test -d $cdbuild_dir
         cd $cdbuild_dir
