@@ -30,7 +30,7 @@ success_symbol = "[❯](green)"
 ### Left prompt
 
 [sudo]
-disabled = false
+disabled = true 
 symbol = "🧙"
 format = "[$symbol]($style)"
 
