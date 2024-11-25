@@ -49,7 +49,7 @@
     wayland.enable = true;
     theme = "where_is_my_sddm_theme";
   };
-
+  virtualisation.libvirtd.enable = true;
   services.pcscd.enable = true;
   programs.gnupg.agent = {
     enable = true;
@@ -112,6 +112,10 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    qemu
+    libvirt
+    bridge-utils
+    virt-manager
     hyprpaper
     pamixer
     cmus
