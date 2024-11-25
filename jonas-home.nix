@@ -28,6 +28,7 @@
     pkgs.waybar
     pkgs.gitui
     pkgs.firefox
+    pkgs.eza
     pkgs.wofi
     pkgs.tree
     pkgs.vlc
@@ -233,15 +234,74 @@ window{
 
   programs.nixvim = {
     enable = true;
-    extraPlugins = with pkgs.vimPlugins; [
-      codeium-nvim
-    ];
+    colorschemes.nightfox.enable = true;
+    plugins.telescope= {
+        enable = true;
+    };
+
+    plugins.cmake-tools = {
+        enable = true;
+        
+    };
+    plugins.web-devicons.enable = true;
+    plugins.treesitter = {
+        enable = true;
+        settings = {
+            highlight.enable = true;
+            grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+                nix
+                make
+                json
+                bash
+                vim
+                lua
+                toml
+                yaml
+                cpp
+                c
+                cmake
+                toml
+                rust
+                markdown
+            ];
+        };
+    };
+    
     opts = {
         number = true;
 	relativenumber = true;
 	shiftwidth = 4;
 	expandtab = true;
     };
+
+    globals.mapleader = ",";
+
+    keymaps = [
+        {
+            mode = "n";
+            key = "<leader>ff";
+            options.silent = false;
+            action = "<cmd>Telescope find_files<cr>";
+        }
+        {
+            mode = "n";
+            key = "<leader>fg";
+            options.silent = false;
+            action = "<cmd>Telescope live_grep<cr>";
+        }
+        {
+            mode = "n";
+            key = "<leader>fb";
+            options.silent = false;
+            action = "<cmd>Telescope buffers<cr>";
+        }
+        {
+            mode = "n";
+            key = "<leader>fh";
+            options.silent = false;
+            action = "<cmd>Telescope help_tags<cr>";
+        }
+    ];
   };
 
   programs.fish = {
@@ -249,6 +309,8 @@ window{
     shellAliases = {
       "..." = "cd ../..";
       ".." = "cd ..";
+      "ll" = "eza -l";
+      "ls" = "eza";
     };
     shellInit = "set fish_greeting";
   };
