@@ -20,6 +20,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [ 
+    pkgs.wl-clipboard
+    pkgs.wl-clipboard-x11
     pkgs.python3
     pkgs.fishPlugins.bass
     pkgs.fishPlugins.colored-man-pages
