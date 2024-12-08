@@ -5,9 +5,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
     hyprland = {
-      url = "github:hyprwm/hyprland";
+      url = "github:hyprwm/hyprland/v0.45.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -21,6 +22,10 @@
     rose-pine-hyprcursor = {
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flox = {
+      url = "github:flox/flox/v1.3.4";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
   };

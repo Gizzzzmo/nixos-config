@@ -5,7 +5,6 @@
   # manage.
   home.username = "jonas";
   home.homeDirectory = "/home/jonas";
-
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -43,15 +42,10 @@
     pkgs.ripgrep
     pkgs.starship
     pkgs.nushell
-    pkgs.kpcli
     pkgs.home-manager
     pkgs.qbittorrent
-    pkgs.openocd
-    pkgs.gdb
-    pkgs.clang
     pkgs.grim
     pkgs.slurp
-    pkgs.tmux
     pkgs.foliate
     pkgs.zathura
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -62,8 +56,6 @@
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    (pkgs.nerdfonts.override { fonts = ["FiraCode" "CascadiaCode"]; })
-
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:
@@ -75,81 +67,99 @@
   programs.wofi = {
     enable = true;
     style = ''
-    /* ::root{ */
-/*     --accent: #5291e2; */
-/*     --dark:   #383C4A; */
-/*     --light:  #7C818C; */
-/*     --ld:     #404552; */
-/*     --dl:     #4B5162 */
-/*     --white:  white; */
-/* } */
+      /* ::root{ *
+      /*     --accent: #5291e2; */
+      /*     --dark:   #383C4A; */
+      /*     --light:  #7C818C; */
+      /*     --ld:     #404552; */
+      /*     --dl:     #4B5162 */
+      /*     --white:  white; */
+      /* } */
 
-*{
-  font-family: FiraCode Nerd Font;
-  font-size: 1.04em;
-}
+      *{
+        font-family: FiraCode Nerd Font;
+        font-size: 1.04em;
+      }
 
-window{
-  background-color: #7C818C;
-}
+      window{
+        background-color: #7C818C;
+      }
 
-#input {
-  margin: 5px;
-  border-radius: 3px;
-  border: none;
-  border-bottom: 3px solid grey;
-  background-color: #383C4A;
-  color: white;
-  font-size: 2em;
-}
+      #input {
+        margin: 5px;
+        border-radius: 3px;
+        border: none;
+        border-bottom: 3px solid grey;
+        background-color: #383C4A;
+        color: white;
+        font-size: 2em;
+      }
 
-/* search icon */
-#input:first-child > :nth-child(1) {
-  min-height: 1.25em;
-  min-width: 1.25em;
-  background-image: -gtk-icontheme('open-menu-symbolic');
-}
+      /* search icon */
+      #input:first-child > :nth-child(1) {
+        min-height: 1.25em;
+        min-width: 1.25em;
+        background-image: -gtk-icontheme('open-menu-symbolic');
+      }
 
-/* clear icon */
-#input:first-child > :nth-child(4){
-  min-height: 1.25em;
-  min-width: 1.25em;
-  background-image: -gtk-icontheme('window-close-symbolic');
-}
+      /* clear icon */
+      #input:first-child > :nth-child(4){
+        min-height: 1.25em;
+        min-width: 1.25em;
+        background-image: -gtk-icontheme('window-close-symbolic');
+      }
 
-#inner-box {
-  background-color: #383C4A;
-}
+      #inner-box {
+        background-color: #383C4A;
+      }
 
-#outer-box {
+      #outer-box {
 
-  margin: 2px;
-  padding:0px;
-  background-color: #383C4A;
-}
+        margin: 2px;
+        padding:0px;
+        background-color: #383C4A;
+      }
 
-#text {
-  padding: 5px;
-  color: white;
-}
+      #text {
+        padding: 5px;
+        color: white;
+      }
 
-#entry:selected {
-  background-color: #5291e2;
-}
+      #entry:selected {
+        background-color: #5291e2;
+      }
 
-#text:selected {
-}
+      #text:selected {
+      }
 
-#scroll {
-}
+      #scroll {
+      }
 
-#img {
-}
+      #img {
+      }
 
-/* Give color to even items */
-/* #entry:nth-child(even){ */
-/*     background-color: #404552; */
-/* } */
+      /* Give color to even items */
+      /* #entry:nth-child(even){ */
+      /*     background-color: #404552; */
+      /* } */
+    '';
+  };
+  programs.tmux = {
+    enable = true;
+    package = pkgs.tmux;
+    prefix = "C-o";
+    keyMode = "vi";
+    clock24 = true;
+    baseIndex = 1;
+    extraConfig = ''
+      set -g status-style bg=colour23,fg=white 
+      set -g mode-style fg=white,bg=color93
+      bind -r h select-pane -L
+      bind -r j select-pane -D
+      bind -r k select-pane -U
+      bind -r l select-pane -R
+      bind -r | split-window -h
+      bind -r - split-window -v
     '';
   };
   programs.git = {
@@ -215,7 +225,7 @@ window{
   programs.alacritty = {
     enable = true;
     settings = {
-      general.import = [ 
+      import = [ 
         #"/home/jonas/.config/alacritty/tokyo-night.toml"
         "/home/jonas/.config/alacritty/catppuccin-mocha.toml"
       ];
@@ -239,14 +249,58 @@ window{
 
   programs.nixvim = {
     enable = true;
-    colorschemes.nightfox.enable = true;
-    plugins.telescope= {
-        enable = true;
+    colorschemes.tokyonight.enable = true;
+    autoCmd = [
+      {
+        command = ":setlocal tabstop=2 shiftwidth=2 expandtab";
+        event = "BufEnter"; 
+        pattern = "*.nix";
+      }
+    ];
+    plugins.lsp = {
+      enable = true;
+      servers = {
+        clangd = {
+          enable = true;
+          package = null;
+          cmd = [ "clangd" ];
+        };
+        rust_analyzer = {
+          enable = true;
+          installCargo = false;
+          installRustc = false;
+        }; 
+      };
+    };
+
+    plugins.cmp = {
+      enable = true;
+      autoEnableSources = true;
+      settings = {
+        sources = [
+          { name = "nvim_lsp"; }
+          { name = "path"; }
+          { name = "buffer"; }
+        ];
+
+        mapping = {
+          "<C-Space>" = "cmp.mapping.complete()";
+          "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+          "<C-e>" = "cmp.mapping.close()";
+          "<C-f>" = "cmp.mapping.scroll_docs(4)";
+          "<CR>" = "cmp.mapping.confirm({ select = true })";
+          "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
+          "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
+        };
+      };
+    };
+
+    plugins.telescope = {
+      enable = true;
     };
 
     plugins.cmake-tools = {
-        enable = true;
-        
+      enable = true;
     };
     plugins.web-devicons.enable = true;
     plugins.treesitter = {
@@ -273,44 +327,64 @@ window{
     };
     
     opts = {
-        number = true;
-	relativenumber = true;
-	shiftwidth = 4;
-	expandtab = true;
+      number = true;
+      relativenumber = true;
+      shiftwidth = 4;
+      expandtab = true;
+      scrolloff = 7;
+      signcolumn = "number";
     };
 
     globals.mapleader = ",";
 
     keymaps = [
-        {
-            mode = "n";
-            key = "<leader>ff";
-            options.silent = false;
-            action = "<cmd>Telescope find_files<cr>";
-        }
-        {
-            mode = "n";
-            key = "<leader>fg";
-            options.silent = false;
-            action = "<cmd>Telescope live_grep<cr>";
-        }
-        {
-            mode = "n";
-            key = "<leader>fb";
-            options.silent = false;
-            action = "<cmd>Telescope buffers<cr>";
-        }
-        {
-            mode = "n";
-            key = "<leader>fh";
-            options.silent = false;
-            action = "<cmd>Telescope help_tags<cr>";
-        }
+      {
+        mode = "n";
+        key = "<C-d>";
+        action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
+      }
+      {
+        mode = "i";
+        key = "<C-s>";
+        options.silent = false;
+        action = "<cmd>write<cr>";
+      }
+      {
+        mode = "n";
+        key = "<C-s>";
+        options.silent = false;
+        action = "<cmd>write<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>ff";
+        options.silent = false;
+        action = "<cmd>Telescope find_files<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>fg";
+        options.silent = false;
+        action = "<cmd>Telescope live_grep<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>fb";
+        options.silent = false;
+        action = "<cmd>Telescope buffers<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>fh";
+        options.silent = false;
+        action = "<cmd>Telescope help_tags<cr>";
+      }
     ];
   };
 
   programs.fish = {
     enable = true;
+    package = pkgs.fish;
     shellAliases = {
       "..." = "cd ../..";
       ".." = "cd ..";

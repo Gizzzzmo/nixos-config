@@ -107,11 +107,17 @@
     };
   };
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.caskaydia-cove
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    inputs.flox.packages.${pkgs.system}.default
+    keepassxc
     qemu
     libvirt
     bridge-utils
@@ -166,9 +172,6 @@
     ];
   };
   
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = ["FiraCode" "CascadiaCode"]; })
-  ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
