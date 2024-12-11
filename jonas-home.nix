@@ -18,36 +18,42 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [ 
-    pkgs.wl-clipboard
-    pkgs.wl-clipboard-x11
-    pkgs.python3
-    pkgs.fishPlugins.bass
-    pkgs.fishPlugins.colored-man-pages
-    pkgs.vscode
-    pkgs.eog
-    pkgs.obs-studio
-    pkgs.obsidian
-    pkgs.git
-    pkgs.waybar
-    pkgs.gitui
-    pkgs.firefox
-    pkgs.eza
-    pkgs.wofi
-    pkgs.tree
-    pkgs.vlc
-    pkgs.discord
-    pkgs.zoxide
-    pkgs.fzf
-    pkgs.ripgrep
-    pkgs.starship
-    pkgs.nushell
-    pkgs.home-manager
-    pkgs.qbittorrent
-    pkgs.grim
-    pkgs.slurp
-    pkgs.foliate
-    pkgs.zathura
+  home.packages = with pkgs; [ 
+    nh
+    keepassxc
+    nix-output-monitor
+    nvd
+    openvpn
+    dotnet-runtime
+    cmus
+    wl-clipboard
+    wl-clipboard-x11
+    python3
+    fishPlugins.bass
+    fishPlugins.colored-man-pages
+    eza
+    tree
+    ripgrep
+    htop
+    home-manager
+
+    kitty
+    alacritty
+    pavucontrol
+    vscode
+    eog
+    obs-studio
+    obsidian
+    waybar
+    firefox
+    vlc
+    wofi
+    discord
+    qbittorrent
+    grim
+    slurp
+    foliate
+    zathura
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -63,6 +69,42 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+  programs.gitui = {
+    enable = true;
+    theme = ''
+      (
+        selected_tab: Some("White"),
+        command_fg: Some("White"),
+        selection_bg: Some("DarkGray"),
+        selection_fg: Some("White"),
+        cmdbar_bg: Some("DarkGray"),
+        cmdbar_extra_lines_bg: Some("DarkGray"),
+        disabled_fg: Some("#666666"),
+        diff_line_add: Some("Green"),
+        diff_line_delete: Some("Red"),
+        diff_file_added: Some("LightGreen"),
+        diff_file_removed: Some("LightRed"),
+        diff_file_moved: Some("LightMagenta"),
+        diff_file_modified: Some("Yellow"),
+        commit_hash: Some("Magenta"),
+        commit_time: Some("LightCyan"),
+        commit_author: Some("Green"),
+        danger_fg: Some("Red"),
+        push_gauge_bg: Some("Blue"),
+        push_gauge_fg: Some("Reset"),
+        tag_fg: Some("LightMagenta"),
+        branch_fg: Some("LightYellow"),
+      )
+    '';
+    keyConfig = ''
+      (
+        move_left: Some(( code: Char('h'), modifiers: "")),
+        move_right: Some(( code: Char('l'), modifiers: "")),
+        move_up: Some(( code: Char('k'), modifiers: "")),
+        move_down: Some(( code: Char('j'), modifiers: ""))
+      )
+    '';
+  };
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
   programs.wofi = {
     enable = true;
@@ -152,14 +194,37 @@
     clock24 = true;
     baseIndex = 1;
     extraConfig = ''
-      set -g status-style bg=colour23,fg=white 
-      set -g mode-style fg=white,bg=color93
+      set -g status-style bg=colour23,fg=colour15
+      set -g mode-style fg=colour15,bg=colour23
+      set-window-option -g window-status-current-style bg=colour15,fg=colour23
       bind -r h select-pane -L
       bind -r j select-pane -D
       bind -r k select-pane -U
       bind -r l select-pane -R
+
       bind -r | split-window -h
       bind -r - split-window -v
+      
+      bind -n M-Left select-pane -L
+      bind -n M-Down select-pane -D
+      bind -n M-Up select-pane -U
+      bind -n M-Right select-pane -R
+      
+      bind -n M-w last-window
+      bind -n M-= select-window -n
+      bind -n M-- select-window -p 
+      bind -n M-0 select-window -t 0
+      bind -n M-1 select-window -t 1 
+      bind -n M-2 select-window -t 2 
+      bind -n M-3 select-window -t 3 
+      bind -n M-4 select-window -t 4 
+      bind -n M-5 select-window -t 5 
+      bind -n M-6 select-window -t 6 
+      bind -n M-7 select-window -t 7 
+      bind -n M-8 select-window -t 8 
+      bind -n M-9 select-window -t 9
+
+      bind -r r source ~/.config/tmux/tmux.conf
     '';
   };
   programs.git = {
@@ -225,9 +290,9 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      import = [ 
-        #"/home/jonas/.config/alacritty/tokyo-night.toml"
-        "/home/jonas/.config/alacritty/catppuccin-mocha.toml"
+      general.import = [ 
+        "/home/jonas/.config/alacritty/tokyo-night.toml"
+        #"/home/jonas/.config/alacritty/catppuccin-mocha.toml"
       ];
       window = {
         padding = {
@@ -257,6 +322,10 @@
         pattern = "*.nix";
       }
     ];
+    clipboard.providers.wl-copy = {
+      enable = true;
+      package = pkgs.wl-clipboard;
+    };
     plugins.lsp = {
       enable = true;
       servers = {
@@ -299,9 +368,6 @@
       enable = true;
     };
 
-    plugins.cmake-tools = {
-      enable = true;
-    };
     plugins.web-devicons.enable = true;
     plugins.treesitter = {
         enable = true;
@@ -325,6 +391,10 @@
             ];
         };
     };
+
+    extraPlugins = with pkgs.vimPlugins; [
+      nvim-gdb
+    ];
     
     opts = {
       number = true;
@@ -339,6 +409,11 @@
 
     keymaps = [
       {
+        mode = ["n" "i"];
+        key = "<C-r>";
+        action = "<cmd>b#<cr>";
+      }
+      {
         mode = "n";
         key = "<C-d>";
         action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
@@ -347,7 +422,7 @@
         mode = "i";
         key = "<C-s>";
         options.silent = false;
-        action = "<cmd>write<cr>";
+        action = "<cmd>write<cr><esc>";
       }
       {
         mode = "n";
@@ -371,13 +446,25 @@
         mode = "n";
         key = "<leader>fb";
         options.silent = false;
-        action = "<cmd>Telescope buffers<cr>";
+        action = "<cmd>Telescope buffers<cr><esc>";
       }
       {
         mode = "n";
         key = "<leader>fh";
         options.silent = false;
         action = "<cmd>Telescope help_tags<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>fo";
+        options.silent = false;
+        action = "<cmd>Telescope oldfiles<cr><esc>"; 
+      }
+      {
+        mode = "n";
+        key = "gd";
+        options.silent = false;
+        action = "<cmd>lua vim.lsp.buf.definition()<cr>";
       }
     ];
   };

@@ -117,26 +117,15 @@
   environment.systemPackages = with pkgs; [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     inputs.flox.packages.${pkgs.system}.default
-    keepassxc
     qemu
+    file
     libvirt
     bridge-utils
     virt-manager
     hyprpaper
     pamixer
-    cmus
-    neovim
     wget
     parted
-    kitty
-    alacritty
-    pavucontrol
-    nh
-    nix-output-monitor
-    nvd
-    openvpn
-    file
-    dotnet-runtime
     gnupg
     pinentry-rofi
     pinentry
