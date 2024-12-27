@@ -720,6 +720,9 @@ window#waybar {
       source = dotfiles/.config;
       recursive = true;
     };
+    ".XCompose" = {
+      source = dotfiles/.XCompose;
+    };
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
