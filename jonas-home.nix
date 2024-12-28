@@ -156,7 +156,6 @@
       }
 
       #outer-box {
-
         margin: 2px;
         padding:0px;
         background-color: #383C4A;
@@ -193,10 +192,17 @@
     keyMode = "vi";
     clock24 = true;
     baseIndex = 1;
+    plugins = with pkgs.tmuxPlugins; [
+      fingers 
+    ];
     extraConfig = ''
+      set -s escape-time 0
       set -g status-style bg=colour23,fg=colour15
       set -g mode-style fg=colour15,bg=colour23
       set-window-option -g window-status-current-style bg=colour15,fg=colour23
+
+      # set -g @tokyo-night-tmux_theme storm
+
       bind -r h select-pane -L
       bind -r j select-pane -D
       bind -r k select-pane -U
@@ -306,7 +312,7 @@
           family = "FiraCode Nerd Font";
           style = "Regular";
         };
-        size = 12.5;
+        size = 11.3;
       };
     };
 
@@ -326,8 +332,105 @@
       enable = true;
       package = pkgs.wl-clipboard;
     };
+    
+    plugins.fugitive = {
+      enable = true;
+      package = pkgs.vimPlugins.fugitive;
+      gitPackage = pkgs.git;
+    };
+
+    plugins.obsidian = {
+      enable = true;
+      package = pkgs.vimPlugins.obsidian-nvim;
+      settings = {
+        note_id_func = ''
+          function(title)
+            return title
+          end
+        '';
+        note_path_func = ''
+          function(spec)
+            local path = spec.dir / spec.title
+            return path:with_suffix(".md")
+          end
+        '';
+        follow_img_func = ''
+          function(url)
+            vim.fn.jobstart({"xdg-open", url})
+          end
+        '';
+        follow_url_func = ''
+          function(url)
+            vim.fn.jobstart({"xdg-open", url})
+          end
+        '';
+        markdown_link_func = ''
+          function(opts)
+            return string.format("[%s](%s)", opts.label, opts.path)
+          end
+        '';
+        daily_notes = {
+          date_format = "%Y-%m-%d";
+          folder = "./daily";
+        };
+        mappings = {
+          "<leader>ch" = {
+            action = "require('obsidian').util.toggle_checkbox";
+            opts = {
+              buffer = true;
+            };
+          };
+          gf = {
+            action = "require('obsidian').util.gf_passthrough";
+            opts = {
+              buffer = true;
+              expr = true;
+              noremap = false;
+            };
+          };
+        };
+        ui = {
+          checkboxes = {
+            " " = {
+              char = "󰄱";
+              hl_group = "ObsidianTodo";
+            };
+            ">" = {
+              char = "";
+              hl_group = "ObsidianRightArrow";
+            };
+            x = {
+              char = "";
+              hl_group = "ObsidianDone";
+            };
+            "~" = {
+              char = "󰰱";
+              hl_group = "ObsidianTilde";
+            };
+          };
+        };
+        completion = {
+          min_chars = 2;
+          nvim_cmp = true;
+        };
+        new_notes_location = "current_dir";
+        workspaces = [
+          {
+            name = "main";
+            path = "~/notes/notes/";
+          }
+        ];
+      };
+    };
     plugins.lsp = {
       enable = true;
+      preConfig = ''
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+          vim.lsp.handlers.hover, {
+            border = "single"
+          }
+        )
+      '';
       servers = {
         clangd = {
           enable = true;
@@ -339,6 +442,27 @@
           installCargo = false;
           installRustc = false;
         }; 
+      };
+      keymaps = {
+        diagnostic = {
+          "<leader>j" = "goto_next";
+          "<leader>k" = "goto_prev";
+        };
+        lspBuf = {
+          gd = "definition";
+          eD = "references";
+          gi = "implementation";
+          gt = "type_definition";
+        };
+      };
+    };
+
+    plugins.lean = {
+      enable = true;
+      package = pkgs.vimPlugins.lean-nvim;
+      mappings = true;
+      lsp = {
+        enable = true;
       };
     };
 
@@ -366,6 +490,15 @@
 
     plugins.telescope = {
       enable = true;
+      extensions = {
+        fzf-native.enable = true;
+      };
+      settings.pickers.find_files.hidden = true;
+      settings.defaults = {
+        file_ignore_patterns = [
+          "^.git/"
+        ];
+      };
     };
 
     plugins.web-devicons.enable = true;
@@ -389,6 +522,16 @@
                 rust
                 markdown
             ];
+          incremental_selection = {
+            enable = true;
+            keymaps = {
+              node_incremental = "L";
+              node_decremental = "H";
+            };
+          };
+          indent = {
+            enable = true;
+          };
         };
     };
 
@@ -403,11 +546,22 @@
       expandtab = true;
       scrolloff = 7;
       signcolumn = "number";
+      conceallevel = 1;
     };
 
     globals.mapleader = ",";
 
     keymaps = [
+      {
+        mode = "n";
+        key = "<leader>od";
+        action = "<cmd>ObsidianToday<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>on";
+        action = "<cmd>ObsidianNew<cr>";
+      }
       {
         mode = ["n" "i"];
         key = "<C-r>";
@@ -444,9 +598,19 @@
       }
       {
         mode = "n";
+        key = "<leader>fn";
+        action = "<cmd>ObsidianSearch<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>ft";
+        action = "<cmd>ObsidianTags<cr>";
+      }
+      {
+        mode = "n";
         key = "<leader>fb";
         options.silent = false;
-        action = "<cmd>Telescope buffers<cr><esc>";
+        action = "<cmd>Telescope buffers<cr>";
       }
       {
         mode = "n";
@@ -461,10 +625,16 @@
         action = "<cmd>Telescope oldfiles<cr><esc>"; 
       }
       {
-        mode = "n";
-        key = "gd";
+        mode = ["n" "i"];
+        key = "<M-Tab>";
         options.silent = false;
-        action = "<cmd>lua vim.lsp.buf.definition()<cr>";
+        action = "<cmd>lua=require('telescope.builtin').buffers({sort_lastused=1, ignore_current_buffer=1})<cr><esc>";
+      }
+      {
+        mode = ["n" "i"];
+        key = "<C-h>";
+        options.silent = false;
+        action = "<cmd>lua vim.lsp.buf.hover()<cr>";
       }
     ];
   };
