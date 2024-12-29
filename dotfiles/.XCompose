@@ -1,10 +1,10 @@
 include "%L"
 
-<Multi_key> <o> <o> : "ö"
-<Multi_key> <O> <O> : "Ö"
-<Multi_key> <u> <u> : "ü"
-<Multi_key> <U> <U> : "Ü"
-<Multi_key> <a> <a> : "ä"
-<Multi_key> <A> <A> : "Ä"
+<Multi_key> <o> <e> : "ö"
+<Multi_key> <O> <E> : "Ö"
+<Multi_key> <u> <e> : "ü"
+<Multi_key> <U> <E> : "Ü"
+<Multi_key> <a> <e> : "ä"
+<Multi_key> <A> <E> : "Ä"
 <Multi_key> <s> <s> : "ß"
 
