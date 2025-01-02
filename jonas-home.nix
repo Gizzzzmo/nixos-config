@@ -36,6 +36,7 @@
     ripgrep
     htop
     home-manager
+    texpresso
 
     kitty
     alacritty
@@ -69,6 +70,13 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "FiraCode";
+    };
+    themeFile = "ayu_mirage";
+  };
   programs.gitui = {
     enable = true;
     theme = ''
@@ -197,9 +205,9 @@
     ];
     extraConfig = ''
       set -s escape-time 0
-      set -g status-style bg=colour23,fg=colour15
-      set -g mode-style fg=colour15,bg=colour23
-      set-window-option -g window-status-current-style bg=colour15,fg=colour23
+      set -g status-style bg=colour0,fg=colour15
+      set -g mode-style fg=colour15,bg=colour0
+      set-window-option -g window-status-current-style bg=colour15,fg=colour0
 
       # set -g @tokyo-night-tmux_theme storm
 
@@ -239,8 +247,8 @@
     userEmail = "reyeb.sanoj@googlemail.com";
     
     extraConfig = {
-        init.defaultBranch = "main";
-        commit.gpgsign = true;
+      init.defaultBranch = "main";
+      commit.gpgsign = true;
     };
     lfs.enable = true;
   };
@@ -327,16 +335,53 @@
         event = "BufEnter"; 
         pattern = "*.nix";
       }
+      {
+        command = ":ObsidianWorkspace blog";
+        event = "BufEnter";
+        pattern = "/home/jonas/gitprjs/blog/**";
+      }
+      {
+        command = ":setlocal linebreak breakindent";
+        event = "BufEnter";
+        pattern = "*.md";
+      }
     ];
     clipboard.providers.wl-copy = {
       enable = true;
       package = pkgs.wl-clipboard;
     };
     
+    plugins.texpresso = {
+      enable = true;
+    };
+
+    plugins.indent-blankline = {
+      enable = true;
+      settings = {
+        indent = {
+          highlight = [ "IblIndent" ];
+          char = "│";
+        };
+        scope = {
+          show_start = false;
+          show_end = false;
+        };
+      };
+    };
+
     plugins.fugitive = {
       enable = true;
       package = pkgs.vimPlugins.fugitive;
       gitPackage = pkgs.git;
+    };
+
+    plugins.lualine = {
+      enable = true;
+      gitPackage = pkgs.git;
+      package = pkgs.vimPlugins.lualine-nvim;
+      settings = {
+        options.theme = "palenight";
+      };
     };
 
     plugins.obsidian = {
@@ -419,9 +464,14 @@
             name = "main";
             path = "~/notes/notes/";
           }
+          {
+            name = "blog";
+            path = "~/gitprjs/blog/content/";
+          }
         ];
       };
     };
+
     plugins.lsp = {
       enable = true;
       preConfig = ''
@@ -457,6 +507,10 @@
       };
     };
 
+    plugins.diffview = {
+      enable = true;
+    };
+
     plugins.lean = {
       enable = true;
       package = pkgs.vimPlugins.lean-nvim;
@@ -485,6 +539,35 @@
           "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
           "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
         };
+
+        formatting = {
+          format = ''
+            function(entry, vim_item)
+              local MAX_LABEL_WIDTH = 35
+              local MIN_LABEL_WIDTH = 35
+              local ELLIPSIS_CHAR = '…'
+              local label = vim_item.abbr
+              local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
+              if truncated_label ~= label then
+                vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
+              elseif string.len(label) < MIN_LABEL_WIDTH then
+                local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
+                vim_item.abbr = label .. padding
+              end
+              vim_item.menu = "";
+              vim_item.kind = "";
+              return vim_item
+            end
+          ''; # todo: abbreviate menu and kind 
+        };
+
+        experimental = {
+          ghost_text = true;
+        };
+
+        view = {
+          docs.auto_open = true;
+        };
       };
     };
 
@@ -493,12 +576,16 @@
       extensions = {
         fzf-native.enable = true;
       };
+      enabledExtensions = [
+        "advanced_git_search"
+      ];
       settings.pickers.find_files.hidden = true;
       settings.defaults = {
         file_ignore_patterns = [
           "^.git/"
         ];
       };
+      
     };
 
     plugins.web-devicons.enable = true;
@@ -529,17 +616,22 @@
               node_decremental = "H";
             };
           };
-          indent = {
-            enable = true;
-          };
         };
     };
 
     extraPlugins = with pkgs.vimPlugins; [
       nvim-gdb
+      advanced-git-search-nvim
     ];
+
+    highlightOverride = {
+      WinSeparator = {
+        fg = "#444444";
+      };
+    };
     
     opts = {
+      diffopt = "vertical";
       number = true;
       relativenumber = true;
       shiftwidth = 4;
@@ -547,11 +639,17 @@
       scrolloff = 7;
       signcolumn = "number";
       conceallevel = 1;
+      pumheight = 7;
     };
 
     globals.mapleader = ",";
 
     keymaps = [
+      {
+        mode = "n";
+        key = "<leader>fc";
+        action = "<cmd>AdvancedGitSearch<cr>";
+      }
       {
         mode = "n";
         key = "<leader>od";
@@ -569,7 +667,7 @@
       }
       {
         mode = "n";
-        key = "<C-d>";
+        key = "<M-a>";
         action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
       }
       {
@@ -622,19 +720,31 @@
         mode = "n";
         key = "<leader>fo";
         options.silent = false;
-        action = "<cmd>Telescope oldfiles<cr><esc>"; 
+        action = "<cmd>lua=require('telescope.builtin').oldfiles({only_cwd=1})<cr>"; 
+      }
+      {
+        mode = "n";
+        key = "<leader>fj";
+        options.silent = false;
+        action = "<cmd>lua=require('telescope.builtin').jumplist()<cr>";
       }
       {
         mode = ["n" "i"];
         key = "<M-Tab>";
         options.silent = false;
-        action = "<cmd>lua=require('telescope.builtin').buffers({sort_lastused=1, ignore_current_buffer=1})<cr><esc>";
+        action = "<cmd>lua=require('telescope.builtin').buffers({sort_lastused=1, ignore_current_buffer=1})<cr>";
       }
       {
         mode = ["n" "i"];
-        key = "<C-h>";
+        key = "<M-h>";
         options.silent = false;
         action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+      }
+      {
+        mode = "n";
+        key = "gr";
+        options.silent = false;
+        action = "<cmd>Telescope lsp_references<cr>";
       }
     ];
   };
