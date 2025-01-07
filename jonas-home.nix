@@ -111,7 +111,11 @@
         move_left: Some(( code: Char('h'), modifiers: "")),
         move_right: Some(( code: Char('l'), modifiers: "")),
         move_up: Some(( code: Char('k'), modifiers: "")),
-        move_down: Some(( code: Char('j'), modifiers: ""))
+        move_down: Some(( code: Char('j'), modifiers: "")),
+        open_help: Some(( code: F(1), modifiers: "")),
+        home: Some(( code: Char('g'), modifiers: "")),
+        end: Some(( code: Char('G'), modifiers: "SHIFT")),
+        diff_hunk_prev: Some(( code: Char('N'), modifiers: "SHIFT"))
       )
     '';
   };
