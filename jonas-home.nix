@@ -26,8 +26,6 @@
     openvpn
     dotnet-runtime
     cmus
-    wl-clipboard
-    wl-clipboard-x11
     python3
     fishPlugins.bass
     fishPlugins.colored-man-pages
@@ -37,6 +35,8 @@
     htop
     home-manager
 
+    wl-clipboard
+    wl-clipboard-x11
     kitty
     alacritty
     pavucontrol
@@ -285,7 +285,6 @@
     enableUpdateCheck = false;
   };
 
-  programs.command-not-found.enable = true;
 
   programs.alacritty = {
     enable = true;
