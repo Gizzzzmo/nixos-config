@@ -70,6 +70,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+
   programs.kitty = {
     enable = true;
     font = {
@@ -77,6 +78,7 @@
     };
     themeFile = "ayu_mirage";
   };
+
   programs.gitui = {
     enable = true;
     theme = ''
@@ -329,6 +331,7 @@
   programs.nixvim = {
     enable = true;
     colorschemes.tokyonight.enable = true;
+
     autoCmd = [
       {
         command = ":setlocal tabstop=2 shiftwidth=2 expandtab";
@@ -346,9 +349,47 @@
         pattern = "*.md";
       }
     ];
+
     clipboard.providers.wl-copy = {
       enable = true;
       package = pkgs.wl-clipboard;
+    };
+
+    plugins.aerial = {
+      enable = true;
+      settings = {
+        attach_mode = "global";
+        autojump = true;
+        layout = {
+          min_width = [ 20 ];
+          max_width = [ 20 ];
+        };
+        backends = [
+          "lsp"
+          "treesitter"
+          "markdown"
+          "asciidoc"
+          "man"
+        ];
+      };
+    };
+
+    plugins.zen-mode = {
+      enable = true;
+      settings = {
+        window = {
+          backdrop = 0.7;
+          width = 0.8;
+        };
+        plugins = {
+          tmux.enabled = true;
+        # alacritty = {
+        #     enabled = true;
+        #     font = "14.1";
+        #   };
+        };
+        
+      };
     };
     
     plugins.texpresso = {
@@ -500,7 +541,6 @@
         };
         lspBuf = {
           gd = "definition";
-          eD = "references";
           gi = "implementation";
           gt = "type_definition";
         };
@@ -645,6 +685,16 @@
     globals.mapleader = ",";
 
     keymaps = [
+      {
+        mode = "n";
+        key = "<leader>at";
+        action = "<cmd>AerialToggle left<cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>zz";
+        action = "<cmd>ZenMode<cr>";
+      }
       {
         mode = "n";
         key = "<leader>fc";
