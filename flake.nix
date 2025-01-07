@@ -38,6 +38,11 @@
         ./configuration.nix
         inputs.home-manager.nixosModules.default
       ];
+      
+      extraSpecialArgs = {
+        inherit inputs;
+        standalone = true;
+      };
     };
   };
 }

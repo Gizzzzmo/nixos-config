@@ -1,10 +1,11 @@
-{nixpkgs, config, pkgs, inputs, ... }:
+{nixpkgs, config, pkgs, inputs, standalone, username, ... }:
 
 {
+  targets.genericLinux.enable = true;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "jonas";
-  home.homeDirectory = "/home/jonas";
+  home.username = username;
+  home.homeDirectory = "/home/${username}"; 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -24,7 +25,6 @@
     nix-output-monitor
     nvd
     openvpn
-    dotnet-runtime
     cmus
     wl-clipboard
     wl-clipboard-x11
@@ -35,9 +35,9 @@
     tree
     ripgrep
     htop
-    home-manager
+    unzip
+  ] ++ (if standalone then [] else with pkgs; [
     texpresso
-
     kitty
     alacritty
     pavucontrol
@@ -69,10 +69,10 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-  ];
+  ]);
 
   programs.kitty = {
-    enable = true;
+    enable = !standalone;
     font = {
       name = "FiraCode";
     };
@@ -119,9 +119,10 @@
       )
     '';
   };
+
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
   programs.wofi = {
-    enable = true;
+    enable = !standalone;
     style = ''
       /* ::root{ *
       /*     --accent: #5291e2; */
@@ -212,10 +213,11 @@
     extraConfig = ''
       set -s escape-time 0
       set -g status-style bg=colour0,fg=colour15
-      set -g mode-style fg=colour15,bg=colour0
+      set -g mode-style fg=colour15,bg=colour236
       set-window-option -g window-status-current-style bg=colour15,fg=colour0
 
       # set -g @tokyo-night-tmux_theme storm
+      set -g status-left-length 25
 
       bind -r h select-pane -L
       bind -r j select-pane -D
@@ -247,6 +249,7 @@
       bind -r r source ~/.config/tmux/tmux.conf
     '';
   };
+
   programs.git = {
     enable = true;
     userName = "Jonas Beyer";
@@ -254,12 +257,29 @@
     
     extraConfig = {
       init.defaultBranch = "main";
+      rerere.enabled = "true";
+      core.editor = "nvim";
       commit.gpgsign = true;
     };
+
+    aliases = {
+      cbuild = "cd build/$(git rev-parse --abbrev-ref HEAD)";
+      dl = "-c diff.external=difft log -p --ext-diff";
+      ds = "-c diff.external=difft show --ext-diff";
+      dft = "-c diff.external=difft diff";
+    };
+
+    includes = [ 
+      { 
+        path = "~/.config/git/config_siemens"; 
+        condition = "gitdir:~/gitprjs/siemens/";
+      }
+    ];
     lfs.enable = true;
   };
+
   programs.vscode = {
-    enable = true;
+    enable = !standalone;
     extensions = with pkgs.vscode-extensions; [
       rust-lang.rust-analyzer
       eamodio.gitlens
@@ -308,7 +328,7 @@
   programs.command-not-found.enable = true;
 
   programs.alacritty = {
-    enable = true;
+    enable = !standalone;
     settings = {
       general.import = [ 
         "/home/jonas/.config/alacritty/tokyo-night.toml"
@@ -337,6 +357,11 @@
     colorschemes.tokyonight.enable = true;
 
     autoCmd = [
+      {
+        command = ":lua=vim.lsp.buf.format()";
+        event = "BufWritePre";
+        pattern = "*";
+      }
       {
         command = ":setlocal tabstop=2 shiftwidth=2 expandtab";
         event = "BufEnter"; 
@@ -397,7 +422,7 @@
     };
     
     plugins.texpresso = {
-      enable = true;
+      enable = !standalone;
     };
 
     plugins.indent-blankline = {
@@ -426,6 +451,14 @@
       package = pkgs.vimPlugins.lualine-nvim;
       settings = {
         options.theme = "palenight";
+        sections = {
+          lualine_c = [
+            {
+              __unkeyed-1 = "filename";
+              path = 1;
+            }
+          ];
+        };
       };
     };
 
@@ -509,10 +542,10 @@
             name = "main";
             path = "~/notes/notes/";
           }
-          {
-            name = "blog";
-            path = "~/gitprjs/blog/content/";
-          }
+          # {
+          #   name = "blog";
+          #   path = "~/gitprjs/blog/content/";
+          # }
         ];
       };
     };
@@ -530,13 +563,19 @@
         clangd = {
           enable = true;
           package = null;
-          cmd = [ "clangd" ];
+          cmd = if standalone
+            then [ "clangd" "--resource-dir=/home/jonas/.cmaketoolchains/downloads/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04/lib/clang/18" ]
+            else [ "clangd" ];
         };
         rust_analyzer = {
           enable = true;
           installCargo = false;
           installRustc = false;
         }; 
+        cmake = {
+          enable = true;
+          package = pkgs.cmake-language-server;
+        };
       };
       keymaps = {
         diagnostic = {
@@ -627,9 +666,10 @@
       settings.defaults = {
         file_ignore_patterns = [
           "^.git/"
+          ".cache/"
+          ".venv/"
         ];
       };
-      
     };
 
     plugins.web-devicons.enable = true;
@@ -671,6 +711,9 @@
     highlightOverride = {
       WinSeparator = {
         fg = "#444444";
+      };
+      Comment = {
+        fg = "#ffc244";
       };
     };
     
@@ -740,7 +783,7 @@
         mode = "n";
         key = "<leader>ff";
         options.silent = false;
-        action = "<cmd>Telescope find_files<cr>";
+        action = "<cmd>lua=require('telescope.builtin').find_files({no_ignore=true})<cr>"; 
       }
       {
         mode = "n";
@@ -784,7 +827,7 @@
       }
       {
         mode = ["n" "i"];
-        key = "<M-Tab>";
+        key = "<M-\\>";
         options.silent = false;
         action = "<cmd>lua=require('telescope.builtin').buffers({sort_lastused=1, ignore_current_buffer=1})<cr>";
       }
@@ -812,15 +855,31 @@
       "ll" = "eza -l";
       "lls" = "eza";
     };
-    shellInit = "set fish_greeting";
-    plugins = [
+
+    shellInit = ''
+      set fish_greeting
+    '';
+
+    shellInitLast = ''
+      status --is-interactive; and begin
+        if test -z $GPG_TTY
+          set -x GPG_TTY (tty)
+        end
+        if test -z $SSH_AGENT_PID
+          bass eval (ssh-agent -s)
+          ssh-add | true
+        end
+      end
+    '';
+    
+    plugins = with pkgs.fishPlugins; [
         {
             name = "bass";
-            src = pkgs.fishPlugins.bass;
+            src = bass;
         }
         {
             name = "colored-man-pages";
-            src = pkgs.fishPlugins.colored-man-pages;
+            src = colored-man-pages;
         }
     ];
   };
@@ -847,7 +906,7 @@
   };
 
   programs.waybar = {
-    enable = true;
+    enable = !standalone;
     systemd.enable = true;
     settings = [{
       layer = "top";
@@ -1054,9 +1113,9 @@ window#waybar {
       source = dotfiles/.config;
       recursive = true;
     };
-    ".XCompose" = {
-      source = dotfiles/.XCompose;
-    };
+    # ".XCompose" = if standalone then {} else {
+    #   source = dotfiles/.XCompose;
+    # };
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''

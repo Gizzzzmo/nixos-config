@@ -1,0 +1,6 @@
+[user]
+name = Beyer, Jonas (SMO RS CP R&D 4 3)
+email = jonas.beyer@siemens.com
+
+[commit]
+gpgsign = false
