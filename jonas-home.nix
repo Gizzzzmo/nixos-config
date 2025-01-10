@@ -358,6 +358,11 @@
 
     autoCmd = [
       {
+        command = ":setlocal commentstring=//\\ %s";
+        event = "FileType";
+        pattern = "c,cpp";
+      }
+      {
         command = ":lua=vim.lsp.buf.format()";
         event = "BufWritePre";
         pattern = "*";
@@ -452,6 +457,14 @@
       settings = {
         options.theme = "palenight";
         sections = {
+          lualine_c = [
+            {
+              __unkeyed-1 = "filename";
+              path = 1;
+            }
+          ];
+        };
+        inactive_sections = {
           lualine_c = [
             {
               __unkeyed-1 = "filename";
@@ -575,6 +588,10 @@
         cmake = {
           enable = true;
           package = pkgs.cmake-language-server;
+        };
+        pyright = {
+          enable = true;
+          package = pkgs.pyright;
         };
       };
       keymaps = {
@@ -732,6 +749,26 @@
     globals.mapleader = ",";
 
     keymaps = [
+      {
+        mode = [ "n" "i" ];
+        key = "<M-K>";
+        action = "<cmd>res +1<cr>";
+      }
+      {
+        mode = [ "n" "i" ];
+        key = "<M-J>";
+        action = "<cmd>res -1<cr>";
+      }
+      {
+        mode = [ "n" "i" ];
+        key = "<M-H>";
+        action = "<cmd>vertical:res -1<cr>";
+      }
+      {
+        mode = [ "n" "i" ];
+        key = "<M-L>";
+        action = "<cmd>vertical:res +1<cr>";
+      }
       {
         mode = "n";
         key = "<leader>at";
