@@ -36,40 +36,44 @@
     ripgrep
     htop
     unzip
-  ] ++ (if standalone then [] else with pkgs; [
-    texpresso
-    kitty
-    alacritty
-    pavucontrol
-    vscode
-    eog
-    obs-studio
-    obsidian
-    waybar
-    firefox
-    vlc
-    wofi
-    discord
-    qbittorrent
-    grim
-    slurp
-    foliate
-    zathura
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+  ] ++ (if standalone then
+    [
+      wslu
+    ]
+    else with pkgs; [
+      texpresso
+      kitty
+      alacritty
+      pavucontrol
+      vscode
+      eog
+      obs-studio
+      obsidian
+      waybar
+      firefox
+      vlc
+      wofi
+      discord
+      qbittorrent
+      grim
+      slurp
+      foliate
+      zathura
+      # # Adds the 'hello' command to your environment. It prints a friendly
+      # # "Hello, world!" when run.
+      # pkgs.hello
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-  ]);
+      # # It is sometimes useful to fine-tune packages, for example, by applying
+      # # overrides. You can do that directly here, just don't forget the
+      # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+      # # fonts?
+      # # You can also create simple shell scripts directly inside your
+      # # configuration. For example, this adds a command 'my-hello' to your
+      # # environment:
+      # (pkgs.writeShellScriptBin "my-hello" ''
+      #   echo "Hello, ${config.home.username}!"
+      # '')
+    ]);
 
   programs.kitty = {
     enable = !standalone;
@@ -1178,6 +1182,7 @@ window#waybar {
   #
   home.sessionVariables = {
     EDITOR = "nvim";
+    BROWSER = "wslview";
   };
 
   # Let Home Manager install and manage itself.
