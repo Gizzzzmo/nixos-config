@@ -216,6 +216,8 @@
     ];
     extraConfig = ''
       set -s escape-time 0
+      set -g mouse on
+      set -g mouse-select-pane on
       set -g status-style bg=colour0,fg=colour15
       set -g mode-style fg=colour15,bg=colour236
       set-window-option -g window-status-current-style bg=colour15,fg=colour0
@@ -391,6 +393,10 @@
     clipboard.providers.wl-copy = {
       enable = true;
       package = pkgs.wl-clipboard;
+    };
+
+    plugins.nvim-surround = {
+      enable = true;
     };
 
     plugins.aerial = {
@@ -804,9 +810,32 @@
         action = "<cmd>b#<cr>";
       }
       {
+        mode = ["n" "i"];
+        key = "<M-h>";
+        options.silent = false;
+        action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+      }
+      {
         mode = "n";
-        key = "<M-a>";
+        key = "<leader>lf";
+        action = "<cmd>lua=vim.lsp.buf.code_action({filter=function(a) return a.isPreferred end, apply=true})<cr><cr>";
+      }
+      {
+        mode = "n";
+        key = "<leader>ld";
         action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
+      }
+      {
+        mode = "i";
+        key = "<C-M-s>";
+        options.silent = false;
+        action = "<cmd>noautocmd write<cr><esc>";
+      }
+      {
+        mode = "n";
+        key = "<C-M-s>";
+        options.silent = false;
+        action = "<cmd>noautocmd write<cr>";
       }
       {
         mode = "i";
@@ -871,12 +900,6 @@
         key = "<M-\\>";
         options.silent = false;
         action = "<cmd>lua=require('telescope.builtin').buffers({sort_lastused=1, ignore_current_buffer=1})<cr>";
-      }
-      {
-        mode = ["n" "i"];
-        key = "<M-h>";
-        options.silent = false;
-        action = "<cmd>lua vim.lsp.buf.hover()<cr>";
       }
       {
         mode = "n";
@@ -1154,9 +1177,9 @@ window#waybar {
       source = dotfiles/.config;
       recursive = true;
     };
-    # ".XCompose" = if standalone then {} else {
-    #   source = dotfiles/.XCompose;
-    # };
+    ".XCompose" = {
+      source = dotfiles/.XCompose;
+    };
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
