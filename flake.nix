@@ -32,17 +32,15 @@
 
   outputs = { self, nixpkgs, ... }@inputs:{
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit inputs;
+      };
       
       modules = [
         ./configuration.nix
         inputs.home-manager.nixosModules.default
       ];
       
-      extraSpecialArgs = {
-        inherit inputs;
-        standalone = true;
-      };
     };
   };
 }

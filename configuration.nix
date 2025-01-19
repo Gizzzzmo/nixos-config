@@ -102,7 +102,11 @@
   }; 
  
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {
+      inherit inputs;
+      standalone = false;
+      username = "jonas";
+    };
     users = {
       "jonas" = import ./jonas-home.nix;
     };
