@@ -217,7 +217,6 @@
     extraConfig = ''
       set -s escape-time 0
       set -g mouse on
-      set -g mouse-select-pane on
       set -g status-style bg=colour0,fg=colour15
       set -g mode-style fg=colour15,bg=colour236
       set-window-option -g window-status-current-style bg=colour15,fg=colour0
@@ -642,14 +641,14 @@
 
         mapping = {
           "<C-Space>" = "cmp.mapping.complete()";
-          "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+          "<C-a>" = "cmp.mapping.scroll_docs(-4)";
           "<C-e>" = "cmp.mapping.close()";
-          "<C-f>" = "cmp.mapping.scroll_docs(4)";
-          "<CR>" = "cmp.mapping.confirm({ select = true })";
-          "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
-          "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
+          "<C-d>" = "cmp.mapping.scroll_docs(4)";
+          "<C-f>" = "cmp.mapping.confirm({ select = true })";
+          "<C-n>" = "cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
+          "<C-p>" = "cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
         };
-
+        
         formatting = {
           format = ''
             function(entry, vim_item)
