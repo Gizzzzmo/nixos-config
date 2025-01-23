@@ -363,6 +363,12 @@
     enable = true;
     colorschemes.tokyonight.enable = true;
 
+    diagnostics = {
+      float = {
+        border = "rounded";
+      };
+    };
+
     autoCmd = [
       {
         command = ":setlocal commentstring=//\\ %s";
@@ -372,7 +378,7 @@
       {
         command = ":lua=vim.lsp.buf.format()";
         event = "BufWritePre";
-        pattern = "*";
+        pattern = ["*.c" "*.h" "*.cpp" "*.hpp" "*.cc" "*.hh"];
       }
       {
         command = ":setlocal tabstop=2 shiftwidth=2 expandtab";
@@ -574,6 +580,11 @@
       };
     };
 
+    plugins.copilot-lua = {
+      enable = true;
+
+    };
+
     plugins.lsp = {
       enable = true;
       preConfig = ''
@@ -765,6 +776,11 @@
     globals.mapleader = ",";
 
     keymaps = [
+      {
+        mode = "n";
+        key = "<leader>r";
+        action = "<cmd>lua=vim.lsp.buf.rename()<cr>";
+      }
       {
         mode = [ "n" "i" ];
         key = "<M-K>";
