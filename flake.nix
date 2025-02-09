@@ -8,7 +8,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
     hyprland = {
-      url = "github:hyprwm/hyprland/v0.46.2";
+      url = "github:hyprwm/hyprland/v0.47.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {

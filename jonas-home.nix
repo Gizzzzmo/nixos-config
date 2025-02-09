@@ -20,6 +20,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [ 
+    ncdu
     nh
     keepassxc
     nix-output-monitor
@@ -36,12 +37,13 @@
     ripgrep
     htop
     unzip
+    zip
   ] ++ (if standalone then
     [
       wslu
     ]
     else with pkgs; [
-      texpresso
+      # texpresso
       kitty
       alacritty
       pavucontrol
@@ -435,9 +437,9 @@
       };
     };
     
-    plugins.texpresso = {
-      enable = !standalone;
-    };
+    # plugins.texpresso = {
+    #   enable = !standalone;
+    # };
 
     plugins.indent-blankline = {
       enable = true;
@@ -602,6 +604,9 @@
           enable = true;
           package = pkgs.pyright;
         };
+        typos_lsp = {
+          enable = true;
+        };
       };
       keymaps = {
         diagnostic = {
@@ -623,9 +628,11 @@
     plugins.lean = {
       enable = true;
       package = pkgs.vimPlugins.lean-nvim;
-      mappings = true;
-      lsp = {
-        enable = true;
+      settings = {
+        mappings = true;
+        lsp = {
+          enable = true;
+        };
       };
     };
 
@@ -917,6 +924,7 @@
       ".." = "cd ..";
       "ll" = "eza -l";
       "lls" = "eza";
+      "la" = "eya -la";
     };
 
     shellInit = ''
