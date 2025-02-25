@@ -27,6 +27,10 @@
       url = "github:flox/flox/v1.3.8";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    envmux = {
+      url = "./scripts/envmux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
