@@ -78,12 +78,12 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-QuMIIkTRiwe9kK0DcO88Hhi0K3vKL52bAbin09jtkgY=",
-        "path": "/nix/store/w5crkgycpv3vlays26jibfhh7knidz8q-source/scripts/envmux",
+        "narHash": "sha256-8PJ9GuANWczlITxlfwQ6Jaik4A+TUFL4l++1Vrc0GuQ=",
+        "path": "/nix/store/g48x1iyrka633b0s1lcricsrdrwnz2jm-source/scripts/envmux",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/w5crkgycpv3vlays26jibfhh7knidz8q-source/scripts/envmux",
+        "path": "/nix/store/g48x1iyrka633b0s1lcricsrdrwnz2jm-source/scripts/envmux",
         "type": "path"
       }
     },

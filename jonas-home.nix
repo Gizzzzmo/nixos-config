@@ -14,13 +14,17 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
-
-  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+  
+  imports = [ inputs.nixvim.homeManagerModules.nixvim ]; 
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [ 
     inputs.envmux.defaultPackage.${pkgs.system}
+    fd
+    proximity-sort
+    bat
+    nodejs
     ncdu
     nh
     keepassxc
@@ -363,6 +367,13 @@
   programs.nixvim = {
     enable = true;
     colorschemes.tokyonight.enable = true;
+    
+    extraConfigLua = '' print("Hi") '';
+
+    extraFiles."lua/prox-telescope.lua" = {
+      enable = true;
+      source = ./nvim/prox-telescope.lua;
+    };
 
     diagnostics = {
       float = {
@@ -583,7 +594,25 @@
 
     plugins.copilot-lua = {
       enable = true;
+      autoLoad = true;
+      settings = {
+        suggestion = {
+          enabled = true;
+          auto_trigger = false;
+          keymap = {
+            next = "<M-n>";
+            prev = "<M-p>";
+            accept = "<M-f>";
+            accept_word = "<M-S-F>";
+            dismiss = "<M-x>";
+          };
+        };
+        panel.enabled = true;
+      };
+    };
 
+    plugins.copilot-chat = {
+      enable = true;
     };
 
     plugins.lsp = {
@@ -673,6 +702,10 @@
             function(entry, vim_item)
               local MAX_LABEL_WIDTH = 35
               local MIN_LABEL_WIDTH = 35
+              local MAX_MENU_WIDTH = 10
+              local MIN_MENU_WIDTH = 10
+              local MAX_KIND_WIDTH = 10
+              local MIN_KIND_WIDTH = 10
               local ELLIPSIS_CHAR = '…'
               local label = vim_item.abbr
               local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
@@ -682,8 +715,22 @@
                 local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
                 vim_item.abbr = label .. padding
               end
-              vim_item.menu = "";
-              vim_item.kind = "";
+              local menu = vim_item.menu;
+              local truncated_menu = vim.fn.strcharpart(menu, 0, MAX_MENU_WIDTH)
+              if truncated_menu ~= menu then
+                vim_item.menu = truncated_menu .. ELLIPSIS_CHAR
+              elseif string.len(menu) < MIN_MENU_WIDTH then
+                local padding = string.rep(' ', MIN_MENU_WIDTH - string.len(menu))
+                vim_item.menu = menu .. padding
+              end
+              local kind = vim_item.kind;
+              local truncated_kind = vim.fn.strcharpart(kind, 0, MAX_KIND_WIDTH)
+              if truncated_kind ~= kind then
+                vim_item.kind = truncated_kind .. ELLIPSIS_CHAR
+              elseif string.len(kind) < MIN_KIND_WIDTH then
+                local padding = string.rep(' ', MIN_KIND_WIDTH - string.len(kind))
+                vim_item.kind = kind .. padding
+              end
               return vim_item
             end
           ''; # todo: abbreviate menu and kind 
@@ -779,6 +826,11 @@
     keymaps = [
       {
         mode = "n";
+        key = "<leader>fp";
+        action = "<cmd>lua require('prox-telescope').proximity_files({})<cr>";
+      }
+      {
+        mode = "n";
         key = "<leader>r";
         action = "<cmd>lua=vim.lsp.buf.rename()<cr>";
       }
@@ -830,7 +882,7 @@
       {
         mode = ["n" "i"];
         key = "<C-r>";
-        action = "<cmd>b#<cr>";
+        action = "<cmd>Explore<cr>";
       }
       {
         mode = ["n" "i"];
@@ -922,7 +974,7 @@
         mode = ["n" "i"];
         key = "<M-\\>";
         options.silent = false;
-        action = "<cmd>lua=require('telescope.builtin').buffers({sort_lastused=1, ignore_current_buffer=1})<cr>";
+        action = "<cmd>lua=require('telescope.builtin').buffers({sort_mru=1, ignore_current_buffer=1})<cr>";
       }
       {
         mode = "n";

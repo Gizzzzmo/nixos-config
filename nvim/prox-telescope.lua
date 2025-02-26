@@ -71,3 +71,5 @@ local proximity_files = function(opts)
     })
     :find()
 end
+
+return {proximity_files = proximity_files}
