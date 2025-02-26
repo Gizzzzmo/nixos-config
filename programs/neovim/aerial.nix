@@ -1,6 +1,6 @@
-{...}:
+{ standalone, ...}:
 {
-  enable = true;
+  enable = !standalone;
   settings = {
     attach_mode = "global";
     autojump = true;

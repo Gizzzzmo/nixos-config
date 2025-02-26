@@ -43,6 +43,7 @@
     htop
     unzip
     zip
+    glab
   ] ++ (if standalone then
     [
       wslu
