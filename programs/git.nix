@@ -6,7 +6,7 @@
   
   extraConfig = {
     init.defaultBranch = "main";
-    rerere.enabled = "true";
+    rerere.enabled = true;
     core.editor = "nvim";
     commit.gpgsign = true;
   };
