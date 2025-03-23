@@ -1,11 +1,16 @@
 #!/bin/sh
 
-tmux -u new-session -d -s $(basename $(pwd))
+session_name=$(basename $(pwd))
 
-env | while IFS= read -r line; do
-    value=${line#*=}
-    name=${line%%=*}
-    tmux setenv -t $(basename $(pwd)) $name $value
+tmux -u new-session -d -s $session_name
+
+env -0 | perl -0 -ne 'print "$1\n" if /^([^=]+)=/' | while IFS= read -r line; do
+    tmux setenv -t $session_name $line "${!line}"
 done
 
-tmux attach -t $(basename $(pwd))
+tmux new-window -t $session_name:
+tmux kill-window -t $session_name:1
+tmux new-window -t $session_name:
+tmux kill-window -t $session_name:2
+
+tmux attach -t $session_name

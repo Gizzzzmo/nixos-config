@@ -8,7 +8,7 @@
       let
         pkgs = import nixpkgs { inherit system; };
         my-name = "envmux";
-        my-buildInputs = with pkgs; [ coreutils ];
+        my-buildInputs = with pkgs; [ coreutils perl ];
         my-script = (pkgs.writeScriptBin my-name (builtins.readFile ./envmux.sh)).overrideAttrs(old: {
           buildCommand = "${old.buildCommand}\n patchShebangs $out";
         });
