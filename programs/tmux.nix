@@ -20,6 +20,8 @@
     set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
     set -as terminal-overrides ',alacritty:RGB'
 
+    set -g default-shell /home/jonas/.nix-profile/bin/fish
+
     # set -g @tokyo-night-tmux_theme storm
     set -g status-left-length 25
 
