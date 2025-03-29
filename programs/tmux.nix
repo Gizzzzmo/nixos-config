@@ -13,7 +13,7 @@
     set -s escape-time 0
     set -g mouse on
     set -g status-style bg=colour0,fg=colour15
-    set -g mode-style fg=colour15,bg=colour236
+    set -g mode-style fg=colour236,bg=colour15
     set-window-option -g window-status-current-style bg=colour15,fg=colour0
     
     set -g default-terminal "alacritty"
@@ -52,8 +52,10 @@
     bind -n M-8 select-window -t 8 
     bind -n M-9 select-window -t 9
 
-    bind-key -Tcopy-mode-vi 'C-v' send -X begin-selection
-    bind-key -Tcopy-mode-vi 'C-y' send -X copy-selection
+    bind-key -Tcopy-mode-vi 'v' send -X begin-selection
+    bind-key -Tcopy-mode-vi 'y' send -X copy-selection
+
+    bind -n 'M-[' copy-mode
 
     bind -r r source ~/.config/tmux/tmux.conf
   '';
