@@ -21,6 +21,8 @@
 
   shellInitLast = ''
     status --is-interactive; and begin
+      fish_vi_key_bindings
+      bind --mode insert ctrl-f 'accept-autosuggestion'
       if test -z $GPG_TTY
         set -x GPG_TTY (tty)
       end
