@@ -22,10 +22,10 @@
     formatting = {
       format = ''
         function(entry, vim_item)
-          local MAX_LABEL_WIDTH = 35
-          local MIN_LABEL_WIDTH = 35
-          local MAX_MENU_WIDTH = 10
-          local MIN_MENU_WIDTH = 10
+          local MAX_LABEL_WIDTH = 25
+          local MIN_LABEL_WIDTH = 25
+          local MAX_MENU_WIDTH = 15
+          local MIN_MENU_WIDTH = 15
           local MAX_KIND_WIDTH = 10
           local MIN_KIND_WIDTH = 10
           local ELLIPSIS_CHAR = '…'
