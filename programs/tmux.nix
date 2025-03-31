@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{standalone, pkgs, ...}:
 {
   enable = true;
   package = pkgs.tmux;
@@ -16,10 +16,6 @@
     set -g mode-style fg=colour236,bg=colour15
     set-window-option -g window-status-current-style bg=colour15,fg=colour0
     
-    set -g default-terminal "alacritty"
-    set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
-    set -as terminal-overrides ',alacritty:RGB'
-
     set -g default-shell /home/jonas/.nix-profile/bin/fish
 
     # set -g @tokyo-night-tmux_theme storm
@@ -58,5 +54,12 @@
     bind -n 'M-[' copy-mode
 
     bind -r r source ~/.config/tmux/tmux.conf
-  '';
+  '' + (if standalone then ''
+
+  '' else
+  ''
+    set -g default-terminal "alacritty"
+    set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
+    set -as terminal-overrides ',alacritty:RGB'
+  '');
 }
