@@ -7,9 +7,14 @@
   clock24 = true;
   baseIndex = 1;
   plugins = with pkgs.tmuxPlugins; [
-    fingers 
+    fingers
   ];
   extraConfig = ''
+    run-shell ${ (fetchGit {
+        url = "https://github.com/artemave/tmux_super_fingers";
+        rev = "413fb361a4f04fde818ca32491667a596c56b925";
+    }).outPath }/tmux_super_fingers.tmux
+
     set -s escape-time 0
     set -g mouse on
     set -g status-style bg=colour24,fg=colour15
