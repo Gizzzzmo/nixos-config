@@ -68,6 +68,7 @@
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb
     advanced-git-search-nvim
+    telescope-emoji-nvim 
   ];
 
   # plugins.texpresso = {

@@ -112,6 +112,13 @@
 
   {
     mode = "n";
+    key = "<leader>fe";
+    options.silent = false;
+    action = "<cmd>Telescope emoji<cr>";
+  }
+
+  {
+    mode = "n";
     key = "<leader>fg";
     options.silent = false;
     action = "<cmd>Telescope live_grep<cr>";
