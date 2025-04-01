@@ -23,6 +23,8 @@
     status --is-interactive; and begin
       fish_vi_key_bindings
       bind --mode insert ctrl-f 'accept-autosuggestion'
+      bind --mode insert ctrl-p up-or-search
+      bind --mode insert ctrl-n down-or-search
       if test -z $GPG_TTY
         set -x GPG_TTY (tty)
       end
