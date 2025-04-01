@@ -12,7 +12,7 @@
   extraConfig = ''
     set -s escape-time 0
     set -g mouse on
-    set -g status-style bg=colour0,fg=colour15
+    set -g status-style bg=colour24,fg=colour15
     set -g mode-style fg=colour236,bg=colour15
     set-window-option -g window-status-current-style bg=colour15,fg=colour0
     
