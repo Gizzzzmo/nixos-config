@@ -21,6 +21,7 @@
   # environment.
   home.packages = with pkgs; [ 
     inputs.envmux.defaultPackage.${pkgs.system}
+    xdg-utils
     lsof
     rlwrap
     fd
