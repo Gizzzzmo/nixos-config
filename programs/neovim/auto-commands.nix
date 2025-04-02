@@ -20,7 +20,7 @@
   {
     command = ":ObsidianWorkspace blog";
     event = "BufEnter";
-    pattern = "/home/jonas/gitprjs/blog/**";
+    pattern = "/home/jonas/gitprjs/personal/blog/**";
   }
 
   {

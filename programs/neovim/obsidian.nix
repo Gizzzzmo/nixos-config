@@ -85,10 +85,10 @@
         name = "main";
         path = "~/notes/notes/";
       }
-      # {
-      #   name = "blog";
-      #   path = "~/gitprjs/blog/content/";
-      # }
+      {
+        name = "blog";
+        path = "~/gitprjs/personal/blog/content/";
+      }
     ];
   };
 }
