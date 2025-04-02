@@ -12,6 +12,12 @@
   }
 
   {
+    command = ":!ruff format %";
+    event = "BufWritePost";
+    pattern = ["*.py"];
+  }
+
+  {
     command = ":setlocal tabstop=2 shiftwidth=2 expandtab";
     event = "BufEnter"; 
     pattern = "*.nix";
