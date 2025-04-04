@@ -14,17 +14,25 @@ local function get_relative_buffer_path()
     -- In case one of the following conditions apply, use the cwd.
     -- - We aren't in a file buffer.
     -- - The filename is empty.
-    -- - The path isn't absolute.
     if full_path == nil or
-        full_path == '' or
-        not starts_with(full_path, '/') then
+        full_path == '' then
         return '.'
     end
+
+    -- convert relative paths to absolute paths
+    local absolute_path = io.popen("realpath '" .. full_path .. "'", 'r'):read('*a')
+    full_path = absolute_path:gsub('[\n\r]*$', '') -- Remove trailing newline 
 
     -- Return the relative path of the buffer to the current cwd.
     -- That's what proxmity sort expects.
     local cwd = vim.fn.getcwd()
-    local relative_path = string.gsub(full_path, cwd .. '/', '')
+    local relative_path = full_path
+    if starts_with(full_path, cwd) then
+        relative_path = string.sub(relative_path, string.len(cwd) + 2, -1)
+    else
+        return '.'
+    end
+
     -- Fallback to the cwd if:
     -- - The path equals the cwd.
     -- - We're in a neo-tree buffer
@@ -52,7 +60,7 @@ local proximity_files = function(opts)
                 "-c",
                 string.format('fd --full-path --type f %s . | proximity-sort %s', prompt, path),
             }
-            -- print("Cmd: ", vim.inspect(cmd))
+            print("Cmd: ", vim.inspect(cmd))
             return cmd
         end,
         opts.entry_maker or make_entry.gen_from_file(opts),
@@ -72,4 +80,4 @@ local proximity_files = function(opts)
     :find()
 end
 
-return {proximity_files = proximity_files}
+return {proximity_files = proximity_files, get_relative_buffer_path = get_relative_buffer_path}
