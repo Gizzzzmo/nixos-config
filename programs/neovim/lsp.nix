@@ -37,6 +37,18 @@
     typos_lsp = {
       enable = true;
     };
+
+    tinymist = {
+      enable = true;
+    };
+
+    zls = {
+      enable = true;
+    };
+
+    nixd = {
+      enable = true;
+    };
   };
 
   keymaps = {
