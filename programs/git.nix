@@ -9,6 +9,7 @@
     rerere.enabled = true;
     core.editor = "nvim";
     commit.gpgsign = true;
+    core.hooksPath = "~/.config/git/hooks";
   };
 
   aliases = {

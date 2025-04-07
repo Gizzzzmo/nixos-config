@@ -1,0 +1,17 @@
+#!/bin/sh
+rev=$(git rev-parse --abbrev-ref HEAD)
+if test "$rev" = "HEAD"
+then
+    rev=$(git rev-parse HEAD)
+fi
+
+if test -f build/CMakeProfiles.json
+then
+    jinja -D git_branch $rev build/CMakeProfiles.json > CMakeProfiles.json
+fi
+
+if test -f build/.cdbuild.jinja
+then
+    jinja -D git_branch $rev build/.cdbuild.jinja > build/.cdbuild
+fi
+git submodule update --init --recursive
