@@ -8,14 +8,12 @@ fi
 
 # delete all existing tmux environment variables
 tmux showenv | perl -0 -ne 'print "$1\n" if /^([^=]+)=/' | while IFS= read -r line; do
-    tmux setenv -u $line
+    tmux setenv -u "$line"
 done
 
-
-# get the current shell's environment and put it into the current session's environment 
+# get the current shell's environment and put it into the current session's environment
 env -0 | perl -0 -ne 'print "$1\n" if /^([^=]+)=/' | while IFS= read -r line; do
-    tmux setenv $line "${!line}"
+    eval var_value=\"\$"$line"\"
+
+    tmux setenv "$line" "$var_value"
 done
-
-
-
