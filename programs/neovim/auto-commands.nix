@@ -12,6 +12,12 @@
   }
 
   {
+    command = ":!test -f .mdformat.toml && mdformat %";
+    event = "BufWritePost";
+    pattern = ["*.md"];
+  }
+
+  {
     command = ":!ruff format %";
     event = "BufWritePost";
     pattern = ["*.py"];
