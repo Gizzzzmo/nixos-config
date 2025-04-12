@@ -12,6 +12,24 @@
   }
 
   {
+    command = ":!nixfmt %";
+    event = "BufWritePost";
+    pattern = ["*.nix"];
+  }
+
+  {
+    command = ":!test -f .editorconfig && shfmt -w %";
+    event = "BufWritePost";
+    pattern = ["*.sh"];
+  }
+
+  {
+    command = ":!test -f .gersemirc && gersemi -i %";
+    event = "BufWritePost";
+    pattern = ["*.cmake" "CMakeLists.txt"];
+  }
+
+  {
     command = ":!test -f .mdformat.toml && mdformat %";
     event = "BufWritePost";
     pattern = ["*.md"];
