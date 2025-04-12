@@ -19,7 +19,7 @@
     relativenumber = true;
     shiftwidth = 4;
     expandtab = true;
-    scrolloff = 7;
+    scrolloff = 12;
     signcolumn = "number";
     conceallevel = 1;
     pumheight = 7;
