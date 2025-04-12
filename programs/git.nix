@@ -10,11 +10,10 @@
     core.editor = "nvim";
     commit.gpgsign = true;
     core.hooksPath = "~/.config/git/hooks";
-    code.excludesFile = "~/.config/git/exclude";
+    core.excludesFile = "~/.config/git/exclude";
   };
 
   aliases = {
-    cbuild = "cd build/$(git rev-parse --abbrev-ref HEAD)";
     dl = "-c diff.external=difft log -p --ext-diff";
     ds = "-c diff.external=difft show --ext-diff";
     dft = "-c diff.external=difft diff";
