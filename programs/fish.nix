@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
   enable = true;
 
@@ -32,7 +32,7 @@
       end
     end
   '';
-  
+
   plugins = with pkgs.fishPlugins; [
     {
       name = "bass";

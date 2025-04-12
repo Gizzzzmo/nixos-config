@@ -1,4 +1,4 @@
-{...}:
+{ ... }:
 {
   enable = true;
   autoEnableSources = true;
@@ -15,10 +15,12 @@
       "<C-e>" = "cmp.mapping.close()";
       "<C-d>" = "cmp.mapping.scroll_docs(4)";
       "<C-f>" = "cmp.mapping.confirm({ select = true })";
-      "<C-n>" = "cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
-      "<C-p>" = "cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
+      "<C-n>" =
+        "cmp.mapping(cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
+      "<C-p>" =
+        "cmp.mapping(cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select}), {'i', 's'})";
     };
-    
+
     formatting = {
       format = ''
         function(entry, vim_item)
@@ -55,7 +57,7 @@
           end
           return vim_item
         end
-      ''; # todo: abbreviate menu and kind 
+      ''; # todo: abbreviate menu and kind
     };
 
     experimental = {

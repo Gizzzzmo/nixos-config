@@ -1,11 +1,19 @@
-{nixpkgs, config, pkgs, inputs, standalone, username, ... } @ home_inputs:
+{
+  nixpkgs,
+  config,
+  pkgs,
+  inputs,
+  standalone,
+  username,
+  ...
+}@home_inputs:
 
 {
   targets.genericLinux.enable = standalone;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = username;
-  home.homeDirectory = "/home/${username}"; 
+  home.homeDirectory = "/home/${username}";
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -14,78 +22,87 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
-  
-  imports = [ inputs.nixvim.homeManagerModules.nixvim ]; 
+
+  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [ 
-    inputs.envmux.defaultPackage.${pkgs.system}
-    ruff
-    xdg-utils
-    lsof
-    rlwrap
-    fd
-    proximity-sort
-    bat
-    nodejs
-    ncdu
-    nh
-    keepassxc
-    nix-output-monitor
-    nvd
-    openvpn
-    cmus
-    wl-clipboard
-    wl-clipboard-x11
-    python3
-    fishPlugins.bass
-    fishPlugins.colored-man-pages
-    eza
-    tree
-    ripgrep
-    htop
-    unzip
-    zip
-    glab
-  ] ++ (if standalone then
+  home.packages =
+    with pkgs;
     [
-      wslu
+      inputs.envmux.defaultPackage.${pkgs.system}
+      nixfmt-rfc-style
+      ruff
+      shfmt
+      xdg-utils
+      lsof
+      rlwrap
+      fd
+      proximity-sort
+      bat
+      nodejs
+      ncdu
+      nh
+      keepassxc
+      nix-output-monitor
+      nvd
+      openvpn
+      cmus
+      wl-clipboard
+      wl-clipboard-x11
+      python3
+      fishPlugins.bass
+      fishPlugins.colored-man-pages
+      eza
+      tree
+      ripgrep
+      htop
+      unzip
+      zip
+      glab
     ]
-    else with pkgs; [
-      # texpresso
-      kitty
-      alacritty
-      pavucontrol
-      vscode
-      eog
-      obs-studio
-      obsidian
-      waybar
-      firefox
-      vlc
-      wofi
-      discord
-      qbittorrent
-      grim
-      slurp
-      foliate
-      zathura
-      # # Adds the 'hello' command to your environment. It prints a friendly
-      # # "Hello, world!" when run.
-      # pkgs.hello
+    ++ (
+      if standalone then
+        [
+          wslu
+        ]
+      else
+        with pkgs;
+        [
+          # texpresso
+          kitty
+          alacritty
+          pavucontrol
+          vscode
+          eog
+          obs-studio
+          obsidian
+          waybar
+          firefox
+          vlc
+          wofi
+          discord
+          qbittorrent
+          grim
+          slurp
+          foliate
+          zathura
+          # # Adds the 'hello' command to your environment. It prints a friendly
+          # # "Hello, world!" when run.
+          # pkgs.hello
 
-      # # It is sometimes useful to fine-tune packages, for example, by applying
-      # # overrides. You can do that directly here, just don't forget the
-      # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-      # # fonts?
-      # # You can also create simple shell scripts directly inside your
-      # # configuration. For example, this adds a command 'my-hello' to your
-      # # environment:
-      # (pkgs.writeShellScriptBin "my-hello" ''
-      #   echo "Hello, ${config.home.username}!"
-      # '')
-    ]);
+          # # It is sometimes useful to fine-tune packages, for example, by applying
+          # # overrides. You can do that directly here, just don't forget the
+          # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+          # # fonts?
+          # # You can also create simple shell scripts directly inside your
+          # # configuration. For example, this adds a command 'my-hello' to your
+          # # environment:
+          # (pkgs.writeShellScriptBin "my-hello" ''
+          #   echo "Hello, ${config.home.username}!"
+          # '')
+        ]
+    );
 
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
 
@@ -119,7 +136,7 @@
   programs.yt-dlp.enable = true;
 
   programs.starship = {
-    enable = true; 
+    enable = true;
     enableFishIntegration = true;
     enableNushellIntegration = true;
   };
@@ -127,7 +144,7 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
-    options = ["--cmd cd"];
+    options = [ "--cmd cd" ];
   };
 
   programs.fzf = {

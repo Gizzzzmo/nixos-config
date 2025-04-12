@@ -1,9 +1,9 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
   enable = true;
   userName = "Jonas Beyer";
   userEmail = "reyeb.sanoj@googlemail.com";
-  
+
   extraConfig = {
     init.defaultBranch = "main";
     rerere.enabled = true;
@@ -19,9 +19,9 @@
     dft = "-c diff.external=difft diff";
   };
 
-  includes = [ 
-    { 
-      path = "~/.config/git/config_siemens"; 
+  includes = [
+    {
+      path = "~/.config/git/config_siemens";
       condition = "gitdir:~/gitprjs/siemens/";
     }
   ];

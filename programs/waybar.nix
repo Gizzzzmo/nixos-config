@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
   enable = true;
   systemd.enable = true;
@@ -9,89 +9,112 @@
       height = 24; # Waybar height
       # width= 1366; // Waybar width
       # Choose the order of the modules
-      modules-left = ["sway/workspaces" "sway/mode" "custom/spotify"];
-      modules-center= ["sway/window"];
-      modules-right= ["pulseaudio" "network" "cpu" "memory" "battery" "tray" "clock"];
+
+      modules-left = [
+        "sway/workspaces"
+        "sway/mode"
+        "custom/spotify"
+      ];
+      modules-center = [ "sway/window" ];
+      modules-right = [
+        "pulseaudio"
+        "network"
+        "cpu"
+        "memory"
+        "battery"
+        "tray"
+        "clock"
+      ];
       "sway/workspaces" = {
-          disable-scroll = true;
-          all-outputs = false;
-          format = "{icon}";
-          format-icons = {
-              "1:web"= "";
-              "2:code" = "";
-              "3:term" = "";
-              "4:work" = "";
-              "5:music" = "";
-              "6:docs" = "";
-              urgent= "";
-              focused= "";
-              default= "";
-          };
+        disable-scroll = true;
+        all-outputs = false;
+        format = "{icon}";
+        format-icons = {
+          "1:web" = "";
+          "2:code" = "";
+          "3:term" = "";
+          "4:work" = "";
+          "5:music" = "";
+          "6:docs" = "";
+          urgent = "";
+          focused = "";
+          default = "";
+        };
       };
       "sway/mode" = {
-          format = "<span style=\italic\>{}</span>";
+        format = "<span style=\italic\>{}</span>";
       };
       tray = {
-          # icon-size= 21;
-          spacing = 10;
+        # icon-size= 21;
+        spacing = 10;
       };
       clock = {
-          format-alt = "{=%Y-%m-%d}";
+        format-alt = "{=%Y-%m-%d}";
       };
       cpu = {
-          format = "{usage}% ";
+        format = "{usage}% ";
       };
       memory = {
-          format= "{}% ";
+        format = "{}% ";
       };
       battery = {
-          bat = "BAT0";
-          states = {
-              # good = 95;
-              warning = 30;
-              critical = 15;
-          };
-          format = "{capacity}% {icon}";
-          # format-good = ; // An empty format will hide the module
-          # format-full = ;
-          format-icons = ["" "" "" "" ""];
+        bat = "BAT0";
+        states = {
+          # good = 95;
+          warning = 30;
+          critical = 15;
+        };
+        format = "{capacity}% {icon}";
+        # format-good = ; // An empty format will hide the module
+        # format-full = ;
+        format-icons = [
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
       };
+
       network = {
-          # interface = wlp2s0; // (Optional) To force the use of this interface
-          format-wifi = "{essid} ({signalStrength}%) ";
-          format-ethernet = "{ifname}= {ipaddr}/{cidr} ;";
-          format-disconnected = "Disconnected ⚠";
+        # interface = wlp2s0; // (Optional) To force the use of this interface
+        format-wifi = "{essid} ({signalStrength}%) ";
+        format-ethernet = "{ifname}= {ipaddr}/{cidr} ;";
+        format-disconnected = "Disconnected ⚠";
       };
-      pulseaudio= {
-          #scroll-step = 1;
-          format = "{volume}% {icon}";
-          format-bluetooth = "{volume}% {icon}";
-          format-muted = "";
-          format-icons = {
-              headphones = "";
-              handsfree = "";
-              headset = "";
-              phone = "";
-              portable = "";
-              car = "";
-              default = ["" ""];
-          };
-          on-click = "pavucontrol";
+      pulseaudio = {
+        #scroll-step = 1;
+        format = "{volume}% {icon}";
+        format-bluetooth = "{volume}% {icon}";
+        format-muted = "";
+        format-icons = {
+          headphones = "";
+          handsfree = "";
+          headset = "";
+          phone = "";
+          portable = "";
+          car = "";
+          default = [
+            ""
+            ""
+          ];
+        };
+        on-click = "pavucontrol";
       };
       "custom/spotify" = {
-          format = " {}";
-          max-length = 40;
-          interval = 30; # Remove this if your script is endless and write in loop
-          exec = pkgs.writeShellScript "mediaplayer" ''
+        format = " {}";
+        max-length = 40;
+        interval = 30; # Remove this if your script is endless and write in loop
+        exec = pkgs.writeShellScript "mediaplayer" ''
           player_status=$(playerctl status 2> /dev/null)
           if [ "$player_status" = "Playing" ]; then
               echo "$(playerctl metadata artist) - $(playerctl metadata title)"
           elif [ "$player_status" = "Paused" ]; then
               echo " $(playerctl metadata artist) - $(playerctl metadata title)"
           fi
-          '';
-          #"$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
-          exec-if = "pgrep spotify";
+        '';
+        #"$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
+        exec-if = "pgrep spotify";
       };
     }
   ];

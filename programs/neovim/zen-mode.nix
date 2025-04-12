@@ -1,4 +1,4 @@
-{...}:
+{ ... }:
 {
   enable = true;
   settings = {
@@ -8,10 +8,10 @@
     };
     plugins = {
       tmux.enabled = true;
-    # alacritty = {
-    #     enabled = true;
-    #     font = "14.1";
-    #   };
+      # alacritty = {
+      #     enabled = true;
+      #     font = "14.1";
+      #   };
     };
   };
 }

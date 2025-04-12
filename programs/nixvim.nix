@@ -1,4 +1,4 @@
-{pkgs, ...} @home_inputs :
+{ pkgs, ... }@home_inputs:
 {
   enable = true;
 
@@ -64,11 +64,11 @@
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
   plugins.nvim-surround.enable = true;
-  
+
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb
     advanced-git-search-nvim
-    telescope-emoji-nvim 
+    telescope-emoji-nvim
   ];
 
   # plugins.texpresso = {

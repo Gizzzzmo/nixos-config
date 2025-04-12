@@ -1,4 +1,4 @@
-{ standalone, ...}:
+{ standalone, ... }:
 {
   enable = !standalone;
   settings = {

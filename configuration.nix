@@ -2,16 +2,22 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./main-user.nix
-      inputs.home-manager.nixosModules.default
-    ];
-  
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./main-user.nix
+    inputs.home-manager.nixosModules.default
+  ];
+
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
 
@@ -24,8 +30,11 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
   # Easiest to use and most distros use this by default.
-  
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -62,7 +71,7 @@
     withUWSM = true;
   };
   programs.steam.enable = true;
-  
+
   # Enable sound.
   security.rtkit.enable = true;
   services.pipewire = {
@@ -82,10 +91,9 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  
+
   # ENable bluetooth
   hardware.bluetooth.enable = true;
-
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -93,14 +101,13 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   main-user.enable = true;
   main-user.userName = "jonas";
-  
-  programs.fish.enable = true;
 
+  programs.fish.enable = true;
 
   users.users.jonas = {
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  }; 
- 
+  };
+
   home-manager = {
     extraSpecialArgs = {
       inherit inputs;
@@ -156,8 +163,11 @@
     enable = true;
     xdgOpenUsePortal = true;
     config = {
-      common.default = ["gtk"];
-      hyprland.default = ["gtk" "hyprland"];
+      common.default = [ "gtk" ];
+      hyprland.default = [
+        "gtk"
+        "hyprland"
+      ];
     };
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
@@ -165,7 +175,7 @@
       pkgs.xdg-desktop-portal-hyprland
     ];
   };
-  
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -209,4 +219,3 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
-

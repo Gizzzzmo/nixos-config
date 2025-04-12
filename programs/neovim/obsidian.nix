@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
   enable = true;
   package = pkgs.vimPlugins.obsidian-nvim;
@@ -72,7 +72,7 @@
         };
       };
     };
-    
+
     completion = {
       min_chars = 2;
       nvim_cmp = true;

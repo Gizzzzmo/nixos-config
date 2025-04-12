@@ -12,25 +12,37 @@
   }
 
   {
-    mode = [ "n" "i" ];
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<M-K>";
     action = "<cmd>res +1<cr>";
   }
 
   {
-    mode = [ "n" "i" ];
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<M-J>";
     action = "<cmd>res -1<cr>";
   }
 
   {
-    mode = [ "n" "i" ];
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<M-H>";
     action = "<cmd>vertical:res -1<cr>";
   }
 
   {
-    mode = [ "n" "i" ];
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<M-L>";
     action = "<cmd>vertical:res +1<cr>";
   }
@@ -58,7 +70,7 @@
     key = "<leader>od";
     action = "<cmd>ObsidianToday<cr>";
   }
-  
+
   {
     mode = "n";
     key = "<leader>on";
@@ -66,18 +78,24 @@
   }
 
   {
-    mode = ["n" "i"];
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<C-r>";
     action = "<cmd>Explore<cr>";
   }
 
   {
-    mode = ["n" "i"];
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<M-h>";
     options.silent = false;
     action = "<cmd>lua vim.lsp.buf.hover()<cr>";
   }
-  
+
   {
     mode = "n";
     key = "<leader>lf";
@@ -97,7 +115,10 @@
   }
 
   {
-    mode = ["i" "n"];
+    mode = [
+      "i"
+      "n"
+    ];
     key = "<C-s>";
     options.silent = false;
     action = "<cmd>write<cr><esc>";
@@ -107,7 +128,7 @@
     mode = "n";
     key = "<leader>ff";
     options.silent = false;
-    action = "<cmd>lua=require('telescope.builtin').find_files({no_ignore=true})<cr>"; 
+    action = "<cmd>lua=require('telescope.builtin').find_files({no_ignore=true})<cr>";
   }
 
   {
@@ -154,7 +175,7 @@
     mode = "n";
     key = "<leader>fo";
     options.silent = false;
-    action = "<cmd>lua=require('telescope.builtin').oldfiles({only_cwd=1})<cr>"; 
+    action = "<cmd>lua=require('telescope.builtin').oldfiles({only_cwd=1})<cr>";
   }
 
   {
@@ -165,7 +186,10 @@
   }
 
   {
-    mode = ["n" "i"];
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<M-\\>";
     options.silent = false;
     action = "<cmd>lua=require('telescope.builtin').buffers({sort_mru=1, ignore_current_buffer=1})<cr>";

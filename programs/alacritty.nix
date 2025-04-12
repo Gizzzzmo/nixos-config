@@ -1,8 +1,8 @@
-{...}:
+{ ... }:
 {
   enable = true;
   settings = {
-    general.import = [ 
+    general.import = [
       "/home/jonas/.config/alacritty/tokyo-night.toml"
       #"/home/jonas/.config/alacritty/catppuccin-mocha.toml"
     ];
