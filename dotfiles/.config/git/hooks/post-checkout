@@ -1,7 +1,12 @@
 #!/bin/sh
-cd $(git rev-parse --show-toplevel)
+cd "$(git rev-parse --show-toplevel)" || echo "Can't cd into git root"
 rev_abbrev=$(git rev-parse --abbrev-ref HEAD)
-rev=$(git rev-parse HEAD)
+if [ "$rev_abbrev" = "HEAD" ]; then
+    rev=$(git rev-parse HEAD)
+else
+    rev="$rev_abbrev"
+fi
+
 
 if [ -d "./build" ]; then
     if [ -L "./build/HEAD" ]; then
@@ -10,52 +15,40 @@ if [ -d "./build" ]; then
     if [ -f "./build/HEAD" ] || [ -d "./build/HEAD" ]; then
         echo "Can't create symlink for HEAD, path exists"
     else
-        ln -s ./$rev ./build/HEAD 
+        ln -s ./"$rev" ./build/HEAD
     fi
 
-    # if rev_abbrev is not HEAD create a symlink from ./build/$rev_abbrev to ./build/$rev
-    if [ "$rev_abbrev" != "HEAD" ]; then
-        if [ -L "./build/$rev_abbrev" ]; then
-            rm ./build/$rev_abbrev
-        fi
-        if [ -f "./build/$rev_abbrev" ] || [ -d "./build/$rev_abbrev" ]; then
-            echo "Can't create symlink for branch $rev_abbrev, path exists"
-        else
-            ln -s ./$rev ./build/$rev_abbrev
-        fi
+    if [ "$rev_abbrev" = "HEAD" ]; then
+        # iterate over all tags pointing to $rev and create a symlink from ./build/$tag to ./build/$ref for each
+        # uses while IFS to split the output of git tag --points-at $rev into lines
+        git tag --points-at "$rev" | while IFS= read -r tag; do
+            # if the tag name is also the name of a branch, skip it and print a warning
+            if git show-ref --verify --quiet refs/heads/"$tag"; then
+                echo "Warning: Tag $tag pointing to current commit is an ambiguous reference, not creating symlink for it"
+                continue
+            fi
+            if [ -L "./build/$tag" ]; then
+                rm ./build/"$tag"
+            fi
+            if [ -f "./build/$tag" ] || [ -d "./build/$tag" ]; then
+                echo "Can't create symlink for tag $tag, path exists"
+            else
+                ln -s ./"$rev" ./build/"$tag" || true
+            fi
+        done
     fi
-
-
-    # iterate over all tags pointing to $rev and create a symlink from ./build/$tag to ./build/$ref for each
-    # uses while IFS to split the output of git tag --points-at $rev into lines
-    git tag --points-at $rev | while IFS= read -r tag; do
-        # if the tag name is also the name of a branch, skip it and print a warning
-        if git show-ref --verify --quiet refs/heads/$tag; then
-            echo "Warning: Tag $tag pointing to current commit is an ambiguous reference, not creating symlink it"
-            continue
-        fi
-        if [ -L "./build/$tag" ]; then
-            rm ./build/$tag
-        fi
-        if [ -f "./build/$tag" ] || [ -d "./build/$tag" ]; then
-            echo "Can't create symlink for tag $tag, path exists"
-        else
-            ln -s ./$rev ./build/$tag || true
-        fi
-    done
 
     # if ./build/$rev doesn't exist, create it
     if [ -f "./build/$rev" ]; then
         echo "Warning: ./build/$rev is a file, not creating directory."
     elif [ ! -d "./build/$rev" ]; then
-        mkdir ./build/$rev
+        mkdir ./build/"$rev"
     fi
+
 fi
 
-
-if test -f build/CMakeProfiles.json
-then
-    jinja -D git_branch $rev build/CMakeProfiles.json > CMakeProfiles.json
+if test -f build/CMakeProfiles.json; then
+    jinja -D git_branch "$rev" build/CMakeProfiles.json >CMakeProfiles.json
 fi
 
 git submodule update --init --recursive
