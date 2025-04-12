@@ -10,6 +10,7 @@
     core.editor = "nvim";
     commit.gpgsign = true;
     core.hooksPath = "~/.config/git/hooks";
+    code.excludesFile = "~/.config/git/exclude";
   };
 
   aliases = {
