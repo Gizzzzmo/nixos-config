@@ -5,7 +5,7 @@ local make_entry = require "telescope.make_entry"
 local pickers = require "telescope.pickers"
 local sorters = require "telescope.sorters"
 
-function starts_with(str, prefix)
+local function starts_with(str, prefix)
     return string.sub(str, 1, string.len(prefix)) == prefix
 end
 
@@ -60,7 +60,6 @@ local proximity_files = function(opts)
                 "-c",
                 string.format('fd --full-path --type f %s . | proximity-sort %s', prompt, path),
             }
-            print("Cmd: ", vim.inspect(cmd))
             return cmd
         end,
         opts.entry_maker or make_entry.gen_from_file(opts),
