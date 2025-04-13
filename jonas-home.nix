@@ -39,7 +39,6 @@
       rlwrap
       fd
       proximity-sort
-      bat
       nodejs
       ncdu
       nh
@@ -111,6 +110,7 @@
   programs.git = (import ./programs/git.nix) home_inputs;
   programs.nixvim = (import ./programs/nixvim.nix) home_inputs;
   programs.fish = (import ./programs/fish.nix) home_inputs;
+  programs.bat = (import ./programs/bat.nix) home_inputs;
 
   programs.kitty = (import ./programs/kitty.nix) home_inputs // {
     enable = !standalone;
