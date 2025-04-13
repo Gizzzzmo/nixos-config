@@ -4,7 +4,7 @@
   settings = {
     window = {
       backdrop = 0.7;
-      width = 0.8;
+      width = 100;
     };
     plugins = {
       tmux.enabled = true;
