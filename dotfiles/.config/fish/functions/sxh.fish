@@ -10,7 +10,7 @@ function sxh
     set selection ($cmd | fzf)
     
     echo "Open with"
-    set user_cmd (eval complete -C"" | awk '{print $1}' | fzf)
+    set user_cmd (eval complete -C"" | awk "{print \$1}" | fzf)
     
     eval hyprctl dispatch exec $user_cmd (readlink -f $selection)
 end

@@ -12,7 +12,7 @@ function sx
 	return
     end
     echo "Open with"
-    set user_cmd (eval complete -C"" | awk '{print $1}' | fzf) 
+    set user_cmd (eval complete -C"" | awk "{print \$1}" | fzf) 
     
     if test $status -ne 0
 	return
