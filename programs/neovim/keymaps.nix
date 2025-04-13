@@ -109,6 +109,10 @@
   }
 
   {
+    mode = [
+      "n"
+      "i"
+    ];
     key = "<C-M-s>";
     options.silent = false;
     action = "<cmd>noautocmd write<cr><esc>";
