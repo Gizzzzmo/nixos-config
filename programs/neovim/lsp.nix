@@ -4,8 +4,7 @@
   inlayHints = true;
   preConfig = ''
     local border = {
-      { '┌', 'FloatBorder' },
-      { '─', 'FloatBorder' },
+      { '┌', 'FloatBorder' }, { '─', 'FloatBorder' },
       { '┐', 'FloatBorder' },
       { '│', 'FloatBorder' },
       { '┘', 'FloatBorder' },
@@ -40,10 +39,13 @@
       installRustc = false;
     };
 
-    cmake = {
+    neocmake = {
       enable = true;
-      package = pkgs.cmake-language-server;
     };
+    # cmake = {
+    #   enable = true;
+    #   package = pkgs.cmake-language-server;
+    # };
 
     pyright = {
       enable = true;
@@ -51,6 +53,10 @@
     };
 
     typos_lsp = {
+      enable = true;
+    };
+
+    ltex = {
       enable = true;
     };
 
@@ -66,11 +72,23 @@
       enable = true;
     };
 
+    lua_ls = {
+      enable = true;
+    };
+
     cssls = {
       enable = true;
     };
 
     bashls = {
+      enable = true;
+    };
+
+    fish_lsp = {
+      enable = true;
+    };
+
+    jsonls = {
       enable = true;
     };
 
