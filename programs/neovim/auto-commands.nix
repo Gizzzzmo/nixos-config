@@ -25,13 +25,13 @@
   }
 
   {
-    command = ":!test -f .editorconfig && shfmt -w %";
+    command = ":!test -f .editorconfig && shfmt -w '%'";
     event = "BufWritePost";
     pattern = [ "*.sh" ];
   }
 
   {
-    command = ":!test -f .gersemirc && gersemi -i %";
+    command = ":!test -f .gersemirc && gersemi -i '%'";
     event = "BufWritePost";
     pattern = [
       "*.cmake"
@@ -40,13 +40,13 @@
   }
 
   {
-    command = ":!test -f .mdformat.toml && mdformat %";
+    command = ":!test -f .mdformat.toml && mdformat '%'";
     event = "BufWritePost";
     pattern = [ "*.md" ];
   }
 
   {
-    command = ":!ruff format %";
+    command = ":!ruff format '%'";
     event = "BufWritePost";
     pattern = [ "*.py" ];
   }
