@@ -2,7 +2,7 @@
 {
   enable = true;
   font = {
-    name = "FiraCode";
+    name = "FiraCode Nerd Font";
   };
   themeFile = "ayu_mirage";
 }
