@@ -13,9 +13,9 @@
 
   settings.defaults = {
     file_ignore_patterns = [
-      "^.git/"
-      ".cache/"
-      ".venv/"
+      "^.git/.*"
+      ".cache/.*"
+      ".venv/.*"
     ];
   };
 }
