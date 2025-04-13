@@ -140,7 +140,7 @@ style = "#5f8787"
 format = "([  ](#767676)[$ram_pct $symbol]($style))"
 
 [time]
-disabled = true
+disabled = false
 format = "([  ](#767676)[$time]($style))"
 
 [shlvl]
