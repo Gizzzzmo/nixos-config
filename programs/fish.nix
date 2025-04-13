@@ -7,12 +7,12 @@
   shellAliases = {
     "..." = "cd ../..";
     ".." = "cd ..";
-    "ll" = "eza -l";
+    "ll" = "eza -l --git";
     "lls" = "eza";
-    "lla" = "eza -la";
+    "lla" = "eza -la --git";
     "la" = "eza -a";
     "lt" = "eza -s modified -l";
-    "lta" = "eza -s modified -la";
+    "lta" = "eza -s modified -la --git";
   };
 
   shellInit = ''
