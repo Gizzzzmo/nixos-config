@@ -86,6 +86,10 @@
         path = "~/notes/notes/";
       }
       {
+        name = "siemens-notes";
+        path = "~/gitprjs/siemens/documentation/notes/";
+      }
+      {
         name = "blog";
         path = "~/gitprjs/personal/blog/content/";
       }

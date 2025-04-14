@@ -58,6 +58,12 @@
   }
 
   {
+    command = ":ObsidianWorkspace siemens-notes";
+    event = "BufEnter";
+    pattern = "/home/jonas/gitprjs/siemens/documentation/notes/**";
+  }
+
+  {
     command = ":ObsidianWorkspace blog";
     event = "BufEnter";
     pattern = "/home/jonas/gitprjs/personal/blog/**";
