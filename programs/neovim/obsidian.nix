@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, standalone, ... }:
 {
   enable = true;
   package = pkgs.vimPlugins.obsidian-nvim;
@@ -80,19 +80,27 @@
 
     new_notes_location = "current_dir";
 
-    workspaces = [
-      {
-        name = "main";
-        path = "~/notes/notes/";
-      }
-      {
-        name = "siemens-notes";
-        path = "~/gitprjs/siemens/documentation/notes/";
-      }
-      {
-        name = "blog";
-        path = "~/gitprjs/personal/blog/content/";
-      }
-    ];
+    workspaces =
+      [
+        {
+          name = "main";
+          path = "~/notes/notes/";
+        }
+        {
+          name = "blog";
+          path = "~/gitprjs/personal/blog/content/";
+        }
+      ]
+      ++ (
+        if standalone then
+          [
+            {
+              name = "siemens-notes";
+              path = "~/gitprjs/siemens/documentation/notes/";
+            }
+          ]
+        else
+          [ ]
+      );
   };
 }
