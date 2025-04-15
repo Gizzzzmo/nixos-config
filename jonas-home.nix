@@ -27,7 +27,7 @@
   # environment.
   home.packages = with pkgs;
     [
-      inputs.envmux.defaultPackage.${pkgs.system}
+      inputs.muxxies.defaultPackage.${pkgs.system}
       alejandra
       ruff
       shfmt
