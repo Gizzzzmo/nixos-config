@@ -41,6 +41,16 @@
 
     neocmake = {
       enable = true;
+      extraOptions = {
+        init_options = {
+          format = {
+            enable = false;
+          };
+          lint = {
+            enable = false;
+          };
+        };
+      };
     };
     # cmake = {
     #   enable = true;
