@@ -6,9 +6,7 @@
   standalone,
   username,
   ...
-}@home_inputs:
-
-{
+} @ home_inputs: {
   targets.genericLinux.enable = standalone;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -23,20 +21,18 @@
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
-  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+  imports = [inputs.nixvim.homeManagerModules.nixvim];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages =
-    with pkgs;
+  home.packages = with pkgs;
     [
       inputs.envmux.defaultPackage.${pkgs.system}
-      nixfmt-rfc-style
+      alejandra
       ruff
       shfmt
       xdg-utils
       lsof
-      rlwrap
       fd
       proximity-sort
       nodejs
@@ -61,49 +57,47 @@
       glab
     ]
     ++ (
-      if standalone then
-        [
-          wslu
-        ]
-      else
-        with pkgs;
-        [
-          # texpresso
-          kitty
-          alacritty
-          pavucontrol
-          vscode
-          eog
-          obs-studio
-          obsidian
-          waybar
-          firefox
-          vlc
-          wofi
-          discord
-          qbittorrent
-          grim
-          slurp
-          foliate
-          zathura
-          # # Adds the 'hello' command to your environment. It prints a friendly
-          # # "Hello, world!" when run.
-          # pkgs.hello
+      if standalone
+      then [
+        wslu
+      ]
+      else with pkgs; [
+        # texpresso
+        kitty
+        alacritty
+        pavucontrol
+        vscode
+        eog
+        obs-studio
+        obsidian
+        waybar
+        firefox
+        vlc
+        wofi
+        discord
+        qbittorrent
+        grim
+        slurp
+        foliate
+        zathura
+        # # Adds the 'hello' command to your environment. It prints a friendly
+        # # "Hello, world!" when run.
+        # pkgs.hello
 
-          # # It is sometimes useful to fine-tune packages, for example, by applying
-          # # overrides. You can do that directly here, just don't forget the
-          # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-          # # fonts?
-          # # You can also create simple shell scripts directly inside your
-          # # configuration. For example, this adds a command 'my-hello' to your
-          # # environment:
-          # (pkgs.writeShellScriptBin "my-hello" ''
-          #   echo "Hello, ${config.home.username}!"
-          # '')
-        ]
+        # # It is sometimes useful to fine-tune packages, for example, by applying
+        # # overrides. You can do that directly here, just don't forget the
+        # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+        # # fonts?
+        # # You can also create simple shell scripts directly inside your
+        # # configuration. For example, this adds a command 'my-hello' to your
+        # # environment:
+        # (pkgs.writeShellScriptBin "my-hello" ''
+        #   echo "Hello, ${config.home.username}!"
+        # '')
+      ]
     );
 
-  nixpkgs.config.allowUnfreePredicate = (pkg: true);
+  nixpkgs.config.allowUnfreePredicate = pkg: true;
 
   programs.gitui = (import ./programs/gitui.nix) home_inputs;
   programs.tmux = (import ./programs/tmux.nix) home_inputs;
@@ -112,24 +106,34 @@
   programs.fish = (import ./programs/fish.nix) home_inputs;
   programs.bat = (import ./programs/bat.nix) home_inputs;
 
-  programs.kitty = (import ./programs/kitty.nix) home_inputs // {
-    enable = !standalone;
-  };
+  programs.kitty =
+    (import ./programs/kitty.nix) home_inputs
+    // {
+      enable = !standalone;
+    };
   programs.mpv = {
     enable = !standalone;
   };
-  programs.wofi = (import ./programs/wofi.nix) home_inputs // {
-    enable = !standalone;
-  };
-  programs.vscode = (import ./programs/vscode.nix) home_inputs // {
-    enable = !standalone;
-  };
-  programs.alacritty = (import ./programs/alacritty.nix) home_inputs // {
-    enable = !standalone;
-  };
-  programs.waybar = (import ./programs/waybar.nix) home_inputs // {
-    enable = !standalone;
-  };
+  programs.wofi =
+    (import ./programs/wofi.nix) home_inputs
+    // {
+      enable = !standalone;
+    };
+  programs.vscode =
+    (import ./programs/vscode.nix) home_inputs
+    // {
+      enable = !standalone;
+    };
+  programs.alacritty =
+    (import ./programs/alacritty.nix) home_inputs
+    // {
+      enable = !standalone;
+    };
+  programs.waybar =
+    (import ./programs/waybar.nix) home_inputs
+    // {
+      enable = !standalone;
+    };
 
   programs.command-not-found.enable = true;
   programs.nushell.enable = true;
@@ -144,7 +148,7 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
-    options = [ "--cmd cd" ];
+    options = ["--cmd cd"];
   };
 
   programs.fzf = {
@@ -191,7 +195,10 @@
   #
   home.sessionVariables = {
     EDITOR = "nvim";
-    BROWSER = if standalone then "wslview" else "firefox";
+    BROWSER =
+      if standalone
+      then "wslview"
+      else "firefox";
   };
 
   # Let Home Manager install and manage itself.

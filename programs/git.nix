@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   enable = true;
   userName = "Jonas Beyer";
   userEmail = "reyeb.sanoj@googlemail.com";

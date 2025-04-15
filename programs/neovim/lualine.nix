@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   enable = true;
   gitPackage = pkgs.git;
   package = pkgs.vimPlugins.lualine-nvim;

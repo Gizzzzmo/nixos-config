@@ -1,5 +1,8 @@
-{ pkgs, standalone, ... }:
 {
+  pkgs,
+  standalone,
+  ...
+}: {
   enable = true;
   package = pkgs.vimPlugins.obsidian-nvim;
   settings = {
@@ -92,15 +95,14 @@
         }
       ]
       ++ (
-        if standalone then
-          [
-            {
-              name = "siemens-notes";
-              path = "~/gitprjs/siemens/documentation/notes/";
-            }
-          ]
-        else
-          [ ]
+        if standalone
+        then [
+          {
+            name = "siemens-notes";
+            path = "~/gitprjs/siemens/documentation/notes/";
+          }
+        ]
+        else []
       );
   };
 }

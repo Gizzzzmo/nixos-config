@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   enable = true;
   autoLoad = true;
   settings = {
@@ -16,5 +15,4 @@
     };
     panel.enabled = true;
   };
-
 }

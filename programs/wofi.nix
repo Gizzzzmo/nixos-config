@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   enable = true;
   style = ''
     /* ::root{ *
@@ -77,5 +76,4 @@
     /*     background-color: #404552; */
     /* } */
   '';
-
 }

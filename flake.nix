@@ -1,5 +1,4 @@
 # sudo nixos-rebuild switch --flake /etc/nixos#default
-
 {
   description = "Nixos config flake";
 
@@ -31,22 +30,22 @@
       url = "./scripts/envmux";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
-  outputs =
-    { self, nixpkgs, ... }@inputs:
-    {
-      nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-        };
-
-        modules = [
-          ./configuration.nix
-          inputs.home-manager.nixosModules.default
-        ];
-
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: {
+    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inherit inputs;
       };
+
+      modules = [
+        ./configuration.nix
+        inputs.home-manager.nixosModules.default
+      ];
     };
+  };
 }

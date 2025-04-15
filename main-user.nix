@@ -3,15 +3,14 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   options = {
     main-user.enable = lib.mkEnableOption "enable user module";
     main-user.userName = lib.mkOption {
       default = "mainuser";
       description = ''
-        				username
-        			'';
+        username
+      '';
     };
   };
 

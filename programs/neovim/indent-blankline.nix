@@ -1,9 +1,8 @@
-{ ... }:
-{
+{...}: {
   enable = true;
   settings = {
     indent = {
-      highlight = [ "IblIndent" ];
+      highlight = ["IblIndent"];
       char = "│";
     };
     scope = {

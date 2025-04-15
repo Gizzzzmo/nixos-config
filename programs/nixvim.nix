@@ -1,5 +1,4 @@
-{ pkgs, ... }@home_inputs:
-{
+{pkgs, ...} @ home_inputs: {
   enable = true;
 
   colorschemes.tokyonight.enable = true;
@@ -74,5 +73,4 @@
   # plugins.texpresso = {
   #   enable = !standalone;
   # };
-
 }

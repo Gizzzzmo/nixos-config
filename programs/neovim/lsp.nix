@@ -1,5 +1,8 @@
-{ pkgs, standalone, ... }:
 {
+  pkgs,
+  standalone,
+  ...
+}: {
   enable = true;
   inlayHints = true;
   preConfig = ''
@@ -24,13 +27,12 @@
       enable = true;
       package = null;
       cmd =
-        if standalone then
-          [
-            "clangd"
-            "--resource-dir=/home/jonas/.cmaketoolchains/downloads/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04/lib/clang/18"
-          ]
-        else
-          [ "clangd" ];
+        if standalone
+        then [
+          "clangd"
+          "--resource-dir=/home/jonas/.cmaketoolchains/downloads/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04/lib/clang/18"
+        ]
+        else ["clangd"];
     };
 
     rust_analyzer = {
@@ -101,7 +103,6 @@
     jsonls = {
       enable = true;
     };
-
   };
 
   keymaps = {

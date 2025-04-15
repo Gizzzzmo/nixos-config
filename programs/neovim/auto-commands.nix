@@ -19,15 +19,15 @@
   }
 
   {
-    command = ":!nixfmt %";
+    command = ":!test -f alejandra.toml && alejandra '%'";
     event = "BufWritePost";
-    pattern = [ "*.nix" ];
+    pattern = ["*.nix"];
   }
 
   {
     command = ":!test -f .editorconfig && shfmt -w '%'";
     event = "BufWritePost";
-    pattern = [ "*.sh" ];
+    pattern = ["*.sh"];
   }
 
   {
@@ -42,13 +42,13 @@
   {
     command = ":!test -f .mdformat.toml && mdformat '%'";
     event = "BufWritePost";
-    pattern = [ "*.md" ];
+    pattern = ["*.md"];
   }
 
   {
     command = ":!ruff format '%'";
     event = "BufWritePost";
-    pattern = [ "*.py" ];
+    pattern = ["*.py"];
   }
 
   {

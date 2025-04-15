@@ -1,5 +1,8 @@
-{ standalone, pkgs, ... }:
 {
+  standalone,
+  pkgs,
+  ...
+}: {
   enable = true;
   package = pkgs.tmux;
   prefix = "C-o";
@@ -15,7 +18,8 @@
         (fetchGit {
           url = "https://github.com/artemave/tmux_super_fingers";
           rev = "413fb361a4f04fde818ca32491667a596c56b925";
-        }).outPath
+        })
+        .outPath
       }/tmux_super_fingers.tmux
 
       set -s escape-time 0
@@ -44,16 +48,16 @@
 
       bind -n M-w last-window
       bind -n M-= select-window -n
-      bind -n M-- select-window -p 
+      bind -n M-- select-window -p
       bind -n M-0 select-window -t 0
-      bind -n M-1 select-window -t 1 
-      bind -n M-2 select-window -t 2 
-      bind -n M-3 select-window -t 3 
-      bind -n M-4 select-window -t 4 
-      bind -n M-5 select-window -t 5 
-      bind -n M-6 select-window -t 6 
-      bind -n M-7 select-window -t 7 
-      bind -n M-8 select-window -t 8 
+      bind -n M-1 select-window -t 1
+      bind -n M-2 select-window -t 2
+      bind -n M-3 select-window -t 3
+      bind -n M-4 select-window -t 4
+      bind -n M-5 select-window -t 5
+      bind -n M-6 select-window -t 6
+      bind -n M-7 select-window -t 7
+      bind -n M-8 select-window -t 8
       bind -n M-9 select-window -t 9
 
       bind-key -Tcopy-mode-vi 'v' send -X begin-selection
@@ -64,19 +68,18 @@
       bind -r r source ~/.config/tmux/tmux.conf
     ''
     + (
-      if standalone then
-        ''
-          set -g default-terminal "tmux-256color"
-          set -as terminal-overrides ",*256col*:Tc"
+      if standalone
+      then ''
+        set -g default-terminal "tmux-256color"
+        set -as terminal-overrides ",*256col*:Tc"
 
-          set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
-          set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
-        ''
-      else
-        ''
-          set -g default-terminal "alacritty"
-          set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
-          set -as terminal-overrides ',alacritty:RGB'
-        ''
+        set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
+        set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
+      ''
+      else ''
+        set -g default-terminal "alacritty"
+        set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
+        set -as terminal-overrides ',alacritty:RGB'
+      ''
     );
 }

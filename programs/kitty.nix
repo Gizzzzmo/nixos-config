@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   enable = true;
   font = {
     name = "FiraCode Nerd Font";

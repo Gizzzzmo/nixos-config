@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   enable = true;
   systemd.enable = true;
   settings = [
@@ -15,7 +14,7 @@
         "sway/mode"
         "custom/spotify"
       ];
-      modules-center = [ "sway/window" ];
+      modules-center = ["sway/window"];
       modules-right = [
         "pulseaudio"
         "network"

@@ -1,10 +1,8 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   enable = true;
 
   profiles.default = {
-    extensions =
-      with pkgs.vscode-extensions;
+    extensions = with pkgs.vscode-extensions;
       [
         rust-lang.rust-analyzer
         eamodio.gitlens
