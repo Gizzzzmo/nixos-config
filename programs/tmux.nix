@@ -28,6 +28,8 @@
       set -g mode-style fg=colour236,bg=colour15
       set-window-option -g window-status-current-style bg=colour15,fg=colour0
 
+      set -g update-environment 'DISPLAY ALACRITTY_WINDOW_ID ALACRITTY_LOG ALACRITTY_SOCKET DISPLAY WINDOWID SSH_ASKPASS SSH_CONNECTION XAUTHORITY KITTY_WINDOW_ID KITTY_PID'
+
       set -g default-shell /home/jonas/.nix-profile/bin/fish
 
       # set -g @tokyo-night-tmux_theme storm
