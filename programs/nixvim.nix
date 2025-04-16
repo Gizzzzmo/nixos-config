@@ -10,6 +10,15 @@
     Comment = {
       fg = "#ffc244";
     };
+    LineNr = {
+      fg = "#ccddff";
+    };
+    LineNrAbove = {
+      fg = "#7e7e7e";
+    };
+    LineNrBelow= {
+      fg = "#7e7e7e";
+    };
   };
 
   opts = {
