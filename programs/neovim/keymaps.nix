@@ -1,6 +1,12 @@
 [
   {
     mode = "n";
+    key = "K";
+    action = "i<cr><Esc>";
+  }
+
+  {
+    mode = "n";
     key = "<leader>fp";
     action = "<cmd>lua require('prox-telescope').proximity_files({})<cr>";
   }
