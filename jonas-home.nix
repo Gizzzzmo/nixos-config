@@ -45,12 +45,15 @@
       cmus
       wl-clipboard
       wl-clipboard-x11
-      python3
+      python313
+      python313Packages.ipython
+      python313Packages.ptpython
       fishPlugins.bass
       fishPlugins.colored-man-pages
       eza
       tree
       ripgrep
+      ast-grep
       htop
       unzip
       zip
@@ -61,40 +64,41 @@
       then [
         wslu
       ]
-      else with pkgs; [
-        # texpresso
-        kitty
-        alacritty
-        pavucontrol
-        vscode
-        eog
-        obs-studio
-        obsidian
-        waybar
-        firefox
-        vlc
-        wofi
-        discord
-        qbittorrent
-        grim
-        slurp
-        foliate
-        zathura
-        # # Adds the 'hello' command to your environment. It prints a friendly
-        # # "Hello, world!" when run.
-        # pkgs.hello
+      else
+        with pkgs; [
+          # texpresso
+          kitty
+          alacritty
+          pavucontrol
+          vscode
+          eog
+          obs-studio
+          obsidian
+          waybar
+          firefox
+          vlc
+          wofi
+          discord
+          qbittorrent
+          grim
+          slurp
+          foliate
+          zathura
+          # # Adds the 'hello' command to your environment. It prints a friendly
+          # # "Hello, world!" when run.
+          # pkgs.hello
 
-        # # It is sometimes useful to fine-tune packages, for example, by applying
-        # # overrides. You can do that directly here, just don't forget the
-        # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-        # # fonts?
-        # # You can also create simple shell scripts directly inside your
-        # # configuration. For example, this adds a command 'my-hello' to your
-        # # environment:
-        # (pkgs.writeShellScriptBin "my-hello" ''
-        #   echo "Hello, ${config.home.username}!"
-        # '')
-      ]
+          # # It is sometimes useful to fine-tune packages, for example, by applying
+          # # overrides. You can do that directly here, just don't forget the
+          # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+          # # fonts?
+          # # You can also create simple shell scripts directly inside your
+          # # configuration. For example, this adds a command 'my-hello' to your
+          # # environment:
+          # (pkgs.writeShellScriptBin "my-hello" ''
+          #   echo "Hello, ${config.home.username}!"
+          # '')
+        ]
     );
 
   nixpkgs.config.allowUnfreePredicate = pkg: true;

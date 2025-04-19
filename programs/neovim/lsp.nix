@@ -62,6 +62,10 @@
     #   package = pkgs.cmake-language-server;
     # };
 
+    ast_grep = {
+      enable = true;
+    };
+
     basedpyright = {
       enable = true;
     };
