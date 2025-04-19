@@ -16,7 +16,7 @@
     LineNrAbove = {
       fg = "#7e7e7e";
     };
-    LineNrBelow= {
+    LineNrBelow = {
       fg = "#7e7e7e";
     };
   };
@@ -69,6 +69,7 @@
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
 
+  plugins.avante.enable = true;
   plugins.copilot-chat.enable = true;
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
