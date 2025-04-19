@@ -1,5 +1,17 @@
 [
   {
+    mode = "i";
+    key = "<S-Tab>";
+    action = "<cmd>lua if vim.snippet.active() then vim.snippet.jump(-1) end<cr>";
+  }
+
+  {
+    mode = "i";
+    key = "<Tab>";
+    action = "<cmd>lua if vim.snippet.active() then vim.snippet.jump(1) else vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n') end<cr>";
+  }
+
+  {
     mode = "n";
     key = "K";
     action = "i<cr><Esc>";
