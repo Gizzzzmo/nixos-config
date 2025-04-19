@@ -84,4 +84,7 @@
   # plugins.texpresso = {
   #   enable = !standalone;
   # };
+  dependencies = {
+    git.enable = true;
+  };
 }

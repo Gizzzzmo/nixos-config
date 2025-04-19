@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   enable = true;
-  gitPackage = pkgs.git;
   package = pkgs.vimPlugins.lualine-nvim;
   settings = {
     options.component_separators = "│";
