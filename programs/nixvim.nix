@@ -31,6 +31,7 @@
     signcolumn = "number";
     conceallevel = 1;
     pumheight = 7;
+    tabstop = 4;
   };
 
   globals.mapleader = ",";

@@ -37,13 +37,16 @@
 
     rust_analyzer = {
       enable = true;
+      package = null;
       installCargo = false;
       installRustc = false;
     };
 
     neocmake = {
       enable = true;
+      package = null;
       extraOptions = {
+        capabilities.textDocument.completion.completionItem.snippetSupport = false;
         init_options = {
           format = {
             enable = false;
@@ -59,9 +62,8 @@
     #   package = pkgs.cmake-language-server;
     # };
 
-    pyright = {
+    basedpyright = {
       enable = true;
-      package = pkgs.pyright;
     };
 
     typos_lsp = {
@@ -74,10 +76,12 @@
 
     tinymist = {
       enable = true;
+      package = null;
     };
 
     zls = {
       enable = true;
+      package = null;
     };
 
     nixd = {
@@ -102,6 +106,11 @@
 
     jsonls = {
       enable = true;
+    };
+
+    gopls = {
+      enable = true;
+      package = null;
     };
   };
 
