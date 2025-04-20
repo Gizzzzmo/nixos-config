@@ -69,7 +69,7 @@
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
 
-  plugins.avante.enable = true;
+  plugins.avante = (import ./neovim/avante.nix) home_inputs;
   plugins.copilot-chat.enable = true;
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
