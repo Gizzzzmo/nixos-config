@@ -13,6 +13,6 @@
         dismiss = "<M-x>";
       };
     };
-    panel.enabled = true;
+    panel.enabled = false;
   };
 }

@@ -30,6 +30,9 @@
         ssh-add | true
       end
     end
+    if test -f $HOME/.config/api-keys.sh
+      bass source $HOME/.config/api-keys.sh
+    end
   '';
 
   plugins = with pkgs.fishPlugins; [
