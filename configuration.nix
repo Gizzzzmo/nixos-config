@@ -48,6 +48,8 @@
     useXkbConfig = true; # use xkb.options in tty.
   };
 
+  services.cron.enable = true;
+  services.atd.enable = true;
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.displayManager.sddm = {
@@ -138,6 +140,8 @@
     gnupg
     pinentry-rofi
     pinentry
+    at
+    cron
   ];
 
   environment = {
