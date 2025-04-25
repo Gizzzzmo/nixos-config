@@ -1,4 +1,18 @@
 [
+  # Refactoring
+  {
+    mode = "x";
+    key = "<leader>ev";
+    action = "<cmd>Refactor extract_var<cr>";
+  }
+
+  {
+    mode = "x";
+    key = "<leader>ef";
+    action = "<cmd>Refactor extract<cr>";
+  }
+
+  # Ccc
   {
     mode = "n";
     key = "<leader>cc";
@@ -10,7 +24,8 @@
     key = "<leader>cp";
     action = "<cmd>CccPick<cr>";
   }
-
+  
+  # Snippets
   {
     mode = "i";
     key = "<S-Tab>";
@@ -23,70 +38,18 @@
     action = "<cmd>lua if vim.snippet.active() then vim.snippet.jump(1) else vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n') end<cr>";
   }
 
+  # General Movements
   {
     mode = "n";
     key = "K";
     action = "a<cr><Esc>k$";
   }
 
+  # Telescope
   {
     mode = "n";
     key = "<leader>fp";
     action = "<cmd>lua require('prox-telescope').proximity_files({})<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>r";
-    action = "<cmd>lua=vim.lsp.buf.rename()<cr>";
-  }
-
-  {
-    mode = [
-      "n"
-      "i"
-    ];
-    key = "<M-K>";
-    action = "<cmd>res +1<cr>";
-  }
-
-  {
-    mode = [
-      "n"
-      "i"
-    ];
-    key = "<M-J>";
-    action = "<cmd>res -1<cr>";
-  }
-
-  {
-    mode = [
-      "n"
-      "i"
-    ];
-    key = "<M-H>";
-    action = "<cmd>vertical:res -1<cr>";
-  }
-
-  {
-    mode = [
-      "n"
-      "i"
-    ];
-    key = "<M-L>";
-    action = "<cmd>vertical:res +1<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>at";
-    action = "<cmd>AerialToggle left<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>zz";
-    action = "<cmd>ZenMode<cr>";
   }
 
   {
@@ -97,65 +60,8 @@
 
   {
     mode = "n";
-    key = "<leader>od";
-    action = "<cmd>ObsidianToday<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>on";
-    action = "<cmd>ObsidianNew<cr>";
-  }
-
-  {
-    mode = [
-      "n"
-      "i"
-    ];
-    key = "<C-r>";
-    action = "<cmd>Explore<cr>";
-  }
-
-  {
-    mode = [
-      "n"
-      "i"
-    ];
-    key = "<M-h>";
-    options.silent = false;
-    action = "<cmd>lua vim.lsp.buf.hover()<cr>";
-  }
-
-  {
-    mode = "n";
     key = "<leader>lf";
     action = "<cmd>lua=vim.lsp.buf.code_action({filter=function(a) return a.isPreferred end, apply=true})<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>ld";
-    action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
-  }
-
-  {
-    mode = [
-      "n"
-      "i"
-    ];
-    key = "<C-M-s>";
-    options.silent = false;
-    action = "<cmd>noautocmd write<cr><esc>";
-  }
-
-  {
-    mode = [
-      "i"
-      "n"
-    ];
-    key = "<C-s>";
-    options.silent = false;
-    action = "<cmd>write<cr><esc>";
   }
 
   {
@@ -177,18 +83,6 @@
     key = "<leader>fg";
     options.silent = false;
     action = "<cmd>Telescope live_grep<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>fn";
-    action = "<cmd>ObsidianSearch<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>ft";
-    action = "<cmd>ObsidianTags<cr>";
   }
 
   {
@@ -234,5 +128,134 @@
     key = "gr";
     options.silent = false;
     action = "<cmd>Telescope lsp_references<cr>";
+  }
+
+  # LSP stuff
+  {
+    mode = "n";
+    key = "<leader>r";
+    action = "<cmd>lua=vim.lsp.buf.rename()<cr>";
+  }
+
+  {
+    mode = [
+      "n"
+      "i"
+    ];
+    key = "<M-h>";
+    options.silent = false;
+    action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+  }
+
+  # Window stuff
+  {
+    mode = [
+      "n"
+      "i"
+    ];
+    key = "<M-K>";
+    action = "<cmd>res +1<cr>";
+  }
+
+  {
+    mode = [
+      "n"
+      "i"
+    ];
+    key = "<M-J>";
+    action = "<cmd>res -1<cr>";
+  }
+
+  {
+    mode = [
+      "n"
+      "i"
+    ];
+    key = "<M-H>";
+    action = "<cmd>vertical:res -1<cr>";
+  }
+
+  {
+    mode = [
+      "n"
+      "i"
+    ];
+    key = "<M-L>";
+    action = "<cmd>vertical:res +1<cr>";
+  }
+
+  # Aerial
+  {
+    mode = "n";
+    key = "<leader>at";
+    action = "<cmd>AerialToggle left<cr>";
+  }
+
+  # Zen mode
+  {
+    mode = "n";
+    key = "<leader>zz";
+    action = "<cmd>ZenMode<cr>";
+  }
+
+  # Obsidian
+  {
+    mode = "n";
+    key = "<leader>od";
+    action = "<cmd>ObsidianToday<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>on";
+    action = "<cmd>ObsidianNew<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>fn";
+    action = "<cmd>ObsidianSearch<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>ft";
+    action = "<cmd>ObsidianTags<cr>";
+  }
+
+  # Misc
+  {
+    mode = [
+      "n"
+      "i"
+    ];
+    key = "<C-r>";
+    action = "<cmd>Explore<cr>";
+  }
+
+  {
+    mode = [
+      "n"
+      "i"
+    ];
+    key = "<C-M-s>";
+    options.silent = false;
+    action = "<cmd>noautocmd write<cr><esc>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>ld";
+    action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
+  }
+
+  {
+    mode = [
+      "i"
+      "n"
+    ];
+    key = "<C-s>";
+    options.silent = false;
+    action = "<cmd>write<cr><esc>";
   }
 ]
