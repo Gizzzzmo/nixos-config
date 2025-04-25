@@ -26,7 +26,7 @@
   {
     mode = "n";
     key = "K";
-    action = "i<cr><Esc>";
+    action = "a<cr><Esc>k$";
   }
 
   {
