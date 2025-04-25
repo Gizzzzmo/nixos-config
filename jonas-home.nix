@@ -63,6 +63,7 @@
       if standalone
       then [
         wslu
+        neocmakelsp
       ]
       else
         with pkgs; [
