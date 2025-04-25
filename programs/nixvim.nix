@@ -74,6 +74,8 @@
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
   plugins.nvim-surround.enable = true;
+  plugins.ccc.enable = true;
+  plugins.refactoring.enable = true;
 
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb

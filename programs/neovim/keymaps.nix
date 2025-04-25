@@ -1,5 +1,17 @@
 [
   {
+    mode = "n";
+    key = "<leader>cc";
+    action = "<cmd>CccConvert<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>cp";
+    action = "<cmd>CccPick<cr>";
+  }
+
+  {
     mode = "i";
     key = "<S-Tab>";
     action = "<cmd>lua if vim.snippet.active() then vim.snippet.jump(-1) end<cr>";
