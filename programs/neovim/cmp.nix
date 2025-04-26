@@ -54,7 +54,7 @@
           end
           return vim_item
         end
-      ''; # todo: abbreviate menu and kind
+      '';
     };
 
     experimental = {
