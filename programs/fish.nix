@@ -7,11 +7,14 @@
     "..." = "cd ../..";
     ".." = "cd ..";
     "ll" = "eza -l --git";
-    "lls" = "eza";
     "lla" = "eza -la --git";
     "la" = "eza -a";
     "lt" = "eza -s modified -l";
     "lta" = "eza -s modified -la --git";
+  };
+
+  shellAbbrs = {
+    "ls" = "eza";
   };
 
   shellInit = ''
