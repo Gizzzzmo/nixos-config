@@ -66,12 +66,6 @@
 
   {
     mode = "n";
-    key = "<leader>lf";
-    action = "<cmd>lua=vim.lsp.buf.code_action({filter=function(a) return a.isPreferred end, apply=true})<cr>";
-  }
-
-  {
-    mode = "n";
     key = "<leader>ff";
     options.silent = false;
     action = "<cmd>lua=require('telescope.builtin').find_files({no_ignore=true})<cr>";
@@ -141,6 +135,12 @@
     mode = "n";
     key = "<leader>r";
     action = "<cmd>lua=vim.lsp.buf.rename()<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>lf";
+    action = "<cmd>lua=vim.lsp.buf.code_action({filter=function(a) return a.isPreferred end, apply=true})<cr>";
   }
 
   {
