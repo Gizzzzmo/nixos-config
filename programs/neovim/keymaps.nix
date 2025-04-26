@@ -24,18 +24,24 @@
     key = "<leader>cp";
     action = "<cmd>CccPick<cr>";
   }
-  
+
   # Snippets
   {
-    mode = "i";
-    key = "<S-Tab>";
-    action = "<cmd>lua if vim.snippet.active() then vim.snippet.jump(-1) end<cr>";
+    mode = ["i" "x" "n" "s"];
+    key = "<C-h>";
+    action = "<cmd>lua require('luasnip').jump(-1)<cr>";
   }
 
   {
-    mode = "i";
+    mode = ["i" "x" "n" "s"];
+    key = "<C-l>";
+    action = "<cmd>lua require('luasnip').jump(1)<cr>";
+  }
+
+  {
+    mode = ["i" "x"];
     key = "<Tab>";
-    action = "<cmd>lua if vim.snippet.active() then vim.snippet.jump(1) else vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n') end<cr>";
+    action = "<cmd>lua if require('luasnip').choice_active() then require('luasnip').change_choice(1) else vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n') end<cr>";
   }
 
   # General Movements

@@ -41,6 +41,11 @@
     source = ./neovim/prox-telescope.lua;
   };
 
+  extraFiles."snippets/" = {
+    enable = true;
+    source = ./neovim/snippets;
+  };
+
   diagnostics = {
     float = {
       border = "rounded";
@@ -65,11 +70,13 @@
   plugins.copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
   plugins.lsp = (import ./neovim/lsp.nix) home_inputs;
   plugins.cmp = (import ./neovim/cmp.nix) home_inputs;
+  plugins.luasnip = (import ./neovim/luasnip.nix) home_inputs;
   plugins.telescope = (import ./neovim/telescope.nix) home_inputs;
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
-
   plugins.avante = (import ./neovim/avante.nix) home_inputs;
+
+  plugins.cmp_luasnip.enable = true;
   plugins.copilot-chat.enable = true;
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
