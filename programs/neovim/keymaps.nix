@@ -3,13 +3,13 @@
   {
     mode = "x";
     key = "<leader>ev";
-    action = "<cmd>Refactor extract_var<cr>";
+    action = "<cmd>Refactor extract_var<cr>i";
   }
 
   {
     mode = "x";
     key = "<leader>ef";
-    action = "<cmd>Refactor extract<cr>";
+    action = "<cmd>Refactor extract<cr>i";
   }
 
   # Ccc
