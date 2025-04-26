@@ -121,7 +121,7 @@
   keymaps = {
     diagnostic = {
       "<leader>j" = "goto_next";
-      "<leader>k" = "goto_prev";
+      "<leader>h" = "goto_prev";
     };
     lspBuf = {
       gd = "definition";
