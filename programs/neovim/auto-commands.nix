@@ -1,10 +1,5 @@
 [
-  {
-    command = ":setlocal commentstring=//\\ %s";
-    event = "FileType";
-    pattern = "c,cpp";
-  }
-
+  # codeformatting might replace these with none-ls at some point
   {
     command = ":lua=vim.lsp.buf.format()";
     event = "BufWritePre";
@@ -52,12 +47,7 @@
     pattern = ["*.py"];
   }
 
-  {
-    command = ":setlocal tabstop=2 shiftwidth=2 expandtab";
-    event = "BufEnter";
-    pattern = "*.nix";
-  }
-
+  # obsidian workspaces
   {
     command = ":ObsidianWorkspace siemens-notes";
     event = "BufEnter";
@@ -70,9 +60,31 @@
     pattern = "/home/jonas/gitprjs/personal/blog/**";
   }
 
+  # nix tab settings
+  {
+    command = ":setlocal tabstop=2 shiftwidth=2 expandtab";
+    event = "BufEnter";
+    pattern = "*.nix";
+  }
+
+  # markdown line wrapping
   {
     command = ":setlocal linebreak breakindent";
     event = "BufEnter";
     pattern = "*.md";
+  }
+
+  # C, C++ commentstring
+  {
+    command = ":setlocal commentstring=//\\ %s";
+    event = "FileType";
+    pattern = "c,cpp";
+  }
+
+  # when opening any buffer go to last cursor position
+  {
+    command = "silent! normal! g`\"zv";
+    event = "BufReadPost";
+    pattern = "*";
   }
 ]
