@@ -13,6 +13,7 @@
   settings.defaults = {
     file_ignore_patterns = [
       "^.git/.*"
+      "^.jj/.*"
       ".cache/.*"
       ".venv/.*"
     ];
