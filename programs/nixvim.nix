@@ -34,7 +34,7 @@
     tabstop = 4;
   };
 
-  globals.mapleader = ",";
+  globals.mapleader = " ";
 
   extraFiles."lua/prox-telescope.lua" = {
     enable = true;
