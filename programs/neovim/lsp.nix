@@ -75,7 +75,7 @@
     };
 
     ltex = {
-      enable = true;
+      enable = false;
     };
 
     tinymist = {
