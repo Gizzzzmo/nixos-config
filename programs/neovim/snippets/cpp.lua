@@ -56,5 +56,20 @@ return {
             i(2), t({"", ""}),
             t({"#endif /* "}), rep(1), t({" */", ""}), i(0)
         }
+    ),
+    s(
+        {
+            trig = "module;",
+            show_condition = empty_file,
+        },
+        {
+            t({"module;", "", ""}),
+            t({"export module "}), i(1), t({";", ""}),
+            i(2), t({"", ""}),
+            t({"export namespace "}), i(3), t({" {", "", ""}),
+            i(0),
+            t({"", "", "} /* export namespace "}), rep(3), t({" */", ""})
+        }
     )
+
 }
