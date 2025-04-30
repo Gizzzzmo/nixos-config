@@ -1,4 +1,10 @@
 [
+  {
+    command = "nnoremap <buffer> <C-c> i<C-c>";
+    event = "TermOpen";
+    pattern = "*";
+  }
+
   # codeformatting might replace these with none-ls at some point
   {
     command = ":lua=vim.lsp.buf.format()";
