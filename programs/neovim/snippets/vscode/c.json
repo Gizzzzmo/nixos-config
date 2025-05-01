@@ -1,0 +1,131 @@
+{
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for (${1:int i = 0}; $2; ${3:i++}) {",
+            "\t$4",
+            "}",
+            ""
+        ],
+        "description": "Code snippet for 'for' loop"
+    },
+    "while": {
+        "prefix": "while",
+        "body": [
+            "while ($1) {",
+            "\t$2",
+            "}",
+            ""
+        ],
+        "description": ""
+    },
+    "if": {
+        "prefix": "if",
+        "body": [
+            "if ($1) {",
+            "\t$2",
+            "}",
+            ""
+        ],
+        "description": "Code snippet for if statement"
+    },
+    "else": {
+        "prefix": "else",
+        "body": [
+            "else {",
+            "\t$1",
+            "}",
+            ""
+        ],
+        "description": "Code snippet for else statement"
+    },
+    "else if": {
+        "prefix": "else if",
+        "body": [
+            "else if ($1) {",
+            "\t$2",
+            "}",
+            ""
+        ],
+        "description": "Code snippet for else-if statement"
+    },
+    "typedef enum": {
+        "prefix": "typeenum",
+        "body": [
+            "typedef enum {",
+            "\t$2",
+            "} ${1:MyEnum};",
+            ""
+        ],
+        "description": "Code snippet for enum"
+    },
+    "#ifdef": {
+        "prefix": "#ifdef",
+        "body": [
+            "#ifdef ${1}",
+            "$2",
+            "#endif /* ${1} */",
+            ""
+        ],
+        "description": "Code snippet for #ifdef"
+    },
+    "#ifndef": {
+        "prefix": "#ifndef",
+        "body": [
+            "#ifndef ${1:NDEBUG}",
+            "$2",
+            "#endif /* $1 */",
+            ""
+        ],
+        "description": "Code snippet for #ifndef"
+    },
+    "#if": {
+        "prefix": "#if",
+        "body": [
+            "#if ${1:0}",
+            "$2",
+            "#endif /* $1 */",
+            ""
+        ],
+        "description": "Code snippet for #if"
+    },
+    "typedef struct": {
+        "prefix": "typestruct",
+        "body": [
+            "typedef struct {",
+            "\t$2",
+            "} ${1:MyStruct};",
+            ""
+        ],
+        "description": "Code snippet for struct"
+    },
+    "switch": {
+        "prefix": "switch",
+        "body": [
+            "switch (${1:switch_on}) {",
+            "default:",
+            "\tbreak;$2",
+            "}",
+            ""
+        ],
+        "description": "Code snippet for switch statement"
+    },
+    "typedef union": {
+        "prefix": "typeunion",
+        "body": [
+            "typedef union {",
+            "\t$2",
+            "} ${1:MyUnion};",
+            ""
+        ],
+        "description": "Code snippet for union"
+    },
+    "#def": {
+        "prefix": "#def",
+        "body": [
+            "#define $1 ($2) ",
+            ""
+        ],
+        "description": "Code snippet for #define \" \""
+    }
+}

@@ -16,9 +16,9 @@ return {
             t({"#pragma once", "#ifndef "}),
             i(1),
             t({"", "#define "}), rep(1),
-            t({"", "", "#ifdef __cpluscplus", "extern \"C\" {", "#endif", "", ""}),
+            t({"", "", "#ifdef __cplusplus", "extern \"C\" {", "#endif", "", ""}),
             i(0),
-            t({"", "", "#ifdef __cpluscplus", "}", "#endif"}),
+            t({"", "", "#ifdef __cplusplus", "}", "#endif"}),
             t({"", "", "#endif /* "}), rep(1), t(" include guard */")
         }
     ),
@@ -31,30 +31,6 @@ return {
             t({"#define "}), rep(1), t({"", "", ""}),
             i(0), t({"", "", ""}),
             t({"#endif /* "}), rep(1), t(" include guard */")
-        }
-    ),
-    s(
-        "#id",
-        {
-            t({"#ifdef "}), i(1), t({"", ""}),
-            i(2), t({"", ""}),
-            t({"#endif /* "}), rep(1), t({" */", ""}), i(0)
-        }
-    ),
-    s(
-        "#in",
-        {
-            t({"#ifndef "}), i(1), t({"", ""}),
-            i(2), t({"", ""}),
-            t({"#endif /* "}), rep(1), t({" */", ""}), i(0)
-        }
-    ),
-    s(
-        "#if",
-        {
-            t({"#if "}), i(1), t({"", ""}),
-            i(2), t({"", ""}),
-            t({"#endif /* "}), rep(1), t({" */", ""}), i(0)
         }
     ),
     s(

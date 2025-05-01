@@ -1,0 +1,15 @@
+{
+    "python main": {
+        "prefix": "if__name__",
+        "body": [
+            "def main():",
+            "\t${2:pass}",
+            "",
+            "if __name__ == \"__main__\":",
+            "\t$1",
+            "\tmain()",
+            ""
+        ],
+        "description": "Code snippet for python main program"
+    }
+} 

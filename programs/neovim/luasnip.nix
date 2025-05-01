@@ -2,7 +2,12 @@
   enable = true;
   fromLua = [
     {
-      paths = "~/.config/nvim/snippets";
+      paths = ./snippets/lua;
+    }
+  ];
+  fromVscode = [
+    {
+      paths = [./snippets/vscode "~/.config/snippets/vscode"];
     }
   ];
   settings = {

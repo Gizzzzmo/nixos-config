@@ -1,0 +1,26 @@
+{
+    "python main argparse": {
+        "prefix": "if__name__argparse",
+        "body": [
+            "#!/usr/bin/env python3",
+            "",
+            "# $1",
+            "description = \"\"\"",
+            "$2",
+            "\"\"\"",
+            "",
+            "from argparse import ArgumentParser",
+            "",
+            "def main($5):",
+            "\t${6:pass}",
+            "",
+            "if __name__ == \"__main__\":",
+            "\tparser = ArgumentParser(prog=\"${1}\", description=description)",
+            "\t$3",
+            "\targs = parser.parse_args()",
+            "\tmain($4)",
+            ""
+        ],
+        "description": "Code snippet for python cli program"
+    }
+}

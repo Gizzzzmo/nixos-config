@@ -41,10 +41,10 @@
     source = ./neovim/prox-telescope.lua;
   };
 
-  extraFiles."snippets/" = {
-    enable = true;
-    source = ./neovim/snippets;
-  };
+  # extraFiles."snippets/" = {
+  #   enable = true;
+  #   source = ./neovim/snippets;
+  # };
 
   diagnostics = {
     float = {
