@@ -9,52 +9,44 @@
       # width= 1366; // Waybar width
       # Choose the order of the modules
 
-      modules-left = [
-        "sway/workspaces"
-        "sway/mode"
-        "custom/spotify"
-      ];
-      modules-center = ["sway/window"];
+      modules-left = ["battery" "network"];
+      modules-center = ["hyprland/workspaces"];
       modules-right = [
-        "pulseaudio"
-        "network"
+        "tray"
         "cpu"
         "memory"
-        "battery"
-        "tray"
+        "pulseaudio"
         "clock"
       ];
-      "sway/workspaces" = {
+      "hyprland/workspaces" = {
         disable-scroll = true;
         all-outputs = false;
         format = "{icon}";
         format-icons = {
-          "1:web" = "";
-          "2:code" = "";
-          "3:term" = "";
-          "4:work" = "";
-          "5:music" = "";
-          "6:docs" = "";
-          urgent = "";
-          focused = "";
-          default = "";
+          "1" = "";
+          "2" = "";
+          "3" = "3";
+          "4" = "4";
+          "5" = "5";
+          "6" = "6";
+          "7" = "7";
+          "8" = "8";
+          "9" = "9";
+          default = "...";
         };
       };
-      "sway/mode" = {
-        format = "<span style=\italic\>{}</span>";
-      };
       tray = {
-        # icon-size= 21;
+        icon-size = 16;
         spacing = 10;
       };
       clock = {
         format-alt = "{=%Y-%m-%d}";
       };
       cpu = {
-        format = "{usage}% ";
+        format = "| {usage}% ";
       };
       memory = {
-        format = "{}% ";
+        format = "| {}%   |";
       };
       battery = {
         bat = "BAT0";
@@ -63,7 +55,7 @@
           warning = 30;
           critical = 15;
         };
-        format = "{capacity}% {icon}";
+        format = "{capacity}% {icon}  |";
         # format-good = ; // An empty format will hide the module
         # format-full = ;
         format-icons = [
@@ -83,9 +75,9 @@
       };
       pulseaudio = {
         #scroll-step = 1;
-        format = "{volume}% {icon}";
-        format-bluetooth = "{volume}% {icon}";
-        format-muted = "";
+        format = "{volume}% {icon}  |";
+        format-bluetooth = "{volume}% {icon} |";
+        format-muted = "      |";
         format-icons = {
           headphones = "";
           handsfree = "";
@@ -100,21 +92,21 @@
         };
         on-click = "pavucontrol";
       };
-      "custom/spotify" = {
-        format = " {}";
-        max-length = 40;
-        interval = 30; # Remove this if your script is endless and write in loop
-        exec = pkgs.writeShellScript "mediaplayer" ''
-          player_status=$(playerctl status 2> /dev/null)
-          if [ "$player_status" = "Playing" ]; then
-              echo "$(playerctl metadata artist) - $(playerctl metadata title)"
-          elif [ "$player_status" = "Paused" ]; then
-              echo " $(playerctl metadata artist) - $(playerctl metadata title)"
-          fi
-        '';
-        #"$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
-        exec-if = "pgrep spotify";
-      };
+      # "custom/spotify" = {
+      #   format = " {}";
+      #   max-length = 40;
+      #   interval = 30; # Remove this if your script is endless and write in loop
+      #   exec = pkgs.writeShellScript "mediaplayer" ''
+      #     player_status=$(playerctl status 2> /dev/null)
+      #     if [ "$player_status" = "Playing" ]; then
+      #         echo "$(playerctl metadata artist) - $(playerctl metadata title)"
+      #     elif [ "$player_status" = "Paused" ]; then
+      #         echo " $(playerctl metadata artist) - $(playerctl metadata title)"
+      #     fi
+      #   '';
+      #   #"$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
+      #   exec-if = "pgrep spotify";
+      # };
     }
   ];
   style = ''
@@ -128,7 +120,7 @@
 
     window#waybar {
       background: transparent;
-      color: white;
+      color: #eeeeee;
     }
 
     #window {
@@ -144,18 +136,22 @@
     #workspaces button {
       padding: 0 5px;
       background: transparent;
-      color: white;
+      color: #aaaaaa;
       border-top: 2px solid transparent;
     }
 
-    #workspaces button.focused {
-      color: #c9545d;
-      border-top: 2px solid #c9545d;
+    #workspaces button.active {
+      color: white;
+      border-top: 2px solid #d77786;
     }
 
     #mode {
       background: #64727D;
       border-bottom: 3px solid white;
+    }
+
+    #battery, #network {
+      color: #cccccc;
     }
 
     #clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
@@ -187,7 +183,7 @@
     #battery.warning:not(.charging) {
       color: white;
       animation-name: blink;
-      animation-duration: 0.5s;
+      animation-duration: 0.75s;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
       animation-direction: alternate;
