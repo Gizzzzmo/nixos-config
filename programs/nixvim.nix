@@ -84,6 +84,15 @@
   plugins.ccc.enable = true;
   plugins.refactoring.enable = true;
 
+  plugins.oil = {
+    enable = true;
+    # settings = {
+    #   win_optinos = {
+    #     signcolumn = "yes:2";
+    #   };
+    # };
+  };
+
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb
     advanced-git-search-nvim

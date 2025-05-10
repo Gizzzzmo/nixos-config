@@ -236,7 +236,7 @@
       "i"
     ];
     key = "<C-r>";
-    action = "<cmd>Explore<cr>";
+    action = "<cmd>Oil<cr>";
   }
 
   {
