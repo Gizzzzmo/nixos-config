@@ -1,14 +1,8 @@
 {...}: {
   settings = {
     general = {
-      disable_loading_bar = false;
       grace = 0;
       hide_cursor = false;
-      no_fade_in = true;
-    };
-
-    auth = {
-      enabled = true;
     };
 
     animations = {
@@ -63,16 +57,17 @@
         halign = "right";
         valign = "top";
       }
-      {
-        monitor = "";
-        text = "$LAYOUT[en,de]";
-        font_size = 18;
-        onclick = "hyprctl switchxkblayout all next";
-
-        position = "250, -20";
-        halign = "center";
-        valign = "center";
-      }
+      # TODO: will be implemented in next hyprlock release
+      # {
+      #   monitor = "";
+      #   text = "$LAYOUT[en,de]";
+      #   font_size = 18;
+      #   onclick = "hyprctl switchxkblayout all next";
+      #
+      #   position = "250, -20";
+      #   halign = "center";
+      #   valign = "center";
+      # }
     ];
   };
 }
