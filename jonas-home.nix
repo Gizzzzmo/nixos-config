@@ -1,5 +1,5 @@
 {
-  #000000#000000  nixpkgs,
+  nixpkgs,
   config,
   pkgs,
   inputs,
