@@ -12,5 +12,9 @@
     };
 
     hints.enabled = false;
+    provider =
+      if standalone
+      then "copilot"
+      else "claude";
   };
 }
