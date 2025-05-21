@@ -240,6 +240,12 @@
   }
 
   {
+    mode = "i";
+    key = "<C-]>";
+    action = "{<cr>}<esc>O";
+  }
+
+  {
     mode = [
       "n"
       "i"
