@@ -68,6 +68,7 @@
       else
         with pkgs; [
           # texpresso
+          webcamoid
           nemo
           kitty
           alacritty
