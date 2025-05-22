@@ -46,7 +46,7 @@
   #   source = ./neovim/snippets;
   # };
 
-  diagnostics = {
+  diagnostic.settings = {
     float = {
       border = "rounded";
     };
