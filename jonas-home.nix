@@ -68,6 +68,7 @@
       else
         with pkgs; [
           # texpresso
+          android-file-transfer
           webcamoid
           nemo
           kitty
