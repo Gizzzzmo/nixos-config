@@ -11,10 +11,12 @@
     "la" = "eza -a";
     "lt" = "eza -s modified -l";
     "lta" = "eza -s modified -la --git";
+    "cat" = "bat";
   };
 
   shellAbbrs = {
     "ls" = "eza";
+    "curl" = "xh";
   };
 
   shellInit = ''

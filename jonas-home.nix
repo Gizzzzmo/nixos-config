@@ -27,13 +27,17 @@
   # environment.
   home.packages = with pkgs;
     [
+      hyperfine
       inputs.muxxies.defaultPackage.${pkgs.system}
+      xh
       alejandra
       ruff
       shfmt
       xdg-utils
       lsof
+      usbutils
       fd
+      # presenterm
       proximity-sort
       nodejs
       ncdu
@@ -53,7 +57,9 @@
       eza
       tree
       ripgrep
+      ripgrep-all
       ast-grep
+      wiki-tui
       htop
       unzip
       zip
