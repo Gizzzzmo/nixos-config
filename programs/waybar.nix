@@ -12,15 +12,15 @@
       modules-left = ["clock" "battery" "network"];
       modules-center = ["hyprland/workspaces"];
       modules-right = [
+        "tray"
         "custom/cmus"
         "pulseaudio"
-        "tray"
         "hyprland/language"
         "cpu"
         "memory"
       ];
       "custom/cmus" = {
-        format = "♪ {text} |";
+        format = "| ♪ {text} |";
         # "max-length"= 15;
         interval = 10;
         exec = ''cmus-remote -C "format_print '%t - %a'" | sed 's/\(.\{15\}\).*/\1.../' ''; # artist - title
