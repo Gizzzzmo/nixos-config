@@ -9,18 +9,28 @@
       # width= 1366; // Waybar width
       # Choose the order of the modules
 
-      modules-left = ["battery" "network"];
+      modules-left = ["clock" "battery" "network"];
       modules-center = ["hyprland/workspaces"];
       modules-right = [
+        "custom/cmus"
+        "pulseaudio"
         "tray"
         "hyprland/language"
         "cpu"
         "memory"
-        "pulseaudio"
-        "clock"
       ];
+      "custom/cmus" = {
+        format = "♪ {text} |";
+        # "max-length"= 15;
+        interval = 10;
+        exec = ''cmus-remote -C "format_print '%t - %a'" | sed 's/\(.\{15\}\).*/\1.../' ''; # artist - title
+        exec-if = "pgrep cmus";
+        on-click = "cmus-remote -u"; # toggle pause
+        on-click-right = "alacritty --command tmux at -t cmux";
+        escape = true; # handle markup entities
+      };
       "hyprland/language" = {
-        format = "| {} ⌨ ";
+        format = " {} ⌨ ";
         format-de = "DE";
         format-us = "US";
         format-en = "US";
@@ -49,7 +59,7 @@
         spacing = 10;
       };
       clock = {
-        format = "{:%H:%M}  ";
+        format = "{:%H:%M}   |";
         format-alt = "{:%A, %B %d, %Y (%R)}";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
         calendar = {
@@ -79,7 +89,7 @@
         on-click = "alacritty --command htop";
       };
       memory = {
-        format = "| {}%  |";
+        format = "| {}%  ";
       };
       battery = {
         bat = "BAT0";
@@ -183,7 +193,7 @@
       border-bottom: 3px solid white;
     }
 
-    #battery, #network {
+    #battery, #network, #clock {
       color: #cccccc;
     }
 
