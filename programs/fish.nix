@@ -30,6 +30,7 @@
       bind --mode insert ctrl-p up-or-search
       bind --mode insert ctrl-n down-or-search
       set -x GPG_TTY (tty)
+      set -x MANPAGER "nvim +Man!"
       if test -z $SSH_AGENT_PID
         bass eval (ssh-agent -s)
         ssh-add | true
@@ -44,10 +45,6 @@
     {
       name = "bass";
       src = bass;
-    }
-    {
-      name = "colored-man-pages";
-      src = colored-man-pages;
     }
   ];
 }
