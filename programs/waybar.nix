@@ -86,7 +86,7 @@
       };
       cpu = {
         format = "| {usage}% ";
-        on-click = "alacritty --command htop";
+        on-click = "alacritty --command btop";
       };
       memory = {
         format = "| {}%  ";

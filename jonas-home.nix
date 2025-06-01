@@ -45,15 +45,12 @@
       keepassxc
       nix-output-monitor
       nvd
-      openvpn
-      cmus
       wl-clipboard
       wl-clipboard-x11
       python313
       python313Packages.ipython
       python313Packages.ptpython
       fishPlugins.bass
-      fishPlugins.colored-man-pages
       eza
       tree
       ripgrep
@@ -73,6 +70,10 @@
       ]
       else
         with pkgs; [
+          cmus
+          openvpn
+          btop
+          digikam
           # texpresso
           android-file-transfer
           webcamoid
@@ -217,6 +218,7 @@
       if standalone
       then "wslview"
       else "firefox";
+    MANPAGER = "nvim +Man!";
   };
 
   # Let Home Manager install and manage itself.
