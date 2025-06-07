@@ -43,7 +43,6 @@
       ncdu
       nh
       keepassxc
-      nix-output-monitor
       nvd
       wl-clipboard
       wl-clipboard-x11
@@ -61,6 +60,16 @@
       unzip
       zip
       glab
+      (pkgs.nom.overrideAttrs (oldAttrs: {
+        pname = "nix-output-monitor-cli";
+        # Optionally, you can rename the binary
+        postInstall =
+          (oldAttrs.postInstall or "")
+          + ''
+            mv $out/bin/nom $out/bin/rss
+          '';
+      }))
+      nix-output-monitor
     ]
     ++ (
       if standalone
@@ -70,6 +79,7 @@
       ]
       else
         with pkgs; [
+          qutebrowser
           cmus
           openvpn
           btop
