@@ -47,8 +47,8 @@ if [ -d "./build" ]; then
 
 fi
 
-if test -f build/CMakeProfiles.json; then
-    jinja -D git_branch "$rev" build/CMakeProfiles.json >CMakeProfiles.json
+if test -f build/CMakeUserProfiles.json; then
+    jinja -D git_branch "$rev" build/CMakeUserProfiles.json > CMakeUserProfiles.json
 fi
 
 git submodule update --recursive
