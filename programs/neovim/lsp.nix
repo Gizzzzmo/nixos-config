@@ -35,6 +35,19 @@
         else ["clangd"];
     };
 
+    # Will wait for mdx_analyzer to package to become available in nixpkgs
+    # mdx_analyzer = {
+    #   enable = true;
+    #   package = null;
+    #   cmd = ["/home/jonas/npmpkgs/node_modules/.bin/mdx-language-server" "--stdio"];
+    #   filetypes = ["markdown"];
+    # };
+
+    mojo = {
+      enable = true;
+      package = null;
+    };
+
     rust_analyzer = {
       enable = true;
       package = null;

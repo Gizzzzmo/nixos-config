@@ -1,5 +1,10 @@
 [
   {
+    command = "setfiletype markdown";
+    event = ["BufRead" "BufNewFile"];
+    pattern = "*.mdx";
+  }
+  {
     command = "nnoremap <buffer> <C-c> i<C-c>";
     event = "TermOpen";
     pattern = "*";

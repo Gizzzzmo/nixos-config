@@ -54,6 +54,11 @@
   # Telescope
   {
     mode = "n";
+    key = "<leader>fa";
+    action = "<cmd>lua require('ast-grep')()<cr>";
+  }
+  {
+    mode = "n";
     key = "<leader>fp";
     action = "<cmd>lua require('prox-telescope').proximity_files({})<cr>";
   }

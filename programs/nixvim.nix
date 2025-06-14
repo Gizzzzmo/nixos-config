@@ -36,9 +36,15 @@
 
   globals.mapleader = " ";
 
-  extraFiles."lua/prox-telescope.lua" = {
-    enable = true;
-    source = ./neovim/prox-telescope.lua;
+  extraFiles = {
+    "lua/prox-telescope.lua" = {
+      enable = true;
+      source = ./neovim/prox-telescope.lua;
+    };
+    "lua/ast-grep.lua" = {
+      enable = true;
+      source = ./neovim/ast-grep.lua;
+    };
   };
 
   # extraFiles."snippets/" = {
@@ -76,6 +82,7 @@
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
   plugins.avante = (import ./neovim/avante.nix) home_inputs;
 
+  plugins.fzf-lua.enable = true;
   plugins.cmp_luasnip.enable = true;
   plugins.copilot-chat.enable = true;
   plugins.diffview.enable = true;
