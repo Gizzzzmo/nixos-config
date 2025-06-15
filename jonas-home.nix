@@ -79,7 +79,6 @@
       ]
       else
         with pkgs; [
-          qutebrowser
           cmus
           openvpn
           btop
@@ -130,6 +129,7 @@
   programs.nixvim = (import ./programs/nixvim.nix) home_inputs;
   programs.fish = (import ./programs/fish.nix) home_inputs;
   programs.bat = (import ./programs/bat.nix) home_inputs;
+  programs.qutebrowser = (import ./programs/qutebrowser.nix) home_inputs;
 
   programs.kitty =
     (import ./programs/kitty.nix) home_inputs
