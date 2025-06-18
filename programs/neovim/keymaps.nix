@@ -1,4 +1,45 @@
 [
+  {
+    mode = "i";
+    key = "<C-b>";
+    action.__raw = ''
+      function()
+        vim.api.nvim_put({"🤣"}, "c", true, true)
+
+        vim.fn.feedkeys('{{', 't')
+      end'';
+  }
+
+  {
+    mode = "i";
+    key = "<C-u>";
+    action.__raw = ''
+      function()
+        local luasnip = require("luasnip")
+        vim.api.nvim_put({"🤣"}, "c", true, true)
+
+        vim.fn.feedkeys('((', 't')
+      end'';
+  }
+
+  {
+    mode = "i";
+    key = "<C-]>";
+    action.__raw = ''
+      function()
+        local luasnip = require("luasnip")
+        vim.api.nvim_put({"🤣"}, "c", true, true)
+
+        vim.fn.feedkeys('[[', 't')
+        luasnip.expand()
+      end'';
+  }
+
+  {
+    mode = ["n" "i"];
+    key = "<M-U>";
+    action = "<cmd>redo<cr>";
+  }
   # toggle fold
   {
     mode = "n";
@@ -47,7 +88,15 @@
   {
     mode = ["i" "x"];
     key = "<Tab>";
-    action = "<cmd>lua if require('luasnip').choice_active() then require('luasnip').change_choice(1) else vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n') end<cr>";
+    action.__raw = ''
+      function()
+        if require('luasnip').choice_active() then 
+          require('luasnip').change_choice(1) 
+        else 
+          local keys = vim.api.nvim_replace_termcodes('<Tab>', true, false, true)
+          vim.fn.feedkeys(keys, 'n') 
+        end
+      end'';
   }
 
   # General Movements
@@ -61,7 +110,7 @@
   {
     mode = "n";
     key = "<leader>fa";
-    action = "<cmd>lua require('ast-grep')()<cr>";
+    action.__raw = "require('ast-grep')";
   }
   {
     mode = "n";
@@ -284,12 +333,6 @@
     ];
     key = "<C-r>";
     action = "<cmd>Oil<cr>";
-  }
-
-  {
-    mode = "i";
-    key = "<C-]>";
-    action = "{<cr>}<esc>O";
   }
 
   {

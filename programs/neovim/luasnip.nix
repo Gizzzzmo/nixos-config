@@ -1,5 +1,6 @@
 {...}: {
   enable = true;
+
   fromLua = [
     {
       paths = ./snippets/lua;
@@ -10,7 +11,9 @@
       paths = [./snippets/vscode "~/.config/snippets/vscode"];
     }
   ];
+
   settings = {
+    enable_autosnippets = true;
     exit_roots = true;
     update_events = [
       "TextChanged"
