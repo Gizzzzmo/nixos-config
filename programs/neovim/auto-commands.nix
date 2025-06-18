@@ -60,9 +60,10 @@
 
   # obsidian workspaces
   {
-    command = ":ObsidianWorkspace siemens-notes";
-    event = "BufEnter";
-    pattern = "/home/jonas/gitprjs/siemens/documentation/notes/**";
+    # command = ":lua if require('obsidian').Client.switch_workspace('siemens')";
+    callback.__raw = "require('obsidian-helper').switch_workspace_cwd";
+    event = ["VimEnter" "DirChanged"];
+    pattern = "*";
   }
 
   {

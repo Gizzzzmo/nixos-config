@@ -84,25 +84,25 @@
     new_notes_location = "current_dir";
 
     workspaces =
-      [
+      (
+        if standalone
+        then [
+          {
+            name = "siemens";
+            path = "~/gitprjs/siemens/documentation/notes/";
+          }
+        ]
+        else []
+      )
+      ++ [
         {
-          name = "main";
+          name = "notes";
           path = "~/notes/notes/";
         }
         {
           name = "blog";
           path = "~/gitprjs/personal/blog/content/";
         }
-      ]
-      ++ (
-        if standalone
-        then [
-          {
-            name = "siemens-notes";
-            path = "~/gitprjs/siemens/documentation/notes/";
-          }
-        ]
-        else []
-      );
+      ];
   };
 }

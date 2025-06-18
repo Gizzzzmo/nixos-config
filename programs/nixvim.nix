@@ -39,11 +39,15 @@
   extraFiles = {
     "lua/prox-telescope.lua" = {
       enable = true;
-      source = ./neovim/prox-telescope.lua;
+      source = ./neovim/lua/prox-telescope.lua;
     };
     "lua/ast-grep.lua" = {
       enable = true;
-      source = ./neovim/ast-grep.lua;
+      source = ./neovim/lua/ast-grep.lua;
+    };
+    "lua/obsidian-helper.lua" = {
+      enable = true;
+      source = ./neovim/lua/obsidian-helper.lua;
     };
   };
 

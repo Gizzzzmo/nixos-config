@@ -212,6 +212,24 @@
   # Obsidian
   {
     mode = "n";
+    key = "<leader>or";
+    action = "<cmd>ObsidianRename<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>oy";
+    action = "<cmd>ObsidianYesterday<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>ot";
+    action = "<cmd>ObsidianTomorrow<cr>";
+  }
+
+  {
+    mode = "n";
     key = "<leader>od";
     action = "<cmd>ObsidianToday<cr>";
   }
@@ -224,8 +242,20 @@
 
   {
     mode = "n";
-    key = "<leader>fn";
+    key = "<leader>ob";
+    action = "<cmd>ObsidianBacklinks<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>os";
     action = "<cmd>ObsidianSearch<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>fn";
+    action = "<cmd>ObsidianQuickSwitch<cr>";
   }
 
   {
