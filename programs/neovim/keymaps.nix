@@ -260,6 +260,12 @@
 
   {
     mode = "n";
+    key = "<leader>of";
+    action = "<cmd>ObsidianQuickSwitch<cr>";
+  }
+
+  {
+    mode = "n";
     key = "<leader>fn";
     action = "<cmd>ObsidianQuickSwitch<cr>";
   }
