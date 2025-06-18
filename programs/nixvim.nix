@@ -95,6 +95,38 @@
   plugins.nvim-surround.enable = true;
   plugins.ccc.enable = true;
   plugins.refactoring.enable = true;
+  plugins.tmux-navigator = {
+    enable = true;
+    keymaps = [
+      {
+        mode = ["n" "i"];
+        action = "left";
+        key = "<M-h>";
+      }
+      {
+        mode = ["n" "i"];
+        action = "down";
+        key = "<M-j>";
+      }
+      {
+        mode = ["n" "i"];
+        action = "up";
+        key = "<M-k>";
+      }
+      {
+        mode = ["n" "i"];
+        action = "right";
+        key = "<M-l>";
+      }
+      {
+        mode = ["n" "i"];
+        action = "previous";
+        key = "<C-\\>";
+      }
+
+    ];
+    settings.no_mappings = 1;
+  };
 
   plugins.oil = {
     enable = true;
