@@ -74,6 +74,7 @@
     ++ (
       if standalone
       then [
+        cmake
         wslu
         neocmakelsp
       ]
