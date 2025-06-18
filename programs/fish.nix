@@ -25,6 +25,7 @@
 
   shellInitLast = ''
     status --is-interactive; and begin
+      eval (direnv hook fish)
       fish_vi_key_bindings
       bind --mode insert ctrl-f 'accept-autosuggestion'
       bind --mode insert ctrl-p up-or-search

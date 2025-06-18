@@ -169,6 +169,13 @@
   programs.nushell.enable = true;
   programs.yt-dlp.enable = true;
 
+  programs.direnv = {
+    enable = true;
+    # enableFishIntegration = true;
+    # enableBashIntegration = true;
+    nix-direnv.enable = true;
+  };
+
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
