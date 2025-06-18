@@ -32,6 +32,7 @@
     conceallevel = 1;
     pumheight = 7;
     tabstop = 4;
+    foldlevel = 99;
   };
 
   globals.mapleader = " ";

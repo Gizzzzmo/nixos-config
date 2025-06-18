@@ -1,4 +1,10 @@
 [
+  # toggle fold
+  {
+    mode = "n";
+    key = "zt";
+    action = "za";
+  }
   # Refactoring
   {
     mode = "x";
@@ -153,7 +159,7 @@
       "n"
       "i"
     ];
-    key = "<M-h>";
+    key = "<M-i>";
     options.silent = false;
     action = "<cmd>lua vim.lsp.buf.hover()<cr>";
   }

@@ -10,9 +10,23 @@
     pattern = "*";
   }
 
-  # codeformatting might replace these with none-ls at some point
+  # remember folds
   {
-    command = ":lua=vim.lsp.buf.format()";
+    command = "silent! loadview";
+    event = "BufWinEnter";
+    # '?' prevents the command running on pseudo windows (windows without filenames)
+    pattern = "?*";
+  }
+  {
+    command = "mkview";
+    event = "BufWinLeave";
+    # '?' prevents the command running on pseudo windows (windows without filenames)
+    pattern = "?*";
+  }
+
+  # codeformatting, might replace these with none-ls at some point
+  {
+    callback.__raw = "vim.lsp.buf.format";
     event = "BufWritePre";
     pattern = [
       "*.c"
