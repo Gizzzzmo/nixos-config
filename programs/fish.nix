@@ -25,7 +25,6 @@
 
   shellInitLast = ''
     status --is-interactive; and begin
-      eval (direnv hook fish)
       fish_vi_key_bindings
       bind --mode insert ctrl-f 'accept-autosuggestion'
       bind --mode insert ctrl-p up-or-search
@@ -36,6 +35,7 @@
         bass eval (ssh-agent -s)
         ssh-add | true
       end
+      eval (direnv hook fish)
     end
     if test -f $HOME/.config/api-keys.sh
       bass source $HOME/.config/api-keys.sh

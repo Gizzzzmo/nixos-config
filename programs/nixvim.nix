@@ -123,7 +123,6 @@
         action = "previous";
         key = "<C-\\>";
       }
-
     ];
     settings.no_mappings = 1;
   };
