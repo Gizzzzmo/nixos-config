@@ -7,7 +7,7 @@
           if standalone
           then "fixme"
           else "https://api.anthropic.com";
-        model = "claude-3-5-sonnet-20240620";
+        model = "claude-haiku/claude-3-5-haiku-20241022";
         extra_request_body = {
           max_tokens = 4096;
           temperature = 0;
