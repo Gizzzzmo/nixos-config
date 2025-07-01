@@ -51,6 +51,7 @@
     rust_analyzer = {
       enable = true;
       package = null;
+      cmd = ["rust-analyzer"];
       installCargo = false;
       installRustc = false;
     };
