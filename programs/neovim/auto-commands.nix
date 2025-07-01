@@ -26,7 +26,7 @@
 
   # codeformatting, might replace these with none-ls at some point
   {
-    callback.__raw = "vim.lsp.buf.format";
+    command = ":lua=vim.lsp.buf.format()";
     event = "BufWritePre";
     pattern = [
       "*.c"
