@@ -38,21 +38,19 @@
       folder = "./daily";
     };
 
-    mappings = {
-      "<leader>ch" = {
-        action = "require('obsidian').util.toggle_checkbox";
-        opts = {
-          buffer = true;
-        };
-      };
-      gf = {
-        action = "require('obsidian').util.gf_passthrough";
-        opts = {
-          buffer = true;
-          expr = true;
-          noremap = false;
-        };
-      };
+    callbacks = {
+      enter_note = ''
+        function(_, note)
+          vim.keymap.set("n", "gf", "<cmd>Obsidian follow_link<cr>", {
+            buffer = note.bufnr,
+            desc = "Go to file",
+          })
+          vim.keymap.set("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<cr>", {
+            buffer = note.bufnr,
+            desc = "Toggle checkbox",
+          })
+        end
+      '';
     };
 
     ui = {
