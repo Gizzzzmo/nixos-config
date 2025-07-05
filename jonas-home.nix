@@ -80,6 +80,7 @@
       ]
       else
         with pkgs; [
+          light
           cmus
           openvpn
           btop

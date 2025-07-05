@@ -94,6 +94,13 @@
   # ENable bluetooth
   hardware.bluetooth.enable = true;
 
+  services.udev = {
+    enable = true;
+    extraRules = ''
+      ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/coreutils --coreutils-prog=chgrp backlight $sys$devpath/brightness", RUN+="${pkgs.coreutils}/bin/coreutils --coreutils-prog=chmod g+w $sys$devpath/brightness"
+    '';
+  };
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -103,8 +110,12 @@
 
   programs.fish.enable = true;
 
+  users.groups = {
+    backlight = {};
+  };
+
   users.users.jonas = {
-    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "networkmanager" "backlight"]; # Enable ‘sudo’ for the user.
   };
 
   home-manager = {

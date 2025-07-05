@@ -108,6 +108,8 @@
           ""
           ""
         ];
+        on-scroll-up = "light -A 2";
+        on-scroll-down = "light -U 2";
       };
 
       network = {
