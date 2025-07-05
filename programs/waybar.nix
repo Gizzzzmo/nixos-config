@@ -108,6 +108,8 @@
           ""
           ""
         ];
+        on-scroll-up = "light -A 5";
+        on-scroll-down = "light -5 5";
       };
 
       network = {
