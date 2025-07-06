@@ -6,11 +6,11 @@
   shellAliases = {
     "..." = "cd ../..";
     ".." = "cd ..";
-    "ll" = "eza -l --git";
-    "lla" = "eza -la --git";
+    "ll" = "eza -lg --git";
+    "lla" = "eza -lga --git";
     "la" = "eza -a";
-    "lt" = "eza -s modified -l";
-    "lta" = "eza -s modified -la --git";
+    "lt" = "eza -s modified -lg";
+    "lta" = "eza -s modified -lga --git";
     "cat" = "bat";
   };
 
