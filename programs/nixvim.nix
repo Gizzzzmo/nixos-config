@@ -85,16 +85,13 @@
   plugins.telescope = (import ./neovim/telescope.nix) home_inputs;
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
-  plugins.avante = (import ./neovim/avante.nix) home_inputs;
 
   plugins.fzf-lua.enable = true;
   plugins.cmp_luasnip.enable = true;
-  plugins.copilot-chat.enable = true;
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
   plugins.nvim-surround.enable = true;
   plugins.ccc.enable = true;
-  plugins.refactoring.enable = true;
   plugins.tmux-navigator = {
     enable = true;
     keymaps = [
@@ -138,7 +135,6 @@
 
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb
-    advanced-git-search-nvim
     telescope-emoji-nvim
   ];
 

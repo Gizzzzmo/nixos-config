@@ -46,19 +46,6 @@
     key = "zt";
     action = "za";
   }
-  # Refactoring
-  {
-    mode = "x";
-    key = "<leader>ev";
-    action = "<cmd>Refactor extract_var<cr>i";
-  }
-
-  {
-    mode = "x";
-    key = "<leader>ef";
-    action = "<cmd>Refactor extract<cr>i";
-  }
-
   # Ccc
   {
     mode = "n";
@@ -116,12 +103,6 @@
     mode = "n";
     key = "<leader>fp";
     action = "<cmd>lua require('prox-telescope').proximity_files({})<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>fc";
-    action = "<cmd>AdvancedGitSearch<cr>";
   }
 
   {
@@ -326,6 +307,12 @@
   }
 
   # Misc
+  {
+    mode = ["n"];
+    key = "-";
+    action = "<cmd>Oil<cr>";
+  }
+
   {
     mode = [
       "n"

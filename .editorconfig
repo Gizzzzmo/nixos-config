@@ -1,5 +1,8 @@
-[*.sh]
 indent_style = space
 indent_size = 4
-
+[*.sh]
 shell_variant = posix
+
+[*.nix]
+indent_size = 2
+
