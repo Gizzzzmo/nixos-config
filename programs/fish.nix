@@ -12,6 +12,7 @@
     "lt" = "eza -s modified -lg";
     "lta" = "eza -s modified -lga --git";
     "cat" = "bat";
+    "opencode" = "direnv exec /home/jonas/gitprjs/forks/opencode/opencode bun run /home/jonas/gitprjs/forks/opencode/opencode/packages/opencode/src/index.ts";
   };
 
   shellAbbrs = {
