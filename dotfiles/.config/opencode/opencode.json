@@ -1,0 +1,15 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "theme": "tokyonight",
+    "keybinds": {
+        "messages_half_page_down": "ctrl+d",
+        "messages_half_page_up": "ctrl+u",
+        "messages_next": "ctrl+j",
+        "messages_previous": "ctrl+k",
+        "input_clear": "ctrl+u",
+        "messages_last": "ctrl+alt+g",
+        "input_newline": "ctrl+enter",
+        "session_interrupt": "ctrl+c",
+        "app_exit": "<leader>q"
+    }
+}

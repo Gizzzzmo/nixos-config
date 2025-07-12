@@ -27,6 +27,7 @@
   # environment.
   home.packages = with pkgs;
     [
+      # opencode
       hyperfine
       inputs.muxxies.defaultPackage.${pkgs.system}
       xh
