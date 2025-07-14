@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{inputs, pkgs, ...}: {
   enable = true;
 
   package = pkgs.fish;
@@ -34,6 +34,7 @@
       bind --mode insert ctrl-n down-or-search
       set -x GPG_TTY (tty)
       set -x MANPAGER "nvim +Man!"
+      set -x NIX_PATH "nixpkgs=${inputs.nixpkgs.outPath}"
       if test -z $SSH_AGENT_PID
         bass eval (ssh-agent -s)
         ssh-add | true
