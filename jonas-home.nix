@@ -237,7 +237,7 @@
     BROWSER =
       if standalone
       then "wslview"
-      else "firefox";
+      else "qutebrowser";
     MANPAGER = "nvim +Man!";
   };
 
