@@ -87,6 +87,11 @@
     tinymist = {
       enable = true;
       package = null;
+      settings = {
+        formatterMode = "typstyle";
+        formatterPrintWidth = 100;
+        exportPdf = "onType";
+      };
     };
 
     zls = {
