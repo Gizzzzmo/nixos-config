@@ -1,7 +1,7 @@
 [
   {
     mode = "i";
-    key = "<C-b>";
+    key = "<C-m>";
     action.__raw = ''
       function()
         vim.api.nvim_put({"🤣"}, "c", true, true)
