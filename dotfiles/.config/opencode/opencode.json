@@ -11,5 +11,6 @@
         "input_newline": "ctrl+enter",
         "session_interrupt": "ctrl+c",
         "app_exit": "<leader>q"
-    }
+    },
+    "layout": "stretch"
 }

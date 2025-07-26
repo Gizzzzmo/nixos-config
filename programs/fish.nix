@@ -12,9 +12,7 @@
     "lt" = "eza -s modified -lg";
     "lta" = "eza -s modified -lga --git";
     "cat" = "bat";
-    # Need to clone sst/opencode from github to the location and have a flake with bun,
-    # and go environment, as well as an envrc in the directory above.
-    "opencode" = "direnv exec /home/jonas/gitprjs/forks/opencode/opencode bun run /home/jonas/gitprjs/forks/opencode/opencode/packages/opencode/src/index.ts";
+    "opencode" = "direnv exec $HOME/gitprjs/forks/opencode/opencode bun run $HOME/gitprjs/forks/opencode/opencode/packages/opencode/src/index.ts";
   };
 
   shellAbbrs = {
