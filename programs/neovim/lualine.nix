@@ -4,7 +4,7 @@
   settings = {
     options.component_separators = "│";
     options.section_separators = "";
-    options.theme = "palenight";
+    options.theme = "iceberg_dark";
     sections = {
       lualine_c = [
         {
