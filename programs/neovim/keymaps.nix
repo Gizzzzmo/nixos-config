@@ -1,7 +1,7 @@
 [
   {
     mode = "i";
-    key = "<C-m>";
+    key = "<C-j>";
     action.__raw = ''
       function()
         vim.api.nvim_put({"🤣"}, "c", true, true)
@@ -145,13 +145,6 @@
     key = "<leader>fo";
     options.silent = false;
     action = "<cmd>lua=require('telescope.builtin').oldfiles({only_cwd=1})<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>fj";
-    options.silent = false;
-    action = "<cmd>lua=require('telescope.builtin').jumplist()<cr>";
   }
 
   {
