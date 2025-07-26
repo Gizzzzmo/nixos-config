@@ -12,7 +12,7 @@
 
   {
     mode = "i";
-    key = "<C-u>";
+    key = "<C-y>";
     action.__raw = ''
       function()
         local luasnip = require("luasnip")
@@ -255,55 +255,55 @@
   {
     mode = "n";
     key = "<leader>oy";
-    action = "<cmd>ObsidianYesterday<cr>";
+    action = "<cmd>Obsidian yesterday<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>ot";
-    action = "<cmd>ObsidianTomorrow<cr>";
+    action = "<cmd>Obsidian tomorrow<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>od";
-    action = "<cmd>ObsidianToday<cr>";
+    action = "<cmd>Obsidian today<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>on";
-    action = "<cmd>ObsidianNew<cr>";
+    action = "<cmd>Obsidian new<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>ob";
-    action = "<cmd>ObsidianBacklinks<cr>";
+    action = "<cmd>Obsidian backlinks<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>os";
-    action = "<cmd>ObsidianSearch<cr>";
+    action = "<cmd>Obsidian search<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>of";
-    action = "<cmd>ObsidianQuickSwitch<cr>";
+    action = "<cmd>Obsidian quick_switch<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>fn";
-    action = "<cmd>ObsidianQuickSwitch<cr>";
+    action = "<cmd>Obsidian quick_switch<cr>";
   }
 
   {
     mode = "n";
     key = "<leader>ft";
-    action = "<cmd>ObsidianTags<cr>";
+    action = "<cmd>Obsidian tags<cr>";
   }
 
   # Misc
@@ -336,15 +336,5 @@
     mode = "n";
     key = "<leader>ld";
     action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
-  }
-
-  {
-    mode = [
-      "i"
-      "n"
-    ];
-    key = "<C-s>";
-    options.silent = false;
-    action = "<cmd>write<cr><esc>";
   }
 ]

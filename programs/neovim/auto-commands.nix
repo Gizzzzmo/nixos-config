@@ -42,7 +42,7 @@
   }
 
   {
-    command = ":!test -f alejandra.toml && alejandra '%'";
+    command = ":silent! !test -f alejandra.toml && alejandra '%'";
     event = "BufWritePost";
     pattern = ["*.nix"];
   }
@@ -83,7 +83,7 @@
   }
 
   {
-    command = ":ObsidianWorkspace blog";
+    command = ":Obsidian workspace blog";
     event = "BufEnter";
     pattern = "/home/jonas/gitprjs/personal/blog/**";
   }

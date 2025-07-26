@@ -6,6 +6,7 @@
   enable = true;
   package = pkgs.vimPlugins.obsidian-nvim;
   settings = {
+    legacy_commands = false;
     note_id_func = ''
       function(title)
         return title

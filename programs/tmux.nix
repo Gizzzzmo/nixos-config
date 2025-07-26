@@ -5,7 +5,7 @@
 }: {
   enable = true;
   package = pkgs.tmux;
-  prefix = "C-o";
+  prefix = "C-b";
   keyMode = "vi";
   clock24 = true;
   baseIndex = 1;
@@ -24,16 +24,14 @@
 
       set -s escape-time 0
       set -g mouse on
-      set -g status-style bg=colour24,fg=colour15
+      set -g status-style bg=colour8,fg=colour15
       set -g mode-style fg=colour236,bg=colour15
       set-window-option -g window-status-current-style bg=colour15,fg=colour0
 
       set -g update-environment 'DISPLAY ALACRITTY_WINDOW_ID ALACRITTY_LOG ALACRITTY_SOCKET DISPLAY WINDOWID SSH_ASKPASS SSH_CONNECTION XAUTHORITY KITTY_WINDOW_ID KITTY_PID'
 
       set -g default-shell /home/jonas/.nix-profile/bin/fish
-
-      # set -g @tokyo-night-tmux_theme storm
-      set -g status-left-length 25
+      set -g status-left-length 30
 
       bind -r h select-pane -L
       bind -r j select-pane -D

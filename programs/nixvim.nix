@@ -1,9 +1,13 @@
 {pkgs, ...} @ home_inputs: {
   enable = true;
 
-  colorschemes.tokyonight.enable = true;
+  # colorschemes.lunaperche.enable = true;
+  colorscheme = "lunaperche";
 
   highlightOverride = {
+    IblIdent = {
+      fg = "#080808";
+    };
     WinSeparator = {
       fg = "#444444";
     };
@@ -21,8 +25,13 @@
     };
   };
 
+  extraConfigLuaPre = ''
+    -- require("vague").setup({})
+  '';
+
   opts = {
     diffopt = "vertical";
+    undofile = true;
     number = true;
     relativenumber = true;
     shiftwidth = 4;
@@ -38,6 +47,15 @@
   globals.mapleader = " ";
 
   extraFiles = {
+    # "pack/blub/start/vague.nvim" = {
+    #   enable = true;
+    #   source = pkgs.fetchFromGitHub {
+    #     owner = "vague2k";
+    #     repo = "vague.nvim";
+    #     rev = "v1.4.1";
+    #     hash = "sha256-isROQFePz8ofJg0qa3Avbwh4Ml4p9Ii2d+VAAkbeGO8=";
+    #   };
+    # };
     "lua/prox-telescope.lua" = {
       enable = true;
       source = ./neovim/lua/prox-telescope.lua;
@@ -52,16 +70,11 @@
     };
   };
 
-  # extraFiles."snippets/" = {
-  #   enable = true;
-  #   source = ./neovim/snippets;
+  # diagnostic.settings = {
+  #   float = {
+  #     border = "rounded";
+  #   };
   # };
-
-  diagnostic.settings = {
-    float = {
-      border = "rounded";
-    };
-  };
 
   clipboard.providers.wl-copy = {
     enable = true;
@@ -86,6 +99,7 @@
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
 
+  plugins.clangd-extensions.enable = true;
   plugins.fzf-lua.enable = true;
   plugins.cmp_luasnip.enable = true;
   plugins.diffview.enable = true;
@@ -127,7 +141,7 @@
   plugins.oil = {
     enable = true;
     # settings = {
-    #   win_optinos = {
+    #   win_options = {
     #     signcolumn = "yes:2";
     #   };
     # };
