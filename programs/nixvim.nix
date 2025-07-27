@@ -24,6 +24,9 @@
       fg = "#7e7e7e";
     };
     # overwrites below are specifically meant for lunaperche
+    Normal = {
+      bg = "#0c1016";
+    };
     "@variable.member" = {
       fg = "#ee8866";
     };
