@@ -38,9 +38,6 @@
       bind -r k select-pane -U
       bind -r l select-pane -R
 
-      bind -r | split-window -h
-      bind -r - split-window -v
-
       bind -n M-w last-window
       bind -n M-= select-window -n
       bind -n M-- select-window -p
