@@ -42,10 +42,6 @@
     callbacks = {
       enter_note = ''
         function(_, note)
-          vim.keymap.set("n", "gf", "<cmd>Obsidian follow_link<cr>", {
-            buffer = note.bufnr,
-            desc = "Go to file",
-          })
           vim.keymap.set("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<cr>", {
             buffer = note.bufnr,
             desc = "Toggle checkbox",
@@ -59,10 +55,6 @@
         " " = {
           char = "󰄱";
           hl_group = "ObsidianTodo";
-        };
-        ">" = {
-          char = "";
-          hl_group = "ObsidianRightArrow";
         };
         x = {
           char = "";
