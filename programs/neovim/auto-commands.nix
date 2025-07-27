@@ -4,6 +4,7 @@
     event = ["BufRead" "BufNewFile"];
     pattern = "*.mdx";
   }
+
   {
     command = "nnoremap <buffer> <C-c> i<C-c>";
     event = "TermOpen";
@@ -38,6 +39,7 @@
       "*.go"
       "*.rs"
       "*.json"
+      "*.typ"
     ];
   }
 
@@ -48,13 +50,13 @@
   }
 
   {
-    command = ":!test -f .editorconfig && shfmt -w '%'";
+    command = ":silent! !test -f .editorconfig && shfmt -w '%'";
     event = "BufWritePost";
     pattern = ["*.sh"];
   }
 
   {
-    command = ":!test -f .gersemirc && gersemi -i '%'";
+    command = ":silent! !test -f .gersemirc && gersemi -i '%'";
     event = "BufWritePost";
     pattern = [
       "*.cmake"
@@ -63,13 +65,13 @@
   }
 
   {
-    command = ":!test -f .mdformat.toml && mdformat '%'";
+    command = ":silent! !test -f .mdformat.toml && mdformat '%'";
     event = "BufWritePost";
     pattern = ["*.md"];
   }
 
   {
-    command = ":!ruff format '%'";
+    command = ":silent! !ruff format '%'";
     event = "BufWritePost";
     pattern = ["*.py"];
   }
