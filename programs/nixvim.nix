@@ -63,7 +63,7 @@
     shiftwidth = 4;
     expandtab = true;
     scrolloff = 12;
-    signcolumn = "number";
+    signcolumn = "yes";
     conceallevel = 1;
     pumheight = 7;
     tabstop = 4;
@@ -96,11 +96,12 @@
     };
   };
 
-  # diagnostic.settings = {
-  #   float = {
-  #     border = "rounded";
-  #   };
-  # };
+  diagnostic.settings = {
+    virtual_text = true;
+    # float = {
+    #   border = "rounded";
+    # };
+  };
 
   clipboard.providers.wl-copy = {
     enable = true;
