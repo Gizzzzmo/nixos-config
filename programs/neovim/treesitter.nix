@@ -10,11 +10,13 @@
     toml
     yaml
     cpp
+    zig
     c
     cmake
     toml
     rust
     markdown
+    python
   ];
   folding = true;
   settings = {
