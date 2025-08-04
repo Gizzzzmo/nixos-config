@@ -1,39 +1,50 @@
 [
   {
     mode = "i";
-    key = "<C-j>";
-    action.__raw = ''
-      function()
-        vim.api.nvim_put({"🤣"}, "c", true, true)
-
-        vim.fn.feedkeys('{{', 't')
-      end'';
-  }
-
-  {
-    mode = "i";
-    key = "<C-y>";
-    action.__raw = ''
-      function()
-        local luasnip = require("luasnip")
-        vim.api.nvim_put({"🤣"}, "c", true, true)
-
-        vim.fn.feedkeys('((', 't')
-      end'';
-  }
-
-  {
-    mode = "i";
     key = "<C-]>";
-    action.__raw = ''
-      function()
-        local luasnip = require("luasnip")
-        vim.api.nvim_put({"🤣"}, "c", true, true)
-
-        vim.fn.feedkeys('[[', 't')
-        luasnip.expand()
-      end'';
+    action = "<Del>";
   }
+  {
+    mode = "i";
+    key = "<C-j>";
+    action = "<cr><esc>O";
+  }
+
+  # {
+  #   mode = "i";
+  #   key = "<C-j>";
+  #   action.__raw = ''
+  #     function()
+  #       vim.api.nvim_put({"🤣"}, "c", true, true)
+  #
+  #       vim.fn.feedkeys('{{', 't')
+  #     end'';
+  # }
+  #
+  # {
+  #   mode = "i";
+  #   key = "<C-y>";
+  #   action.__raw = ''
+  #     function()
+  #       local luasnip = require("luasnip")
+  #       vim.api.nvim_put({"🤣"}, "c", true, true)
+  #
+  #       vim.fn.feedkeys('((', 't')
+  #     end'';
+  # }
+  #
+  # {
+  #   mode = "i";
+  #   key = "<C-]>";
+  #   action.__raw = ''
+  #     function()
+  #       local luasnip = require("luasnip")
+  #       vim.api.nvim_put({"🤣"}, "c", true, true)
+  #
+  #       vim.fn.feedkeys('[[', 't')
+  #       luasnip.expand()
+  #     end'';
+  # }
 
   {
     mode = ["n" "i"];
