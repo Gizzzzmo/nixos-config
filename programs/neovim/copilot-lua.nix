@@ -4,7 +4,7 @@
   settings = {
     suggestion = {
       enabled = true;
-      auto_trigger = false;
+      auto_trigger = true;
       keymap = {
         next = "<M-n>";
         prev = "<M-p>";

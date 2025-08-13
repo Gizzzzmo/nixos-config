@@ -63,12 +63,23 @@
       '';
     };
 
-    experimental = {
-      ghost_text = true;
-    };
-
     view = {
       docs.auto_open = true;
+    };
+    window = {
+      completion = {
+        border = [
+          "┌"
+          "─"
+          "┐"
+          "│"
+          "┘"
+          "─"
+          "└"
+          "│"
+        ];
+        winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None";
+      };
     };
   };
 }

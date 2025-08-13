@@ -19,76 +19,50 @@ return {
             t("#!/usr/bin/env "), i(0)
         }
     ),
-    -- s(
-    --     {
-    --         trig = "🤣{{",
-    --         snippetType = "autosnippet",
-    --         show_condition = never,
-    --     }, {
-    --         t({"{", "\t"}), i(1), t({"", "}"}), i(0)
-    --     }
-    -- ),
     s(
         {
-            trig = "{",
+            trig = "{}",
             snippetType = "autosnippet",
             show_condition = never,
+            regTrig = true
         }, {
             t({"{"}), i(1), t({"}"}), i(0)
         }
     ),
-    -- s(
-    --     {
-    --         trig = "🤣[[",
-    --         snippetType = "autosnippet",
-    --         show_condition = never,
-    --     }, {
-    --         t({"[", "\t"}), i(1), t({"", "]"}), i(0)
-    --     }
-    -- ),
     s(
         {
-            trig = "[",
+            trig = "[]",
             snippetType = "autosnippet",
             show_condition = never,
         }, {
             t({"["}), i(1), t({"]"}), i(0)
         }
     ),
-    -- s(
-    --     {
-    --         trig = "🤣((",
-    --         snippetType = "autosnippet",
-    --         show_condition = never,
-    --     }, {
-    --         t({"(", "\t"}), i(1), t({"", ")"}), i(0)
-    --     }
-    -- ),
     s(
         {
-            trig = "(",
+            trig = "()",
             snippetType = "autosnippet",
             show_condition = never,
         }, {
             t({"("}), i(1), t({")"}), i(0)
         }
     ),
-    -- s(
-    --     {
-    --         trig = "🤣'",
-    --         snippetType = "autosnippet",
-    --         show_condition = never,
-    --     }, {
-    --         t({"'"}), i(1), t({"'"}), i(0)
-    --     }
-    -- ),
-    -- s(
-    --     {
-    --         trig = '🤣"',
-    --         snippetType = "autosnippet",
-    --         show_condition = never,
-    --     }, {
-    --         t({'"'}), i(1), t({'"'}), i(0)
-    --     }
-    -- )
+    s(
+        {
+            trig = "<>",
+            snippetType = "autosnippet",
+            show_condition = never,
+        }, {
+            t({"<"}), i(1), t({">"}), i(0)
+        }
+    ),
+    s(
+        {
+            trig = "\"\"",
+            snippetType = "autosnippet",
+            show_condition = never,
+        }, {
+            t({"\""}), i(1), t({"\""}), i(0)
+        }
+    ),
 }
