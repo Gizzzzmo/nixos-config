@@ -69,7 +69,7 @@
 
     completion = {
       min_chars = 2;
-      nvim_cmp = true;
+      blink = true;
     };
 
     new_notes_location = "current_dir";

@@ -24,7 +24,7 @@ return {
             trig = "{}",
             snippetType = "autosnippet",
             show_condition = never,
-            regTrig = true
+            wordTrig = false,
         }, {
             t({"{"}), i(1), t({"}"}), i(0)
         }
@@ -34,6 +34,7 @@ return {
             trig = "[]",
             snippetType = "autosnippet",
             show_condition = never,
+            wordTrig = false,
         }, {
             t({"["}), i(1), t({"]"}), i(0)
         }
@@ -43,6 +44,7 @@ return {
             trig = "()",
             snippetType = "autosnippet",
             show_condition = never,
+            wordTrig = false,
         }, {
             t({"("}), i(1), t({")"}), i(0)
         }
@@ -52,6 +54,7 @@ return {
             trig = "<>",
             snippetType = "autosnippet",
             show_condition = never,
+            wordTrig = false,
         }, {
             t({"<"}), i(1), t({">"}), i(0)
         }
@@ -61,6 +64,7 @@ return {
             trig = "\"\"",
             snippetType = "autosnippet",
             show_condition = never,
+            wordTrig = false,
         }, {
             t({"\""}), i(1), t({"\""}), i(0)
         }
