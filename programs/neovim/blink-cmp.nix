@@ -2,29 +2,22 @@
   enable = true;
   settings = {
     completion = {
-      documentation.auto_show = true;
+      accept.auto_brackets.enabled = false;
 
+      documentation.auto_show = true;
       
       menu = {
+        max_height = 4;
         direction_priority = [
           "n" 
           "s"
         ];
-
-        border = [
-          "┌"
-          "─"
-          "┐"
-          "│"
-          "┘"
-          "─"
-          "└"
-          "│"
-        ];
       };
     };
 
+
     keymap = {
+      preset = "none"; 
       "<C-Space>" = [
         "show"
         "fallback"
@@ -49,7 +42,35 @@
         "scroll_documentation_up"
         "fallback"
       ];
+      "<C-e>" = [
+        "hide"
+        "fallback"
+      ];
     };
+
+    cmdline.keymap = {
+      "<C-Space>" = [
+        "show"
+        "fallback"
+      ];
+      "<C-p>" = [
+        "select_prev"
+        "fallback"
+      ];
+      "<C-n>" = [
+        "select_next"
+        "fallback"
+      ];
+      "<C-f>" = [
+        "select_and_accept"
+        "fallback"
+      ];
+      "<C-e>" = [
+        "hide"
+        "fallback"
+      ];
+    }; 
+
 
     snippets.preset = "luasnip";
 
