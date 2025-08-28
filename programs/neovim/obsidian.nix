@@ -50,22 +50,24 @@
       '';
     };
 
-    ui = {
-      checkboxes = {
-        " " = {
-          char = "󰄱";
-          hl_group = "ObsidianTodo";
-        };
-        x = {
-          char = "";
-          hl_group = "ObsidianDone";
-        };
-        "~" = {
-          char = "󰰱";
-          hl_group = "ObsidianTilde";
-        };
-      };
-    };
+    # checkbox.order =
+
+    # ui = {
+    #   checkboxes = {
+    #     " " = {
+    #       char = "󰄱";
+    #       hl_group = "ObsidianTodo";
+    #     };
+    #     x = {
+    #       char = "";
+    #       hl_group = "ObsidianDone";
+    #     };
+    #     "~" = {
+    #       char = "󰰱";
+    #       hl_group = "ObsidianTilde";
+    #     };
+    #   };
+    # };
 
     completion = {
       min_chars = 2;

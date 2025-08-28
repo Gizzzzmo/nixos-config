@@ -92,7 +92,10 @@
     };
     "lua/obsidian-helper.lua" = {
       enable = true;
-      source = if standalone then ./neovim/lua/obsidian-helper-old.lua else ./neovim/lua/obsidian-helper.lua;
+      source =
+        if standalone
+        then ./neovim/lua/obsidian-helper-old.lua
+        else ./neovim/lua/obsidian-helper.lua;
     };
   };
 
