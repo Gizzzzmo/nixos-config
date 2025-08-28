@@ -21,7 +21,7 @@
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
-  imports = [inputs.nixvim.homeManagerModules.nixvim];
+  imports = [inputs.nixvim.homeModules.nixvim];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
