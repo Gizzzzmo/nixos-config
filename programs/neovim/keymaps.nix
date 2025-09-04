@@ -1,11 +1,5 @@
 [
   {
-    mode = "i";
-    key = "<C-j>";
-    action = "<cr><esc>O";
-  }
-
-  {
     mode = ["n" "i"];
     key = "<M-U>";
     action = "<cmd>redo<cr>";
@@ -62,6 +56,13 @@
     key = "K";
     action = "a<cr><Esc>k$";
   }
+
+  {
+    mode = "i";
+    key = "<C-j>";
+    action = "<cr><esc>O";
+  }
+
 
   # Location List
   {
