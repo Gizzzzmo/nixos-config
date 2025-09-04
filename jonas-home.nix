@@ -61,6 +61,7 @@
       unzip
       zip
       glab
+      gurk-rs
       (pkgs.nom.overrideAttrs (oldAttrs: {
         pname = "nix-output-monitor-cli";
         # Optionally, you can rename the binary
@@ -81,6 +82,7 @@
       ]
       else
         with pkgs; [
+          signal-desktop
           light
           cmus
           openvpn
