@@ -79,6 +79,8 @@
         cmake
         wslu
         neocmakelsp
+        basedpyright
+        just
       ]
       else
         with pkgs; [

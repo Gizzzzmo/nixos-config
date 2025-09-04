@@ -74,6 +74,7 @@
 
     basedpyright = {
       enable = true;
+      package = null;
     };
 
     typos_lsp = {
