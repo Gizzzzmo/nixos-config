@@ -136,6 +136,7 @@
 
   plugins.clangd-extensions.enable = true;
   plugins.fzf-lua.enable = true;
+  plugins.hex.enable = true;
   # plugins.cmp_luasnip.enable = true;
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
