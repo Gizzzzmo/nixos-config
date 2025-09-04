@@ -63,6 +63,31 @@
     action = "a<cr><Esc>k$";
   }
 
+  # Location List
+  {
+    mode = "n";
+    key = "[1";
+    action = "<cmd>lprevious<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "]1";
+    action = "<cmd>lnext<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "[L";
+    action = "<cmd>lfirst<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "]L";
+    action = "<cmd>llast<cr>";
+  }
+
   # Telescope
   {
     mode = "n";
@@ -93,14 +118,7 @@
     mode = "n";
     key = "<leader>fg";
     options.silent = false;
-    action = "<cmd>Telescope live_grep<cr>";
-  }
-
-  {
-    mode = "n";
-    key = "<leader>fb";
-    options.silent = false;
-    action = "<cmd>Telescope buffers<cr>";
+    action = "<cmd>Telescope live_grep_args<cr>";
   }
 
   {
@@ -108,6 +126,20 @@
     key = "<leader>fh";
     options.silent = false;
     action = "<cmd>Telescope help_tags<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>fl";
+    options.silent = false;
+    action = "<cmd>Telescope resume<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>fc";
+    options.silent = false;
+    action = "<cmd>Telescope pickers<cr>";
   }
 
   {
@@ -127,14 +159,14 @@
     action = "<cmd>lua=require('telescope.builtin').buffers({sort_mru=1, ignore_current_buffer=1})<cr>";
   }
 
+  # LSP stuff
   {
     mode = "n";
     key = "gr";
     options.silent = false;
-    action = "<cmd>Telescope lsp_references<cr>";
+    action = "<cmd>lua=vim.lsp.buf.references()<cr>";
   }
 
-  # LSP stuff
   {
     mode = "n";
     key = "<leader>r";
@@ -145,6 +177,30 @@
     mode = "n";
     key = "<leader>lf";
     action = "<cmd>lua=vim.lsp.buf.code_action({filter=function(a) return a.isPreferred end, apply=true})<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>lo";
+    action = "<cmd>lua=vim.lsp.buf.outgoing_calls()<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>li";
+    action = "<cmd>lua=vim.lsp.buf.incoming_calls()<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>lh";
+    action = "<cmd>lua=vim.lsp.buf.document_highlight()<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>ld";
+    action = "<cmd>lua=vim.diagnostic.open_float()<cr>";
   }
 
   {
@@ -286,16 +342,10 @@
     action = "<cmd>noautocmd write<cr><esc>";
   }
 
-  {
-    mode = "n";
-    key = "<leader>ld";
-    action = "<cmd>lua=vim.diagnostic.open_float()<cr><cr>";
-  }
-
   # Copilot
   {
-    mode = ["n" "i"];
-    key = "<M-S-X>";
-    action = "<cmd> Copilot suggestion toggle_auto_trigger<cr>";
+    mode = "n";
+    key = "<leader>co";
+    action = "<cmd> Copilot toggle<cr>";
   }
 ]
