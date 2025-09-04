@@ -199,6 +199,12 @@
 
   {
     mode = "n";
+    key = "<leader>lc";
+    action = "<cmd>lua=vim.lsp.buf.clear_references()<cr>";
+  }
+
+  {
+    mode = "n";
     key = "<leader>ld";
     action = "<cmd>lua=vim.diagnostic.open_float()<cr>";
   }
