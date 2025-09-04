@@ -351,7 +351,13 @@
   # Copilot
   {
     mode = "n";
-    key = "<leader>co";
-    action = "<cmd> Copilot toggle<cr>";
+    key = "<leader>cd";
+    action = "<cmd>Copilot disable<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>ce";
+    action = "<cmd>Copilot enable<cr>";
   }
 ]
