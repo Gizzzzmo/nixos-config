@@ -134,6 +134,7 @@
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
 
+  plugins.schemastore.enable = true;
   plugins.clangd-extensions.enable = true;
   plugins.fzf-lua.enable = true;
   plugins.hex.enable = true;

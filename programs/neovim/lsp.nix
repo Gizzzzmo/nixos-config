@@ -26,16 +26,10 @@
     clangd = {
       enable = true;
       package = null;
-      cmd =
-        if standalone
-        then [
-          "clangd"
-          "--resource-dir=/home/jonas/.cmaketoolchains/downloads/clang+llvm-18.1.8-x86_64-linux-gnu-ubuntu-18.04/lib/clang/18"
-        ]
-        else ["clangd"];
+      cmd = ["clangd"];
     };
 
-    # Will wait for mdx_analyzer to package to become available in nixpkgs
+    # Will wait for mdx_analyzer package to become available in nixpkgs
     # mdx_analyzer = {
     #   enable = true;
     #   package = null;
@@ -43,10 +37,10 @@
     #   filetypes = ["markdown"];
     # };
 
-    mojo = {
-      enable = true;
-      package = null;
-    };
+    # mojo = {
+    #   enable = true;
+    #   package = null;
+    # };
 
     rust_analyzer = {
       enable = true;
@@ -110,6 +104,7 @@
 
     cssls = {
       enable = true;
+      package = null;
     };
 
     bashls = {
@@ -127,6 +122,13 @@
     gopls = {
       enable = true;
       package = null;
+    };
+
+    yamlls = {
+      enable = true;
+      filetypes = [
+        "yaml"
+      ];
     };
   };
 
