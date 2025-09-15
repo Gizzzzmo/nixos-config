@@ -695,5 +695,22 @@
             "snippet": "\n\t$0\n"
         },
         "when": "editorTextFocus && vim.mode === 'Insert'"
+    },
+    {
+        "key": "shift+k",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "cursorRight",
+                {
+                    "command": "editor.action.insertSnippet",
+                    "args": {
+                        "snippet": "$0\n"
+                    }
+                },
+                "cursorLeft"
+            ]
+        },
+        "when": "editorTextFocus && vim.mode === 'Normal'"
     }
 ]
