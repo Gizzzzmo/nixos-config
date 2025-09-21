@@ -40,6 +40,10 @@
       "*.rs"
       "*.json"
       "*.typ"
+      "*.yaml"
+      ".clang-format"
+      ".clangd"
+      ".clang-tidy"
     ];
   }
 
