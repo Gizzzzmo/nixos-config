@@ -139,6 +139,12 @@
   programs.bat = (import ./programs/bat.nix) home_inputs;
   programs.qutebrowser = (import ./programs/qutebrowser.nix) home_inputs;
 
+  services.gpg-agent = {
+    enable = true;
+    pinentry.package = pkgs.pinentry-rofi;
+    maxCacheTtl = 18000;
+  };
+
   programs.kitty =
     (import ./programs/kitty.nix) home_inputs
     // {

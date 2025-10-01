@@ -60,6 +60,7 @@
   virtualisation.libvirtd.enable = true;
   services.pcscd.enable = true;
   programs.gnupg.agent = {
+    pinentryPackage = pkgs.pinentry-rofi;
     enable = true;
     enableSSHSupport = true;
   };
@@ -150,7 +151,6 @@
     parted
     gnupg
     pinentry-rofi
-    pinentry
     at
     cron
   ];
