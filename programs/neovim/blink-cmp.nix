@@ -5,23 +5,18 @@
       accept.auto_brackets.enabled = false;
 
       documentation.auto_show = true;
-      
+
       menu = {
         max_height = 4;
         direction_priority = [
-          "n" 
+          "n"
           "s"
         ];
       };
     };
 
-
     keymap = {
-      preset = "none"; 
-      "<C-Space>" = [
-        "show"
-        "fallback"
-      ];
+      preset = "none";
       "<C-p>" = [
         "select_prev"
         "fallback"
@@ -31,6 +26,7 @@
         "fallback"
       ];
       "<C-f>" = [
+        "show"
         "select_and_accept"
         "fallback"
       ];
@@ -69,8 +65,7 @@
         "hide"
         "fallback"
       ];
-    }; 
-
+    };
 
     snippets.preset = "luasnip";
 
@@ -80,8 +75,7 @@
       "path"
       "buffer"
     ];
-    
-    sources.min_keyword_length = 2;
 
+    sources.min_keyword_length = 2;
   };
 }
