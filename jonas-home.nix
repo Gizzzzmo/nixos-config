@@ -72,6 +72,7 @@
           '';
       }))
       nix-output-monitor
+      opencode
     ]
     ++ (
       if standalone
