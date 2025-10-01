@@ -40,34 +40,16 @@
     };
 
     callbacks = {
-      enter_note = ''
-        function(_, note)
-          vim.keymap.set("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<cr>", {
-            buffer = note.bufnr,
-            desc = "Toggle checkbox",
-          })
-        end
-      '';
+      # enter_note = ''
+      #   function(_, note)
+      #
+      #     vim.keymap.set("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<cr>", {
+      #       buffer = note.bufnr,
+      #       desc = "Toggle checkbox",
+      #     })
+      #   end
+      # '';
     };
-
-    # checkbox.order =
-
-    # ui = {
-    #   checkboxes = {
-    #     " " = {
-    #       char = "󰄱";
-    #       hl_group = "ObsidianTodo";
-    #     };
-    #     x = {
-    #       char = "";
-    #       hl_group = "ObsidianDone";
-    #     };
-    #     "~" = {
-    #       char = "󰰱";
-    #       hl_group = "ObsidianTilde";
-    #     };
-    #   };
-    # };
 
     completion = {
       min_chars = 2;
