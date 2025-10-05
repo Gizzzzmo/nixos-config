@@ -127,7 +127,6 @@
   plugins.obsidian = (import ./neovim/obsidian.nix) home_inputs;
   plugins.copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
   plugins.lsp = (import ./neovim/lsp.nix) home_inputs;
-  # plugins.cmp = (import ./neovim/cmp.nix) home_inputs;
   plugins.blink-cmp = (import ./neovim/blink-cmp.nix) home_inputs;
   plugins.luasnip = (import ./neovim/luasnip.nix) home_inputs;
   plugins.telescope = (import ./neovim/telescope.nix) home_inputs;
@@ -136,6 +135,7 @@
 
   plugins.schemastore.enable = true;
   plugins.clangd-extensions.enable = true;
+  plugins.rustaceanvim.enable = true;
   plugins.fzf-lua.enable = true;
   plugins.hex.enable = true;
   # plugins.cmp_luasnip.enable = true;

@@ -42,13 +42,12 @@
     #   package = null;
     # };
 
-    rust_analyzer = {
-      enable = true;
-      package = null;
-      cmd = ["rust-analyzer"];
-      installCargo = false;
-      installRustc = false;
-    };
+    # rust_analyzer = { enable = true;
+    #   package = null;
+    #   cmd = ["rust-analyzer"];
+    #   installCargo = false;
+    #   installRustc = false;
+    # };
 
     neocmake = {
       enable = true;
