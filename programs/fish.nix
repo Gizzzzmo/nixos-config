@@ -10,17 +10,14 @@
   shellAliases = {
     "..." = "cd ../..";
     ".." = "cd ..";
+    "-" = "cd -";
+    "ls" = "eza";
     "ll" = "eza -lg --git";
     "lla" = "eza -lga --git";
     "la" = "eza -a";
     "lt" = "eza -s modified -lg";
     "lta" = "eza -s modified -lga --git";
     "cat" = "bat";
-  };
-
-  shellAbbrs = {
-    "ls" = "eza";
-    "curl" = "xh";
   };
 
   shellInit = ''
