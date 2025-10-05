@@ -54,7 +54,7 @@
   {
     mode = "n";
     key = "K";
-    action = "a<cr><Esc>k$";
+    action = "a<cr><Esc>khl";
   }
 
   {
@@ -62,7 +62,6 @@
     key = "<C-j>";
     action = "<cr><esc>O";
   }
-
 
   # Location List
   {
