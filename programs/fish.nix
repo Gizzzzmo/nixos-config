@@ -10,7 +10,6 @@
   shellAliases = {
     "..." = "cd ../..";
     ".." = "cd ..";
-    "-" = "cd -";
     "ls" = "eza";
     "ll" = "eza -lg --git";
     "lla" = "eza -lga --git";
