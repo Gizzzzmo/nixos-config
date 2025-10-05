@@ -33,6 +33,8 @@
     "flakes"
   ];
 
+  nix.optimise.automatic = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
@@ -50,30 +52,21 @@
 
   services.cron.enable = true;
   services.atd.enable = true;
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.pcscd.enable = true;
+
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     theme = "where_is_my_sddm_theme";
   };
-  virtualisation.libvirtd.enable = true;
-  services.pcscd.enable = true;
-  programs.gnupg.agent = {
-    pinentryPackage = pkgs.pinentry-rofi;
-    enable = true;
-    enableSSHSupport = true;
-  };
+  # Configure keymap in X11
+  services.xserver.xkb.layout = "us";
+  # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-    withUWSM = true;
-  };
-  programs.steam.enable = true;
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
 
-  # Enable sound.
-  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     wireplumber.enable = true;
@@ -85,14 +78,23 @@
     jack.enable = true;
   };
 
-  # Configure keymap in X11
-  services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    withUWSM = true;
+  };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  programs.steam.enable = true;
+  programs.virt-manager.enable = true;
 
-  # ENable bluetooth
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
+
+  # Enable sound.
+  security.rtkit.enable = true;
+  # Enable bluetooth
   hardware.bluetooth.enable = true;
 
   services.udev = {
@@ -113,10 +115,16 @@
 
   users.groups = {
     backlight = {};
+    libvirtd = {};
   };
 
   users.users.jonas = {
-    extraGroups = ["wheel" "networkmanager" "backlight"]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "backlight"
+      "libvirtd"
+    ]; # Enable ‘sudo’ for the user.
   };
 
   home-manager = {
@@ -139,18 +147,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    inputs.flox.packages.${pkgs.system}.default
-    qemu
-    file
-    libvirt
-    bridge-utils
-    virt-manager
     hyprpaper
     pamixer
-    wget
     parted
-    gnupg
-    pinentry-rofi
     at
     cron
   ];

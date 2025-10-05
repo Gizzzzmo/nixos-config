@@ -27,23 +27,30 @@
   # environment.
   home.packages = with pkgs;
     [
-      # opencode
+      file
+      eza
+      tree
+      ripgrep
+      ripgrep-all
       hyperfine
-      inputs.muxxies.defaultPackage.${pkgs.system}
       xh
+      fd
+      htop
+      unzip
+      zip
+      wget
+
+      inputs.muxxies.defaultPackage.${pkgs.system}
       alejandra
       ruff
       shfmt
       xdg-utils
       lsof
       usbutils
-      fd
-      # presenterm
       proximity-sort
       nodejs
       ncdu
       nh
-      keepassxc
       nvd
       wl-clipboard
       wl-clipboard-x11
@@ -51,15 +58,8 @@
       python313Packages.ipython
       python313Packages.ptpython
       fishPlugins.bass
-      eza
-      tree
-      ripgrep
-      ripgrep-all
       ast-grep
       wiki-tui
-      htop
-      unzip
-      zip
       glab
       gurk-rs
       (pkgs.nom.overrideAttrs (oldAttrs: {
@@ -85,6 +85,7 @@
       ]
       else
         with pkgs; [
+          keepassxc
           signal-desktop
           light
           cmus
