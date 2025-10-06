@@ -88,7 +88,14 @@
   programs.virt-manager.enable = true;
 
   virtualisation = {
-    libvirtd.enable = true;
+    libvirtd = {
+      enable = true;
+      qemu.swtpm = {
+        enable = true;
+        package = pkgs.swtpm;
+      };
+    };
+    # tpm.enable = true;
     spiceUSBRedirection.enable = true;
   };
 
@@ -152,6 +159,8 @@
     parted
     at
     cron
+    swtpm
+    tpm-tools
   ];
 
   environment = {
