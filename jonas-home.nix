@@ -96,8 +96,6 @@
           android-file-transfer
           webcamoid
           nemo
-          kitty
-          alacritty
           pavucontrol
           vscode
           eog
@@ -146,11 +144,14 @@
     maxCacheTtl = 18000;
   };
 
-  programs.kitty =
-    (import ./programs/kitty.nix) home_inputs
-    // {
-      enable = !standalone;
+  programs.ghostty = {
+    enable = !standalone;
+    enableFishIntegration = true;
+    settings = {
+      font-family = "FiraCode Nerd Font";
+      font-size = 12;
     };
+  };
   programs.mpv = {
     enable = !standalone;
   };
