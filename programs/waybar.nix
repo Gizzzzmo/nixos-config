@@ -68,7 +68,7 @@
       };
       clock = {
         format = "{:%H:%M}   |";
-        format-alt = "{:%A, %B %d, %Y (%R)}";
+        format-alt = "{:%R, %B %d} |";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
         calendar = {
           mode = "month";
@@ -93,7 +93,7 @@
         };
       };
       cpu = {
-        format = "| {usage}% ";
+        format = "| {usage}%  ";
         on-click = "ghostty -e btop";
       };
       memory = {
@@ -104,7 +104,7 @@
         states = {
           # good = 95;
           warning = 30;
-          critical = 15;
+          critical = 7;
         };
         format = "{capacity}% {icon}  |";
         # format-good = ; // An empty format will hide the module
@@ -122,9 +122,10 @@
 
       network = {
         # interface = wlp2s0; // (Optional) To force the use of this interface
-        format-wifi = "{essid} ({signalStrength}%) ";
-        format-ethernet = "{ifname} ;";
-        format-disconnected = "Disconnected ⚠";
+        format-wifi = "  {signalStrength}%";
+        format-ethernet = "{ifname}  ";
+        format-disconnected = " - ⚠";
+        tooltip-format-wifi = "{essid}";
       };
       pulseaudio = {
         scroll-step = 2;
@@ -145,21 +146,6 @@
         };
         on-click = "pavucontrol";
       };
-      # "custom/spotify" = {
-      #   format = " {}";
-      #   max-length = 40;
-      #   interval = 30; # Remove this if your script is endless and write in loop
-      #   exec = pkgs.writeShellScript "mediaplayer" ''
-      #     player_status=$(playerctl status 2> /dev/null)
-      #     if [ "$player_status" = "Playing" ]; then
-      #         echo "$(playerctl metadata artist) - $(playerctl metadata title)"
-      #     elif [ "$player_status" = "Paused" ]; then
-      #         echo " $(playerctl metadata artist) - $(playerctl metadata title)"
-      #     fi
-      #   '';
-      #   #"$HOME/.config/waybar/mediaplayer.sh 2> /dev/null"; # Script in resources folder
-      #   exec-if = "pgrep spotify";
-      # };
     }
   ];
   style = ''
@@ -203,8 +189,19 @@
       border-bottom: 3px solid white;
     }
 
+    #clock:hover, #bluetooth:hover {
+      color: #ffffff;
+    }
+
     #battery, #network, #clock, #bluetooth {
       color: #cccccc;
+    }
+
+
+    /* #pulseaudio:hover, #cpu:hover, hyprland-language:hover, */
+    #custom-cmus:hover {
+      color: rgba(255, 255, 255, 1);
+      background: rgba(0, 0, 0, 0.1);
     }
 
     #clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
@@ -216,14 +213,12 @@
       font-weight: bold;
     }
 
-    #battery {
-    }
-
     #battery icon {
       color: red;
     }
 
-    #battery.charging {
+    #battery.critical {
+      color: #f53c3c;
     }
 
     @keyframes blink {
@@ -231,6 +226,15 @@
           background-color: #ffffff;
           color: black;
       }
+    }
+
+    #battery.critical:not(.charging) {
+      color: white;
+      animation-name: blink;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
     }
 
     #battery.warning:not(.charging) {
@@ -242,30 +246,8 @@
       animation-direction: alternate;
     }
 
-    #cpu {
-    }
-
-    #memory {
-    }
-
-    #network {
-    }
-
     #network.disconnected {
       background: #f53c3c;
-    }
-
-    #pulseaudio {
-    }
-
-    #pulseaudio.muted {
-    }
-
-    #custom-spotify {
-      color: rgb(102, 220, 105);
-    }
-
-    #tray {
     }
   '';
 }
