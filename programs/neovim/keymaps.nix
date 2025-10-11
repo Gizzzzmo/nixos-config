@@ -54,7 +54,7 @@
   {
     mode = "n";
     key = "K";
-    action = "a<cr><Esc>khl";
+    action = "a<cr><Esc>k$hl";
   }
 
   {
