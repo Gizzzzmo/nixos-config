@@ -27,6 +27,7 @@
   # environment.
   home.packages = with pkgs;
     [
+      imagemagick
       file
       eza
       tree
@@ -155,7 +156,7 @@
     enableFishIntegration = true;
     settings = {
       font-family = "FiraCode Nerd Font";
-      font-size = 12;
+      font-size = 11.3;
       background-opacity = "0.8";
       background = "#131313";
     };
