@@ -30,5 +30,23 @@
     cache_picker = {
       num_pickers = 15;
     };
+    mappings = {
+      i = {
+        "<M-q>".__raw = ''
+          function(prompt_bufnr)
+              require('telescope.actions').send_to_qflist(prompt_bufnr)
+              require('telescope.actions').open_qflist()
+          end
+        '';
+      };
+      n = {
+        "<M-q>".__raw = ''
+          function(prompt_bufnr)
+              require('telescope.actions').send_to_qflist(prompt_bufnr)
+              require('telescope.actions').open_qflist()
+          end
+        '';
+      };
+    };
   };
 }

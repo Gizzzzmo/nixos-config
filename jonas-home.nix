@@ -50,6 +50,7 @@
       proximity-sort
       nodejs
       ncdu
+      netcat-openbsd
       nh
       nvd
       wl-clipboard
@@ -72,7 +73,6 @@
           '';
       }))
       nix-output-monitor
-      opencode
     ]
     ++ (
       if standalone
@@ -85,6 +85,7 @@
       ]
       else
         with pkgs; [
+          opencode
           keepassxc
           signal-desktop
           light
@@ -138,11 +139,16 @@
   programs.bat = (import ./programs/bat.nix) home_inputs;
   programs.qutebrowser = (import ./programs/qutebrowser.nix) home_inputs;
 
-  services.gpg-agent = {
-    enable = true;
-    pinentry.package = pkgs.pinentry-rofi;
-    maxCacheTtl = 18000;
-  };
+  services.gpg-agent =
+    {
+      enable = true;
+      maxCacheTtl = 18000;
+    }
+    // (
+      if standalone
+      then {}
+      else {pinentry.package = pkgs.pinentry-rofi;}
+    );
 
   programs.ghostty = {
     enable = !standalone;
