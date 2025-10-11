@@ -58,16 +58,16 @@
         valign = "top";
       }
       # TODO: will be implemented in next hyprlock release
-      # {
-      #   monitor = "";
-      #   text = "$LAYOUT[en,de]";
-      #   font_size = 18;
-      #   onclick = "hyprctl switchxkblayout all next";
-      #
-      #   position = "250, -20";
-      #   halign = "center";
-      #   valign = "center";
-      # }
+      {
+        monitor = "";
+        text = "$LAYOUT[en,de]";
+        font_size = 18;
+        onclick = "hyprctl switchxkblayout all next";
+
+        position = "250, -20";
+        halign = "center";
+        valign = "center";
+      }
     ];
   };
 }
