@@ -133,11 +133,12 @@
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
 
+  plugins.snacks.enable = true;
+  plugins.opencode.enable = true;
   plugins.schemastore.enable = true;
   plugins.clangd-extensions.enable = true;
   plugins.rustaceanvim.enable = true;
   plugins.fzf-lua.enable = true;
-  plugins.hex.enable = true;
   # plugins.cmp_luasnip.enable = true;
   plugins.diffview.enable = true;
   plugins.web-devicons.enable = true;
@@ -175,14 +176,7 @@
     settings.no_mappings = 1;
   };
 
-  plugins.oil = {
-    enable = true;
-    # settings = {
-    #   win_options = {
-    #     signcolumn = "yes:2";
-    #   };
-    # };
-  };
+  plugins.oil.enable = true;
 
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb
