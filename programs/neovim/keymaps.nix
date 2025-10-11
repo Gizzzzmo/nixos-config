@@ -94,6 +94,7 @@
     key = "<leader>fa";
     action.__raw = "require('ast-grep')";
   }
+
   {
     mode = "n";
     key = "<leader>fp";
@@ -224,6 +225,7 @@
     mode = [
       "n"
       "i"
+      "t"
     ];
     key = "<M-K>";
     action = "<cmd>res +1<cr>";
@@ -233,6 +235,7 @@
     mode = [
       "n"
       "i"
+      "t"
     ];
     key = "<M-J>";
     action = "<cmd>res -1<cr>";
@@ -242,6 +245,7 @@
     mode = [
       "n"
       "i"
+      "t"
     ];
     key = "<M-H>";
     action = "<cmd>vertical:res -1<cr>";
@@ -251,6 +255,7 @@
     mode = [
       "n"
       "i"
+      "t"
     ];
     key = "<M-L>";
     action = "<cmd>vertical:res +1<cr>";
@@ -329,6 +334,26 @@
     mode = "n";
     key = "<leader>ft";
     action = "<cmd>Obsidian tags<cr>";
+  }
+
+  # Query AI (opencode)
+
+  {
+    mode = "x";
+    key = "<leader>qp";
+    action.__raw = "function() require('opencode').ask('@selection ') end";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>qp";
+    action.__raw = "function() require('opencode').ask('@cursor ') end";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>qq";
+    action.__raw = "function() require('opencode').ask('@quickfix ') end";
   }
 
   # Misc

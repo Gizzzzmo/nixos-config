@@ -133,7 +133,16 @@
   plugins.lean = (import ./neovim/lean.nix) home_inputs;
   plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
 
-  plugins.snacks.enable = true;
+  plugins.snacks = {
+    enable = true;
+    settings = {
+      input.enabled = true;
+      picker.enabled = true;
+      bigfile.enabled = true;
+      image.enabled = true;
+    };
+  };
+
   plugins.opencode.enable = true;
   plugins.schemastore.enable = true;
   plugins.clangd-extensions.enable = true;
@@ -148,27 +157,27 @@
     enable = true;
     keymaps = [
       {
-        mode = ["n" "i"];
+        mode = ["n" "i" "t"];
         action = "left";
         key = "<M-h>";
       }
       {
-        mode = ["n" "i"];
+        mode = ["n" "i" "t"];
         action = "down";
         key = "<M-j>";
       }
       {
-        mode = ["n" "i"];
+        mode = ["n" "i" "t"];
         action = "up";
         key = "<M-k>";
       }
       {
-        mode = ["n" "i"];
+        mode = ["n" "i" "t"];
         action = "right";
         key = "<M-l>";
       }
       {
-        mode = ["n" "i"];
+        mode = ["n" "i" "t"];
         action = "previous";
         key = "<C-\\>";
       }
