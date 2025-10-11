@@ -156,6 +156,8 @@
     settings = {
       font-family = "FiraCode Nerd Font";
       font-size = 12;
+      background-opacity = "0.8";
+      background = "#131313";
     };
   };
   programs.mpv = {
