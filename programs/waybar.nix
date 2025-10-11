@@ -26,7 +26,7 @@
         exec = ''cmus-remote -C "format_print '%t - %a'" | sed 's/\(.\{15\}\).*/\1.../' ''; # artist - title
         exec-if = "pgrep cmus";
         on-click = "cmus-remote -u"; # toggle pause
-        on-click-right = "alacritty --command tmux at -t cmux";
+        on-click-right = "ghostty -e tmux at -t cmux";
         escape = true; # handle markup entities
       };
       "hyprland/language" = {
@@ -86,7 +86,7 @@
       };
       cpu = {
         format = "| {usage}% ";
-        on-click = "alacritty --command btop";
+        on-click = "ghostty -e btop";
       };
       memory = {
         format = "| {}%  ";
