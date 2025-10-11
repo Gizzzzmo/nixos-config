@@ -279,7 +279,7 @@
   {
     mode = "n";
     key = "<leader>or";
-    action = "<cmd>ObsidianRename<cr>";
+    action = "<cmd>Obsidian rename<cr>";
   }
 
   {
