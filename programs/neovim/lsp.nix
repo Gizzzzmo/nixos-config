@@ -1,8 +1,4 @@
-{
-  pkgs,
-  standalone,
-  ...
-}: {
+{...}: {
   enable = true;
   inlayHints = true;
   preConfig = ''
