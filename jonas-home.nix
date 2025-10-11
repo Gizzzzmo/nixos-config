@@ -86,6 +86,7 @@
       ]
       else
         with pkgs; [
+          bluetui
           opencode
           keepassxc
           signal-desktop

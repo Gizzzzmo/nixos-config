@@ -9,7 +9,7 @@
       # width= 1366; // Waybar width
       # Choose the order of the modules
 
-      modules-left = ["clock" "battery" "network"];
+      modules-left = ["clock" "battery" "bluetooth" "network"];
       modules-center = ["hyprland/workspaces"];
       modules-right = [
         "tray"
@@ -23,7 +23,7 @@
         format = "| ♪ {text} |";
         # "max-length"= 15;
         interval = 10;
-        exec = ''cmus-remote -C "format_print '%t - %a'" | sed 's/\(.\{15\}\).*/\1.../' ''; # artist - title
+        exec = ''cmus-remote -C "format_print '%t'" | sed 's/\(.\{15\}\).*/\1.../' ''; # artist - title
         exec-if = "pgrep cmus";
         on-click = "cmus-remote -u"; # toggle pause
         on-click-right = "ghostty -e tmux at -t cmux";
@@ -35,6 +35,14 @@
         format-us = "US";
         format-en = "US";
         on-click = "hyprctl switchxkblayout all next";
+      };
+
+      "bluetooth" = {
+        format = " - |";
+        format-connected = " {device_alias} |";
+        tooltip-format = "{device_enumerate}";
+        tooltip = true;
+        on-click = "ghostty -e bluetui";
       };
 
       "hyprland/workspaces" = {
@@ -121,7 +129,7 @@
       pulseaudio = {
         scroll-step = 2;
         format = "{volume}% {icon}  |";
-        format-bluetooth = "{volume}% {icon} |";
+        format-bluetooth = "{volume}% {icon}   |";
         format-muted = "      |";
         format-icons = {
           headphones = "";
@@ -195,7 +203,7 @@
       border-bottom: 3px solid white;
     }
 
-    #battery, #network, #clock {
+    #battery, #network, #clock, #bluetooth {
       color: #cccccc;
     }
 
