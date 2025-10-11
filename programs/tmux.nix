@@ -32,6 +32,8 @@
 
       set -g default-shell /home/jonas/.nix-profile/bin/fish
       set -g status-left-length 30
+      set -gq allow-passthrough on
+      set -g visual-activity off
 
       bind -r h select-pane -L
       bind -r j select-pane -D
