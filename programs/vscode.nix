@@ -4,9 +4,10 @@
   profiles.default = {
     extensions = with pkgs.vscode-extensions; [
       rust-lang.rust-analyzer
-        llvm-vs-code-extensions.vscode-clangd
-        vscodevim.vim
-        enkia.tokyo-night
+      llvm-vs-code-extensions.vscode-clangd
+      christian-kohler.path-intellisense
+      vscodevim.vim
+      enkia.tokyo-night
     ];
     userSettings = {
       "workbench.editor.showTabs" = false;
