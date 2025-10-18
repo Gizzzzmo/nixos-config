@@ -27,6 +27,12 @@
   # environment.
   home.packages = with pkgs;
     [
+      (
+        writers.writePython3Bin
+        "ghostty_wrap"
+        {}
+        (builtins.readFile ./scripts/ghostty_wrap.py)
+      )
       imagemagick
       file
       eza
@@ -45,7 +51,6 @@
       alejandra
       ruff
       shfmt
-      xdg-utils
       lsof
       usbutils
       proximity-sort
@@ -64,6 +69,7 @@
       wiki-tui
       glab
       gurk-rs
+      zathura
       (pkgs.nom.overrideAttrs (oldAttrs: {
         pname = "nix-output-monitor-cli";
         # Optionally, you can rename the binary
@@ -87,6 +93,7 @@
       else
         with pkgs; [
           bluetui
+          impala
           opencode
           keepassxc
           signal-desktop
@@ -113,7 +120,6 @@
           grim
           slurp
           foliate
-          zathura
           # # Adds the 'hello' command to your environment. It prints a friendly
           # # "Hello, world!" when run.
           # pkgs.hello
@@ -140,6 +146,21 @@
   programs.fish = (import ./programs/fish.nix) home_inputs;
   programs.bat = (import ./programs/bat.nix) home_inputs;
   programs.qutebrowser = (import ./programs/qutebrowser.nix) home_inputs;
+  xdg = {
+    enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "text/html" =
+          if standalone
+          then "wslview.desktop"
+          else "qutebrowser.desktop";
+        "application/pdf" = "zathura.desktop";
+        "image/png" = "eog.desktop";
+        "image/jpeg" = "eog.desktop";
+      };
+    };
+  };
 
   services.gpg-agent =
     {
@@ -152,19 +173,14 @@
       else {pinentry.package = pkgs.pinentry-rofi;}
     );
 
-  programs.ghostty = {
-    enable = !standalone;
-    enableFishIntegration = true;
-    settings = {
-      font-family = "FiraCode Nerd Font";
-      font-size = 11.3;
-      background-opacity = "0.8";
-      background = "#131313";
-    };
-  };
   programs.mpv = {
     enable = !standalone;
   };
+  programs.ghostty =
+    (import ./programs/ghostty.nix) home_inputs
+    // {
+      enable = !standalone;
+    };
   programs.wofi =
     (import ./programs/wofi.nix) home_inputs
     // {

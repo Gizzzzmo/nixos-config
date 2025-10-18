@@ -26,7 +26,7 @@
         exec = ''cmus-remote -C "format_print '%t'" | sed 's/\(.\{15\}\).*/\1.../' ''; # artist - title
         exec-if = "pgrep cmus";
         on-click = "cmus-remote -u"; # toggle pause
-        on-click-right = "ghostty -e tmux at -t cmux";
+        on-click-right = "ghostty_wrap -e tmux at -t cmux";
         escape = true; # handle markup entities
       };
       "hyprland/language" = {
@@ -42,7 +42,7 @@
         format-connected = " {device_alias} |";
         tooltip-format = "{device_enumerate}";
         tooltip = true;
-        on-click = "ghostty -e bluetui";
+        on-click = "ghostty_wrap -e bluetui";
       };
 
       "hyprland/workspaces" = {
@@ -94,7 +94,7 @@
       };
       cpu = {
         format = "| {usage}%  ";
-        on-click = "ghostty -e btop";
+        on-click = "ghostty_wrap --font-size=8.9 -e btop";
       };
       memory = {
         format = "| {}%  ";
@@ -126,6 +126,7 @@
         format-ethernet = "{ifname}  ";
         format-disconnected = " - ⚠";
         tooltip-format-wifi = "{essid}";
+        on-click = "ghostty_wrap -e impala";
       };
       pulseaudio = {
         scroll-step = 2;
@@ -189,7 +190,7 @@
       border-bottom: 3px solid white;
     }
 
-    #clock:hover, #bluetooth:hover {
+    #clock:hover, #bluetooth:hover, #network:hover {
       color: #ffffff;
     }
 
@@ -217,10 +218,6 @@
       color: red;
     }
 
-    #battery.critical {
-      color: #f53c3c;
-    }
-
     @keyframes blink {
       to {
           background-color: #ffffff;
@@ -229,7 +226,7 @@
     }
 
     #battery.critical:not(.charging) {
-      color: white;
+      color: #f53c3c;
       animation-name: blink;
       animation-duration: 0.5s;
       animation-timing-function: linear;
