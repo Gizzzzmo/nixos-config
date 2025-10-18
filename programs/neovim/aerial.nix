@@ -7,12 +7,16 @@
       min_width = [20];
       max_width = [20];
     };
-    backends = [
-      "lsp"
-      "treesitter"
-      "markdown"
-      "asciidoc"
-      "man"
-    ];
+    backends = {
+      "_" = [
+        "lsp"
+        "treesitter"
+        "markdown"
+        "asciidoc"
+        "man"
+      ];
+      markdown = ["treesitter" "markdown"];
+    };
+    filter_kind = false;
   };
 }
