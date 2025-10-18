@@ -11,7 +11,6 @@
           i = {
             "<C-i>".__raw = "require('telescope-live-grep-args.actions').quote_prompt({postfix = ' --iglob '})";
             "<C-j>".__raw = "require('telescope-live-grep-args.actions').quote_prompt()";
-            "<C-space>".__raw = "require('telescope.actions').to_fuzzy_refine";
           };
         };
       };
@@ -38,6 +37,7 @@
               require('telescope.actions').open_qflist()
           end
         '';
+        "<C-space>".__raw = "require('telescope.actions').to_fuzzy_refine";
       };
       n = {
         "<M-q>".__raw = ''
@@ -46,6 +46,7 @@
               require('telescope.actions').open_qflist()
           end
         '';
+        "<C-space>".__raw = "require('telescope.actions').to_fuzzy_refine";
       };
     };
   };
