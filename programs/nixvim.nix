@@ -2,7 +2,8 @@
   pkgs,
   standalone,
   ...
-} @ home_inputs: {
+} @ home_inputs:
+{
   enable = true;
 
   # colorschemes.lunaperche.enable = true;
@@ -143,7 +144,6 @@
     };
   };
 
-  plugins.opencode.enable = true;
   plugins.schemastore.enable = true;
   plugins.clangd-extensions.enable = true;
   plugins.rustaceanvim.enable = true;
@@ -199,3 +199,12 @@
     git.enable = true;
   };
 }
+// (
+  if standalone
+  then {}
+  else {
+    plugins.opencode = {
+      enable = true;
+    };
+  }
+)
