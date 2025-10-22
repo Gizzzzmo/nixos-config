@@ -8,25 +8,17 @@
 
   package = pkgs.fish;
 
-  shellAliases =
-    {
-      "..." = "cd ../..";
-      ".." = "cd ..";
-      "ls" = "eza";
-      "ll" = "eza -lg --git";
-      "lla" = "eza -lga --git";
-      "la" = "eza -a";
-      "lt" = "eza -s modified -lg";
-      "lta" = "eza -s modified -lga --git";
-      "cat" = "bat";
-    }
-    // (
-      if standalone
-      then {
-        "opencode" = "direnv exec $HOME/gitprjs/forks/opencode/opencode bun run --conditions=development $HOME/gitprjs/forks/opencode/opencode/packages/opencode/src/index.ts";
-      }
-      else {}
-    );
+  shellAliases = {
+    "..." = "cd ../..";
+    ".." = "cd ..";
+    "ls" = "eza";
+    "ll" = "eza -lg --git";
+    "lla" = "eza -lga --git";
+    "la" = "eza -a";
+    "lt" = "eza -s modified -lg";
+    "lta" = "eza -s modified -lga --git";
+    "cat" = "bat";
+  };
 
   shellInit = ''
     set fish_greeting
