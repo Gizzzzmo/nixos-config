@@ -124,6 +124,34 @@
 
   {
     mode = "n";
+    key = "<leader>fs";
+    options.silent = false;
+    action.__raw = ''
+      function()
+        -- get the word under cursor, and open live_grep_args with it
+        local word = vim.fn.expand("<cword>")
+        vim.notify("Searching for: " .. word)
+        require('telescope').extensions.live_grep_args.live_grep_args({
+          default_text = word
+        })
+      end
+    '';
+  }
+
+  {
+    mode = "x";
+    key = "<leader>fg";
+    options.silent = false;
+    action.__raw = ''
+      function()
+        -- get the selected text, and open live_grep_args with it
+        -- TODO
+      end
+    '';
+  }
+
+  {
+    mode = "n";
     key = "<leader>fh";
     options.silent = false;
     action = "<cmd>Telescope help_tags<cr>";
