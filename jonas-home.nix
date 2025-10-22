@@ -84,6 +84,7 @@
     ++ (
       if standalone
       then [
+        gnupg
         cmake
         wslu
         neocmakelsp
@@ -162,16 +163,11 @@
     };
   };
 
-  services.gpg-agent =
-    {
-      enable = true;
-      maxCacheTtl = 18000;
-    }
-    // (
-      if standalone
-      then {}
-      else {pinentry.package = pkgs.pinentry-rofi;}
-    );
+  services.gpg-agent = {
+    enable = true;
+    maxCacheTtl = 18000;
+    pinentry.package = pkgs.pinentry-rofi;
+  };
 
   programs.mpv = {
     enable = !standalone;
