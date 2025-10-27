@@ -9,7 +9,9 @@
     mouse-scroll-multiplier = "precision:0.5,discrete:2";
     confirm-close-surface = false;
     keybind = [
-      "ctrl+enter=set_font_size:8.9"
+      "ctrl+9=set_font_size:8.9"
+      "ctrl+shift+enter=toggle_fullscreen"
+      "ctrl+enter=unbind"
     ];
   };
 }

@@ -57,7 +57,7 @@ def main():
         [
             "ghostty",
             f"--font-size={font_size}",
-            f"--keybind=ctrl+enter=set_font_size:{font_size_small}",
+            f"--keybind=ctrl+9=set_font_size:{font_size_small}",
         ]
         + sys.argv[1:],
     )
