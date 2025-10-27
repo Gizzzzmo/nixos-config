@@ -110,7 +110,6 @@
           pavucontrol
           vscode
           eog
-          obs-studio
           obsidian
           waybar
           firefox
@@ -199,6 +198,11 @@
     };
   programs.hyprlock =
     (import ./programs/hyprlock.nix) home_inputs
+    // {
+      enable = !standalone;
+    };
+  programs.obs-studio =
+    (import ./programs/obs.nix) home_inputs
     // {
       enable = !standalone;
     };
