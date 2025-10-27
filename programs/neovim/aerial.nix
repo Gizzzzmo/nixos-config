@@ -17,6 +17,6 @@
       ];
       markdown = ["treesitter" "markdown"];
     };
-    filter_kind = false;
+    # filter_kind = false;
   };
 }

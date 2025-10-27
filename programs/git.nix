@@ -1,22 +1,24 @@
 {pkgs, ...}: {
   enable = true;
-  userName = "Jonas Beyer";
-  userEmail = "reyeb.sanoj@googlemail.com";
+  settings = {
+    user.email =  "reyeb.sanoj@googlemail.com";
+    user.name = "Jonas Beyer";
 
-  extraConfig = {
     init.defaultBranch = "main";
     rerere.enabled = true;
-    core.editor = "nvim";
     commit.gpgsign = true;
+
+    core.editor = "nvim";
     core.hooksPath = "~/.config/git/hooks";
     core.excludesFile = "~/.config/git/exclude";
+
+    alias = {
+      dl = "-c diff.external=difft log -p --ext-diff";
+      ds = "-c diff.external=difft show --ext-diff";
+      dft = "-c diff.external=difft diff";
+    };
   };
 
-  aliases = {
-    dl = "-c diff.external=difft log -p --ext-diff";
-    ds = "-c diff.external=difft show --ext-diff";
-    dft = "-c diff.external=difft diff";
-  };
 
   includes = [
     {
