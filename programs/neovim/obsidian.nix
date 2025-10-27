@@ -39,18 +39,6 @@
       folder = "./daily";
     };
 
-    callbacks = {
-      # enter_note = ''
-      #   function(_, note)
-      #
-      #     vim.keymap.set("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<cr>", {
-      #       buffer = note.bufnr,
-      #       desc = "Toggle checkbox",
-      #     })
-      #   end
-      # '';
-    };
-
     completion = {
       min_chars = 2;
       blink = true;
@@ -75,8 +63,8 @@
           path = "~/notes/notes/";
         }
         {
-          name = "blog";
-          path = "~/gitprjs/personal/blog/content/";
+          name = "website";
+          path = "~/gitprjs/personal/website/site";
         }
       ];
   };
