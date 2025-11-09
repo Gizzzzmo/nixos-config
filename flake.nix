@@ -22,10 +22,6 @@
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flox = {
-      url = "github:flox/flox/v1.3.8";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
     muxxies = {
       url = "github:Gizzzzmo/muxxies/main";
       inputs.nixpkgs.follows = "nixpkgs";
