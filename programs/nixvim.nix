@@ -2,8 +2,7 @@
   pkgs,
   standalone,
   ...
-} @ home_inputs:
-{
+} @ home_inputs: {
   enable = true;
 
   # colorschemes.lunaperche.enable = true;
@@ -119,92 +118,49 @@
   autoCmd = import ./neovim/auto-commands.nix;
 
   keymaps = import ./neovim/keymaps.nix;
+  plugins =
+    {
+      aerial = (import ./neovim/aerial.nix) home_inputs;
+      zen-mode = (import ./neovim/zen-mode.nix) home_inputs;
+      indent-blankline = (import ./neovim/indent-blankline.nix) home_inputs;
+      lualine = (import ./neovim/lualine.nix) home_inputs;
+      fugitive = (import ./neovim/fugitive.nix) home_inputs;
+      obsidian = (import ./neovim/obsidian.nix) home_inputs;
+      copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
+      lsp = (import ./neovim/lsp.nix) home_inputs;
+      blink-cmp = (import ./neovim/blink-cmp.nix) home_inputs;
+      luasnip = (import ./neovim/luasnip.nix) home_inputs;
+      telescope = (import ./neovim/telescope.nix) home_inputs;
+      # lean = (import ./neovim/lean.nix) home_inputs;
+      treesitter = (import ./neovim/treesitter.nix) home_inputs;
+      tmux-navigator = (import ./neovim/tmux-navigator.nix) home_inputs;
+      snacks = (import ./neovim/snacks.nix) home_inputs;
 
-  plugins.aerial = (import ./neovim/aerial.nix) home_inputs;
-  plugins.zen-mode = (import ./neovim/zen-mode.nix) home_inputs;
-  plugins.indent-blankline = (import ./neovim/indent-blankline.nix) home_inputs;
-  plugins.lualine = (import ./neovim/lualine.nix) home_inputs;
-  plugins.fugitive = (import ./neovim/fugitive.nix) home_inputs;
-  plugins.obsidian = (import ./neovim/obsidian.nix) home_inputs;
-  plugins.copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
-  plugins.lsp = (import ./neovim/lsp.nix) home_inputs;
-  plugins.blink-cmp = (import ./neovim/blink-cmp.nix) home_inputs;
-  plugins.luasnip = (import ./neovim/luasnip.nix) home_inputs;
-  plugins.telescope = (import ./neovim/telescope.nix) home_inputs;
-  # plugins.lean = (import ./neovim/lean.nix) home_inputs;
-  plugins.treesitter = (import ./neovim/treesitter.nix) home_inputs;
-
-  plugins.snacks = {
-    enable = true;
-    settings = {
-      input.enabled = true;
-      picker.enabled = true;
-      bigfile.enabled = true;
-      image.enabled = true;
-    };
-  };
-
-  plugins.schemastore.enable = true;
-  plugins.clangd-extensions.enable = true;
-  plugins.rustaceanvim.enable = true;
-  plugins.fzf-lua.enable = true;
-  # plugins.cmp_luasnip.enable = true;
-  plugins.diffview.enable = true;
-  plugins.web-devicons.enable = true;
-  plugins.nvim-surround.enable = true;
-  plugins.ccc.enable = true;
-  plugins.tmux-navigator = {
-    enable = true;
-    keymaps = [
-      {
-        mode = ["n" "i" "t"];
-        action = "left";
-        key = "<M-h>";
+      schemastore.enable = true;
+      clangd-extensions.enable = true;
+      rustaceanvim.enable = true;
+      fzf-lua.enable = true;
+      # cmp_luasnip.enable = true;
+      diffview.enable = true;
+      web-devicons.enable = true;
+      nvim-surround.enable = true;
+      ccc.enable = true;
+      oil.enable = true;
+    }
+    // (
+      if standalone
+      then {}
+      else {
+        opencode.enable = true;
       }
-      {
-        mode = ["n" "i" "t"];
-        action = "down";
-        key = "<M-j>";
-      }
-      {
-        mode = ["n" "i" "t"];
-        action = "up";
-        key = "<M-k>";
-      }
-      {
-        mode = ["n" "i" "t"];
-        action = "right";
-        key = "<M-l>";
-      }
-      {
-        mode = ["n" "i" "t"];
-        action = "previous";
-        key = "<C-\\>";
-      }
-    ];
-    settings.no_mappings = 1;
-  };
-
-  plugins.oil.enable = true;
+    );
 
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb
     telescope-emoji-nvim
   ];
 
-  # plugins.texpresso = {
-  #   enable = !standalone;
-  # };
   dependencies = {
     git.enable = true;
   };
 }
-// (
-  if standalone
-  then {}
-  else {
-    plugins.opencode = {
-      enable = true;
-    };
-  }
-)
