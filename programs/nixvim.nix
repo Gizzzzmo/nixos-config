@@ -53,6 +53,10 @@
     "@lsp.type.parameter".link = "@variable.parameter";
     typstHashtagIdentifier.link = "@function.call";
     "@lsp.type.function.typst".link = "@function.call";
+    "@markup.link.label.markdown_inline" = {
+      fg = "#f584ff";
+      underline = true;
+    };
   };
 
   extraConfigLuaPre = ''
