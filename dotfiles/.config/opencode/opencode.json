@@ -4,8 +4,6 @@
     "keybinds": {
         "messages_half_page_down": "alt+d",
         "messages_half_page_up": "alt+u",
-        "messages_next": "ctrl+j",
-        "messages_previous": "ctrl+k",
         "input_clear": "ctrl+u",
         "messages_last": "ctrl+alt+g",
         "input_newline": "ctrl+enter",
