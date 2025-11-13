@@ -2,7 +2,10 @@
   enable = true;
   autoLoad = true;
   settings = {
-    filetypes."." = true;
+    filetypes = {
+      "." = true;
+      markdown = true;
+    };
     suggestion = {
       enabled = true;
       auto_trigger = true;
