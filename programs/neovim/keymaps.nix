@@ -413,4 +413,11 @@
     key = "<leader>ce";
     action = "<cmd>Copilot enable<cr>";
   }
+
+  # Neogen
+  {
+    mode = "n";
+    key = "<leader>ng";
+    action = "<cmd>Neogen<cr>";
+  }
 ]

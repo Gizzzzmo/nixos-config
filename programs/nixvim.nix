@@ -139,6 +139,7 @@
       treesitter = (import ./neovim/treesitter.nix) home_inputs;
       tmux-navigator = (import ./neovim/tmux-navigator.nix) home_inputs;
       snacks = (import ./neovim/snacks.nix) home_inputs;
+      neogen = (import ./neovim/neogen.nix) home_inputs;
 
       schemastore.enable = true;
       clangd-extensions.enable = true;
