@@ -367,19 +367,19 @@
   # Query AI (opencode)
 
   {
-    mode = "x";
+    mode = ["n" "x"];
     key = "<leader>qp";
-    action.__raw = "function() require('opencode').ask('@selection ') end";
+    action.__raw = "function() require('opencode').ask('@this ') end";
   }
 
   {
     mode = "n";
-    key = "<leader>qp";
-    action.__raw = "function() require('opencode').ask('@cursor ') end";
+    key = "<leader>qm";
+    action.__raw = "function() require('opencode').select() end";
   }
 
   {
-    mode = "n";
+    mode = ["n" "x"];
     key = "<leader>qq";
     action.__raw = "function() require('opencode').ask('@quickfix ') end";
   }
