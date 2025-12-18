@@ -22,6 +22,7 @@
         .outPath
       }/tmux_super_fingers.tmux
 
+      set -g prefix C-b
       set -s escape-time 0
       set -g mouse on
       set -g status-style bg=colour8,fg=colour15
