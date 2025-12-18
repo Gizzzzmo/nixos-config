@@ -165,7 +165,7 @@
   services.gpg-agent = {
     enable = true;
     maxCacheTtl = 18000;
-    pinentry.package = pkgs.pinentry-rofi;
+    pinentry.package = pkgs.pinentry-qt;
   };
 
   programs.mpv = {
