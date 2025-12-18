@@ -100,10 +100,7 @@
     };
     "lua/obsidian-helper.lua" = {
       enable = true;
-      source =
-        if standalone
-        then ./neovim/lua/obsidian-helper-old.lua
-        else ./neovim/lua/obsidian-helper.lua;
+      source = ./neovim/lua/obsidian-helper.lua;
     };
   };
 
@@ -122,43 +119,37 @@
   autoCmd = import ./neovim/auto-commands.nix;
 
   keymaps = import ./neovim/keymaps.nix;
-  plugins =
-    {
-      aerial = (import ./neovim/aerial.nix) home_inputs;
-      zen-mode = (import ./neovim/zen-mode.nix) home_inputs;
-      indent-blankline = (import ./neovim/indent-blankline.nix) home_inputs;
-      lualine = (import ./neovim/lualine.nix) home_inputs;
-      fugitive = (import ./neovim/fugitive.nix) home_inputs;
-      obsidian = (import ./neovim/obsidian.nix) home_inputs;
-      copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
-      lsp = (import ./neovim/lsp.nix) home_inputs;
-      blink-cmp = (import ./neovim/blink-cmp.nix) home_inputs;
-      luasnip = (import ./neovim/luasnip.nix) home_inputs;
-      telescope = (import ./neovim/telescope.nix) home_inputs;
-      # lean = (import ./neovim/lean.nix) home_inputs;
-      treesitter = (import ./neovim/treesitter.nix) home_inputs;
-      tmux-navigator = (import ./neovim/tmux-navigator.nix) home_inputs;
-      snacks = (import ./neovim/snacks.nix) home_inputs;
-      neogen = (import ./neovim/neogen.nix) home_inputs;
+  plugins = {
+    aerial = (import ./neovim/aerial.nix) home_inputs;
+    zen-mode = (import ./neovim/zen-mode.nix) home_inputs;
+    indent-blankline = (import ./neovim/indent-blankline.nix) home_inputs;
+    lualine = (import ./neovim/lualine.nix) home_inputs;
+    fugitive = (import ./neovim/fugitive.nix) home_inputs;
+    obsidian = (import ./neovim/obsidian.nix) home_inputs;
+    copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
+    lsp = (import ./neovim/lsp.nix) home_inputs;
+    blink-cmp = (import ./neovim/blink-cmp.nix) home_inputs;
+    luasnip = (import ./neovim/luasnip.nix) home_inputs;
+    telescope = (import ./neovim/telescope.nix) home_inputs;
+    # lean = (import ./neovim/lean.nix) home_inputs;
+    treesitter = (import ./neovim/treesitter.nix) home_inputs;
+    tmux-navigator = (import ./neovim/tmux-navigator.nix) home_inputs;
+    snacks = (import ./neovim/snacks.nix) home_inputs;
+    neogen = (import ./neovim/neogen.nix) home_inputs;
 
-      schemastore.enable = true;
-      clangd-extensions.enable = true;
-      rustaceanvim.enable = true;
-      fzf-lua.enable = true;
-      # cmp_luasnip.enable = true;
-      diffview.enable = true;
-      web-devicons.enable = true;
-      nvim-surround.enable = true;
-      ccc.enable = true;
-      oil.enable = true;
-    }
-    // (
-      if standalone
-      then {}
-      else {
-        opencode.enable = true;
-      }
-    );
+    schemastore.enable = true;
+    clangd-extensions.enable = true;
+    rustaceanvim.enable = true;
+    fzf-lua.enable = true;
+    # cmp_luasnip.enable = true;
+    diffview.enable = true;
+    web-devicons.enable = true;
+    nvim-surround.enable = true;
+    ccc.enable = true;
+    oil.enable = true;
+    opencode.enable = true;
+    gitgutter.enable = true;
+  };
 
   extraPlugins = with pkgs.vimPlugins; [
     nvim-gdb
