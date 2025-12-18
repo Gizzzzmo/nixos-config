@@ -47,7 +47,7 @@
       zip
       wget
 
-      inputs.muxxies.defaultPackage.${pkgs.system}
+      inputs.muxxies.defaultPackage.${pkgs.stdenv.hostPlatform.system}
       alejandra
       ruff
       shfmt
