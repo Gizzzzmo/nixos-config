@@ -136,6 +136,7 @@
     tmux-navigator = (import ./neovim/tmux-navigator.nix) home_inputs;
     snacks = (import ./neovim/snacks.nix) home_inputs;
     neogen = (import ./neovim/neogen.nix) home_inputs;
+    iron = (import ./neovim/iron.nix) home_inputs;
 
     schemastore.enable = true;
     clangd-extensions.enable = true;
@@ -155,8 +156,6 @@
     [
       nvim-gdb
       telescope-emoji-nvim
-      # tidal-nvim dependencies
-      iron-nvim
     ]
     ++
     # fetch tidal-nvim from codeberg
@@ -177,11 +176,11 @@
       -- Tidal configuration
       ghci = "ghci",
       boot = nil,  -- Auto-detect BootTidal.hs
-      
+
       -- SuperCollider configuration
       sc_strategy = "scnvim",  -- or "terminal"
       sc_enable = false,  -- Set to true if you want SuperCollider
-      
+
       -- Interface settings
       split_direction = "below",
       flash_duration = 150,
