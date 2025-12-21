@@ -151,10 +151,43 @@
     gitgutter.enable = true;
   };
 
-  extraPlugins = with pkgs.vimPlugins; [
-    nvim-gdb
-    telescope-emoji-nvim
-  ];
+  extraPlugins = with pkgs.vimPlugins;
+    [
+      nvim-gdb
+      telescope-emoji-nvim
+      # tidal-nvim dependencies
+      iron-nvim
+    ]
+    ++
+    # fetch tidal-nvim from codeberg
+    [
+      (pkgs.vimUtils.buildVimPlugin {
+        pname = "tidal-nvim";
+        version = "0.2.0";
+        src = pkgs.fetchurl {
+          url = "https://codeberg.org/madskjeldgaard/tidal-nvim/archive/61aee27a7b55370b94e4ab5a3021bfd311cffba0.tar.gz";
+          hash = "sha256-4fQR/+15u4pkMUqrlt1c+720vaUJkKNtOzD9OTxkoM4=";
+        };
+      })
+    ];
+
+  extraConfigLua = ''
+    -- Configure tidal-nvim (note: module name uses underscore)
+    require('tidal_nvim').setup({
+      -- Tidal configuration
+      ghci = "ghci",
+      boot = nil,  -- Auto-detect BootTidal.hs
+      
+      -- SuperCollider configuration
+      sc_strategy = "scnvim",  -- or "terminal"
+      sc_enable = false,  -- Set to true if you want SuperCollider
+      
+      -- Interface settings
+      split_direction = "below",
+      flash_duration = 150,
+      preserve_curpos = true,
+    })
+  '';
 
   dependencies = {
     git.enable = true;
