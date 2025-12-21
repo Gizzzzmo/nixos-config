@@ -130,6 +130,7 @@
 
   users.users.jonas = {
     extraGroups = [
+      "audio"
       "wheel"
       "networkmanager"
       "backlight"
