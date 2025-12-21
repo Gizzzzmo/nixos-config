@@ -179,12 +179,15 @@
 
       -- SuperCollider configuration
       sc_strategy = "scnvim",  -- or "terminal"
-      sc_enable = false,  -- Set to true if you want SuperCollider
+      sc_enable = true,  -- Set to true if you want SuperCollider
 
       -- Interface settings
       split_direction = "below",
       flash_duration = 150,
       preserve_curpos = true,
+      keymaps = {
+        toggle = "<leader>tt",
+      }
     })
   '';
 

@@ -1,4 +1,23 @@
 [
+  # Iron
+  {
+    mode = ["n" "i"];
+    key = "<M-Enter>";
+    action.__raw = "function() require('iron.core').send_line() end";
+  }
+
+  {
+    mode = ["x"];
+    key = "<M-Enter>";
+    action.__raw = "function() require('iron.core').visual_send() end";
+  }
+
+  {
+    mode = ["n" "i"];
+    key = "<M-m>";
+    action.__raw = "function() require('iron.core').send_code_block() end";
+  }
+
   {
     mode = ["n" "i"];
     key = "<M-U>";
