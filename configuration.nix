@@ -6,11 +6,12 @@
   lib,
   pkgs,
   inputs,
+  system,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    if system == "framework-desktop" then ./hardware-configuration.nix else ./systems/framework-desktop/hardware-configuration.nix
     ./main-user.nix
     inputs.home-manager.nixosModules.default
   ];
@@ -135,7 +136,7 @@
       "networkmanager"
       "backlight"
       "libvirtd"
-    ]; # Enable ‘sudo’ for the user.
+    ];
   };
 
   home-manager = {
@@ -212,6 +213,7 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+  services.openssh.enable = system == "framework-desktop";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -241,4 +243,11 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
-}
+} // if system == "framework-desktop" then {
+  boot.initrd.luks.devices = {
+    root = {
+      device = "/dev/nvme0n1p2";
+      preLVM = true;
+    };
+  };
+} else {};
