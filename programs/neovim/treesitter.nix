@@ -18,7 +18,7 @@
     markdown
     python
   ];
-  folding = true;
+  folding.enable = true;
   settings = {
     highlight.enable = true;
     incremental_selection = {
