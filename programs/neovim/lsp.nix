@@ -48,7 +48,7 @@
     neocmake = {
       enable = true;
       package = null;
-      cmd = ["neocmakelsp"];
+      cmd = ["neocmakelsp" "stdio"];
       extraOptions = {
         capabilities.textDocument.completion.completionItem.snippetSupport = false;
         init_options = {
