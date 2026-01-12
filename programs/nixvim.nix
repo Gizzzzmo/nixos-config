@@ -149,7 +149,14 @@
     ccc.enable = true;
     oil.enable = true;
     opencode.enable = true;
-    gitgutter.enable = true;
+    gitgutter = {
+      enable = true;
+      settings = {
+        keys = {
+          map_keys = false;
+        };
+      };
+    };
   };
 
   extraPlugins = with pkgs.vimPlugins;
