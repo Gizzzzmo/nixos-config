@@ -1,0 +1,19 @@
+configpath: /home/jonas/.config/nom/config.yml
+showfavourites: false
+version: ""
+feeds:
+    - url: https://100r.co/links/rss.xml
+    - url: https://tratt.net/laurie/blog/blog.rss
+    - url: https://thesquareplanet.com/feed.xml
+    - url: https://3blue1brown.substack.com/feed
+    - url: https://thephd.dev/feed.xml
+    - url: https://mcyoung.xyz/feed
+ordering: asc
+theme:
+    glamour: dark
+    titleColor: "62"
+    filterColor: "62"
+    selectedItemColor: "170"
+    readIcon: ✓
+http:
+    mintls: TLS 1.2
