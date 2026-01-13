@@ -176,6 +176,7 @@
     cron
     swtpm
     tpm-tools
+    waypipe
   ];
 
   environment = {
