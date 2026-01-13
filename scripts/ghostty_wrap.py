@@ -44,6 +44,9 @@ def main():
     height = monitor.get("height", 1080)
 
     match height:
+        case 2160:
+            font_size = "20.8"
+            font_size_small = "13.4"
         case 1440:
             font_size = "18.7"
             font_size_small = "14.2"
