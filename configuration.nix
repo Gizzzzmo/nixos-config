@@ -6,12 +6,12 @@
   lib,
   pkgs,
   inputs,
-  system,
+  my-system,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
-    if system == "framework-desktop" then ./hardware-configuration.nix else ./systems/framework-desktop/hardware-configuration.nix
+    my-system.hardware-config
     ./main-user.nix
     inputs.home-manager.nixosModules.default
   ];
@@ -23,7 +23,17 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  boot.initrd.luks.devices = lib.mkIf (my-system.id == "framework-desktop") {
+    root = {
+      device = "/dev/nvme0n1p2";
+      preLVM = true;
+    };
+  };
+
+  services.flatpak.enable = true;
+
+  networking.hostName = my-system.hostName or "nixos";
+
   networking.networkmanager = {
     enable = true;
     # wifi.backend = "iwd";
@@ -210,10 +220,12 @@
   # };
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-  services.openssh.enable = system == "framework-desktop";
+  services.openssh = {
+    enable = my-system.enableSshServer or false;
+    settings = {
+      PasswordAuthentication = false;
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -243,11 +255,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
-} // if system == "framework-desktop" then {
-  boot.initrd.luks.devices = {
-    root = {
-      device = "/dev/nvme0n1p2";
-      preLVM = true;
-    };
-  };
-} else {};
+}

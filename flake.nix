@@ -1,4 +1,4 @@
-# sudo nixos-rebuild switch --flake /etc/nixos#default
+# sudo nixos-rebuild switch --flake /path/to/this/file#<profile>
 {
   description = "Nixos config flake";
 
@@ -29,15 +29,37 @@
     nixpkgs,
     ...
   } @ inputs: {
-    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-      };
+    nixosConfigurations = {
+      thinkpad = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+          my-system = {
+            id = "thinkpad";
+            hardware-config = ./systems/thinkpad/hardware-configuration.nix;
+          };
+        };
 
-      modules = [
-        ./configuration.nix
-        inputs.home-manager.nixosModules.default
-      ];
+        modules = [
+          ./configuration.nix
+          inputs.home-manager.nixosModules.default
+        ];
+      };
+      framework-desktop = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+          my-system = {
+            id = "framework-desktop";
+            hostName = "hilbert";
+            hardware-config = ./systems/framework-desktop/hardware-configuration.nix;
+            enableSshServer = true;
+          };
+        };
+
+        modules = [
+          ./configuration.nix
+          inputs.home-manager.nixosModules.default
+        ];
+      };
     };
   };
 }
