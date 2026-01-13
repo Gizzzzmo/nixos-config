@@ -225,6 +225,7 @@
     enable = my-system.enableSshServer or false;
     settings = {
       PasswordAuthentication = false;
+      X11Forwarding = true;
     };
   };
 
