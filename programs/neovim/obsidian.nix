@@ -18,16 +18,6 @@
         return path:with_suffix(".md")
       end
     '';
-    follow_img_func.__raw = ''
-      function(url)
-        vim.fn.jobstart({"xdg-open", url})
-      end
-    '';
-    follow_url_func.__raw = ''
-      function(url)
-        vim.fn.jobstart({"xdg-open", url})
-      end
-    '';
     markdown_link_func.__raw = ''
       function(opts)
         return string.format("[%s](%s)", opts.label, opts.path)
@@ -60,11 +50,11 @@
       ++ [
         {
           name = "notes";
-          path = "~/notes/notes/";
+          path = "/home/jonas/notes/notes/";
         }
         {
           name = "website";
-          path = "~/gitprjs/personal/website/site";
+          path = "/home/jonas/gitprjs/personal/website/site";
         }
       ];
   };
