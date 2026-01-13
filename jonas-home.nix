@@ -139,6 +139,10 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg: true;
 
+  services.syncthing = {
+    enable = !standalone;
+  };
+
   programs.gitui = (import ./programs/gitui.nix) home_inputs;
   programs.tmux = (import ./programs/tmux.nix) home_inputs;
   programs.git = (import ./programs/git.nix) home_inputs;
