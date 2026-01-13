@@ -14,13 +14,8 @@
     '';
     note_path_func.__raw = ''
       function(spec)
-        local path = spec.dir / spec.title
+        local path = spec.dir / spec.id
         return path:with_suffix(".md")
-      end
-    '';
-    markdown_link_func.__raw = ''
-      function(opts)
-        return string.format("[%s](%s)", opts.label, opts.path)
       end
     '';
 
