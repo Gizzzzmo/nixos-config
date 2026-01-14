@@ -33,6 +33,11 @@
         {}
         (builtins.readFile ./scripts/ghostty_wrap.py)
       )
+      (
+        writeShellScriptBin
+        "update-cmus-playlists"
+        (builtins.readFile ./scripts/update-cmus-playlists.sh)
+      )
       imagemagick
       file
       eza
