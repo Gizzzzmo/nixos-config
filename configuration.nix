@@ -23,9 +23,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices = lib.mkIf (my-system.id == "framework-desktop") {
+  boot.initrd.luks.devices = lib.mkIf (my-system ? "luks") {
     root = {
-      device = "/dev/nvme0n1p2";
+      device = my-system.luks;
       preLVM = true;
     };
   };
