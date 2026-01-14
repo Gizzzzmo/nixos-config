@@ -93,6 +93,36 @@
       bind-key -T copy-mode-vi 'M-k' select-pane -U
       bind-key -T copy-mode-vi 'M-l' select-pane -R
       bind-key -T copy-mode-vi 'C-\' select-pane -l
+
+      # Key binding to toggle key bindings on and off
+      color_window_off_status_bg="colour237"
+      color_window_off_status_current_bg="colour241"
+      color_window_off_indicator="colour160"
+      color_status_text="colour250"
+      color_dark="colour234"
+      color_light="colour254"
+      separator_powerline_right=""
+
+      bind -T root F12  \
+        set prefix None \;\
+        set key-table off \;\
+        set status-style "fg=$color_status_text,bg=$color_window_off_status_bg" \;\
+        set window-status-current-format "#[fg=$color_window_off_status_bg,bg=$color_window_off_status_current_bg]$separator_powerline_right#[default]#I:#W*#[fg=$color_window_off_status_current_bg,bg=$color_window_off_status_bg]$separator_powerline_right#[default]" \;\
+        set window-status-current-style "fg=$color_dark,bg=$color_window_off_status_current_bg" \;\
+        if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
+        refresh-client -S \;\
+
+      bind -T off F12 \
+        set -u prefix \;\
+        set -u key-table \;\
+        set -u status-style \;\
+        set -u window-status-current-style \;\
+        set -u window-status-current-format \;\
+        refresh-client -S
+
+      wg_is_keys_off="#[fg=$color_light,bg=$color_window_off_indicator]#([ $(tmux show-option -qv key-table) = 'off' ] && echo 'OFF')#[default]"
+
+      set -g status-right "$wg_is_keys_off #{sysstat_cpu} | #{sysstat_mem} | #{sysstat_loadavg} | $wg_user_host"
     ''
     + (
       if standalone
