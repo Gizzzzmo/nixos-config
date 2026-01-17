@@ -55,7 +55,14 @@
           inherit inputs;
           my-system = {
             id = "thinkpad";
-            hardware-config = ./systems/thinkpad/hardware-configuration.nix;
+            hardwareConfig = ./systems/thinkpad/hardware-configuration.nix;
+            enableBluetooth = true;
+            # enableIwd = true;
+            enableUserMounts = true;
+            enablePrinting = true;
+            enableSteam = true;
+            enableSound = true;
+            enableGui = true;
           };
         };
 
@@ -70,9 +77,17 @@
           my-system = {
             id = "framework-desktop";
             hostName = "hilbert";
-            hardware-config = ./systems/framework-desktop/hardware-configuration.nix;
+            hardwareConfig = ./systems/framework-desktop/hardware-configuration.nix;
             enableSshServer = true;
+            enableVirtualization = true;
+            enableBluetooth = true;
+            enableIwd = false;
             luks = "/dev/nvme0n1p2";
+            enableUserMounts = true;
+            enablePrinting = true;
+            enableSteam = true;
+            enableSound = true;
+            enableGui = true;
           };
         };
 

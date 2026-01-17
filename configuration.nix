@@ -11,7 +11,7 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    my-system.hardware-config
+    my-system.hardwareConfig
     ./main-user.nix
     inputs.home-manager.nixosModules.default
   ];
@@ -30,17 +30,27 @@
     };
   };
 
-  services.flatpak.enable = true;
-
   networking.hostName = my-system.hostName or "nixos";
 
   networking.networkmanager = {
     enable = true;
-    # wifi.backend = "iwd";
+    wifi.backend = lib.mkIf (my-system.enableIwd or false) "iwd";
+    dispatcherScripts = [
+      {
+        source = pkgs.writeShellScript "mount-fritz-nas" ''
+          export MOUNT_CIFS="${pkgs.cifs-utils}/bin/mount.cifs"
+          export MOUNTPOINT_BIN="${pkgs.util-linux}/bin/mountpoint"
+          export UMOUNT="${pkgs.util-linux}/bin/umount"
+          export PATH="${pkgs.hyprland}/bin:$PATH"
+          exec ${pkgs.bash}/bin/bash ${./scripts/mount-fritz-nas.sh} "$@"
+        '';
+        type = "basic";
+      }
+    ];
   };
-  # networking.wireless = {
-  #   iwd.enable = true;
-  # };
+  networking.wireless = {
+    iwd.enable = my-system.enableIwd or false;
+  };
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -69,20 +79,28 @@
   services.xserver.enable = true;
   services.pcscd.enable = true;
 
+  programs.hyprland = {
+    enable = my-system.enableGui or false;
+    xwayland.enable = true;
+    withUWSM = true;
+  };
   services.displayManager.sddm = {
-    enable = true;
+    enable = my-system.enableGui or false;
     wayland.enable = true;
     theme = "where_is_my_sddm_theme";
   };
+
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing.enable = my-system.enablePrinting or false;
 
+  # Enable sound.
+  security.rtkit.enable = my-system.enableSound or false;
   services.pipewire = {
-    enable = true;
+    enable = my-system.enableSound or false;
     wireplumber.enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
@@ -92,16 +110,10 @@
     jack.enable = true;
   };
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-    withUWSM = true;
-  };
+  programs.steam.enable = my-system.enableSteam or false;
 
-  programs.steam.enable = true;
-  programs.virt-manager.enable = true;
-
-  virtualisation = {
+  programs.virt-manager.enable = my-system.enableVirtualization or false;
+  virtualisation = lib.mkIf (my-system.enableVirtualization or false) {
     libvirtd = {
       enable = true;
       qemu.swtpm = {
@@ -113,10 +125,17 @@
     spiceUSBRedirection.enable = true;
   };
 
-  # Enable sound.
-  security.rtkit.enable = true;
+  # Enable udisks2 for manual mounting of external drives without sudo
+  services.udisks2.enable = my-system.enableUserMounts or false;
+  # Allow user jonas to mount/unmount drives without password
+  security.polkit.extraConfig =
+    lib.mkIf (my-system ? "enableUserMounts")
+    (builtins.readFile ./polkit-rules/mount-permissions.js);
+  # Allow non-root users to use FUSE for sshfs mounting
+  programs.fuse.userAllowOther = my-system.enableUserMounts or false;
+
   # Enable bluetooth
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth.enable = my-system.enableBluetooth or false;
 
   services.udev = {
     enable = true;
@@ -140,21 +159,24 @@
   };
 
   users.users.jonas = {
-    extraGroups = [
-      "audio"
-      "wheel"
-      "networkmanager"
-      "backlight"
-      "libvirtd"
-    ];
+    extraGroups =
+      [
+        "audio"
+        "wheel"
+        "networkmanager"
+        "backlight"
+      ]
+      ++ lib.optionals my-system.enableVirtualization or false ["libvirtd"]
+      ++ lib.optionals my-system.enableUserMounts or false ["storage"];
   };
 
   home-manager = {
-    extraSpecialArgs = {
-      inherit inputs;
-      standalone = false;
-      username = "jonas";
-    };
+    extraSpecialArgs =
+      {
+        inherit inputs;
+        username = "jonas";
+      }
+      // ((my-system.homeManagerConfig or {}) // {standalone = false;});
     users = {
       "jonas" = import ./jonas-home.nix;
     };
@@ -167,45 +189,75 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    inputs.rose-pine-hyprcursor.packages.${pkgs.hostPlatform.system}.default
-    hyprpaper
-    pamixer
-    parted
-    at
-    cron
-    swtpm
-    tpm-tools
-    waypipe
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      parted
+      at
+      cron
+      waypipe
+      # Mounting tools
+      cifs-utils
+      sshfs
+      ntfs3g
+      exfat
+    ]
+    ++ my-system.extraPkgs or []
+    ++ lib.optionals my-system.enableVirtualization or false [
+      swtpm
+      tpm-tools
+    ]
+    ++ lib.optionals my-system.enableUserMounts or false [
+      udisks
+    ]
+    ++ lib.optionals my-system.enableGui or false [
+      inputs.rose-pine-hyprcursor.packages.${pkgs.hostPlatform.system}.default
+      hyprpaper
+    ]
+    ++ lib.optionals my-system.enableSound or false [
+      pamixer
+    ];
 
   environment = {
-    variables = {
-      # If cursor is not visible, try to set this to "on".
-      XDG_CURRENT_DESKTOP = "Hyprland";
-      XDG_SESSION_TYPE = "wayland";
-      XDG_SESSION_DESKTOP = "Hyprland";
-    };
-    sessionVariables = {
-      MOZ_ENABLE_WAYLAND = "1";
-      NIXOS_OZONE_WL = "1";
-      T_QPA_PLATFORM = "wayland";
-      GDK_BACKEND = "wayland";
-      WLR_NO_HARDWARE_CURSORS = "1";
-    };
+    variables =
+      {}
+      // (
+        if (my-system.enableGui or false)
+        then {
+          # If cursor is not visible, try to set this to "on".
+          XDG_CURRENT_DESKTOP = "Hyprland";
+          XDG_SESSION_TYPE = "wayland";
+          XDG_SESSION_DESKTOP = "Hyprland";
+        }
+        else {}
+      );
+    sessionVariables =
+      {}
+      // (
+        if (my-system.enableGui or false)
+        then {
+          MOZ_ENABLE_WAYLAND = "1";
+          NIXOS_OZONE_WL = "1";
+          T_QPA_PLATFORM = "wayland";
+          GDK_BACKEND = "wayland";
+          WLR_NO_HARDWARE_CURSORS = "1";
+        }
+        else {}
+      );
   };
 
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
     config = {
-      common.default = ["gtk"];
-      hyprland.default = [
+      common.default =
+        lib.mkIf (my-system.enableGui or false)
+        ["gtk"];
+      hyprland.default = lib.mkIf (my-system.enableGui or false) [
         "gtk"
         "hyprland"
       ];
     };
-    extraPortals = [
+    extraPortals = lib.mkIf (my-system.enableGui or false) [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-hyprland
@@ -215,10 +267,11 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = my-system.enableSshServer or false;
+  };
 
   # List services that you want to enable:
   services.openssh = {
