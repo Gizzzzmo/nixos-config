@@ -32,7 +32,7 @@
 
   boot.initrd.kernelModules =
     lib.optionals
-    (my-system ? "iommu" && (my-system.pciPassthrough or false))
+    ((my-system.enableVirtualization or false) && my-system ? "iommu" && (my-system.pciPassthrough or false))
     ["vfio_pci" "vfio" "vfio_iommu_type1"]
     ++ my-system.extraInitrdModules or [];
 
@@ -128,9 +128,12 @@
   virtualisation = lib.mkIf (my-system.enableVirtualization or false) {
     libvirtd = {
       enable = true;
-      qemu.swtpm = {
-        enable = true;
-        package = pkgs.swtpm;
+      qemu = {
+        vhostUserPackages = [pkgs.virtiofsd];
+        swtpm = {
+          enable = true;
+          package = pkgs.swtpm;
+        };
       };
     };
     # tpm.enable = true;
@@ -148,6 +151,7 @@
 
   # Enable bluetooth
   hardware.bluetooth.enable = my-system.enableBluetooth or false;
+  hardware.amdgpu.opencl.enable = my-system.enableOpenclAmd or false;
 
   services.udev = {
     enable = true;
