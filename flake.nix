@@ -88,6 +88,9 @@
             enableSteam = true;
             enableSound = true;
             enableGui = true;
+            iommu = "amd";
+            pciPassthrough = true;
+            extraInitrdModules = ["amdgpu"];
           };
         };
 

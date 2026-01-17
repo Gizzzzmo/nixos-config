@@ -30,6 +30,18 @@
     };
   };
 
+  boot.initrd.kernelModules =
+    lib.optionals
+    (my-system ? "iommu" && (my-system.pciPassthrough or false))
+    ["vfio_pci" "vfio" "vfio_iommu_type1"]
+    ++ my-system.extraInitrdModules or [];
+
+  boot.kernelParams =
+    lib.optionals (my-system ? "iommu") [
+      "${my-system.iommu}_iommu=on"
+    ]
+    ++ my-system.extraKernelParams or [];
+
   networking.hostName = my-system.hostName or "nixos";
 
   networking.networkmanager = {
