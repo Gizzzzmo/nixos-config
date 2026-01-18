@@ -40,6 +40,8 @@
     lib.optionals (my-system ? "iommu") [
       "${my-system.iommu}_iommu=on"
     ]
+    ++ lib.optionals (my-system.pciPassthrough or false)
+    ["iommu=pt"]
     ++ my-system.extraKernelParams or [];
 
   networking.hostName = my-system.hostName or "nixos";
