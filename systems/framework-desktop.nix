@@ -4,6 +4,7 @@
   hardwareConfig = ./framework-desktop-hardware.nix;
   enableSshServer = true;
   enableVirtualization = true;
+  enableDocker = true;
   enableBluetooth = true;
   enableIwd = false;
   luks = "/dev/nvme0n1p2";

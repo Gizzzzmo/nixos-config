@@ -127,9 +127,10 @@
   programs.steam.enable = my-system.enableSteam or false;
 
   programs.virt-manager.enable = my-system.enableVirtualization or false;
-  virtualisation = lib.mkIf (my-system.enableVirtualization or false) {
+
+  virtualisation = {
     libvirtd = {
-      enable = true;
+      enable = my-system.enableVirtualization or false;
       qemu = {
         vhostUserPackages = [pkgs.virtiofsd];
         swtpm = {
@@ -139,7 +140,11 @@
       };
     };
     # tpm.enable = true;
-    spiceUSBRedirection.enable = true;
+    spiceUSBRedirection.enable = my-system.enableVirtualization or false;
+
+    docker = {
+      enable = my-system.enableDocker or false;
+    };
   };
 
   # Enable udisks2 for manual mounting of external drives without sudo
@@ -185,6 +190,7 @@
         "backlight"
       ]
       ++ lib.optionals my-system.enableVirtualization or false ["libvirtd"]
+      ++ lib.optionals my-system.enableDocker or false ["docker"]
       ++ lib.optionals my-system.enableUserMounts or false ["storage"];
   };
 
