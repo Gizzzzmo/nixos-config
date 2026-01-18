@@ -30,6 +30,7 @@
         "update-cmus-playlists"
         (builtins.readFile ./scripts/update-cmus-playlists.sh)
       )
+      mmtui
       imagemagick
       file
       eza

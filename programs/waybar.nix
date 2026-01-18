@@ -18,6 +18,7 @@
         "hyprland/language"
         "cpu"
         "memory"
+        "disk"
       ];
       "custom/cmus" = {
         format = "| ♪ {text} |";
@@ -98,6 +99,12 @@
       };
       memory = {
         format = "| {}%  ";
+      };
+      disk = {
+        format = "| {percentage_used}%  ";
+        path = "/";
+        on-click = "ghostty_wrap -e mmtui";
+        on-click-right = "ghostty_wrap -e ncdu /";
       };
       battery = {
         bat = "BAT0";
