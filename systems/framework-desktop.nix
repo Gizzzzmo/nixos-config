@@ -17,4 +17,17 @@
   iommu = "amd";
   pciPassthrough = true;
   extraInitrdModules = ["amdgpu"];
+  extraPkgs = pkgs:
+    with pkgs; [
+      rocmPackages.amdsmi
+      rocmPackages.rocm-smi
+      rocmPackages.rocminfo
+    ];
+
+  homeManagerConfig = {
+    extraPkgs = pkgs:
+      with pkgs; [
+        lmstudio
+      ];
+  };
 }

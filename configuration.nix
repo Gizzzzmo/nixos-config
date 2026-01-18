@@ -199,6 +199,7 @@
       {
         inherit inputs;
         username = "jonas";
+        extraPkgs = pkgs: [];
       }
       // ((my-system.homeManagerConfig or {}) // {standalone = false;});
     users = {
@@ -213,50 +214,51 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs;
-    [
-      parted
-      at
-      cron
-      waypipe
-      # Mounting tools
-      cifs-utils
-      sshfs
-      ntfs3g
-      exfat
-      (buildFHSEnv {
-        name = "fhs";
-        targetPkgs = pkgs:
-          with pkgs; [
-            python313
-            python313Packages.pip
-            coreutils
-            curl
-            wget
-            git
-            fish
-            which
-            file
-          ];
-        profile = ''export FHS=1'';
-        runScript = "fish";
-      })
-    ]
-    ++ my-system.extraPkgs or []
-    ++ lib.optionals my-system.enableVirtualization or false [
-      swtpm
-      tpm-tools
-    ]
-    ++ lib.optionals my-system.enableUserMounts or false [
-      udisks
-    ]
-    ++ lib.optionals my-system.enableGui or false [
-      inputs.rose-pine-hyprcursor.packages.${pkgs.hostPlatform.system}.default
-      hyprpaper
-    ]
-    ++ lib.optionals my-system.enableSound or false [
-      pamixer
-    ];
+  environment.systemPackages =
+    (lib.optionals (my-system ? "extraPkgs") (my-system.extraPkgs pkgs))
+    ++ (with pkgs;
+      [
+        parted
+        at
+        cron
+        waypipe
+        (buildFHSEnv {
+          name = "fhs";
+          targetPkgs = pkgs:
+            with pkgs; [
+              python313
+              python313Packages.pip
+              coreutils
+              curl
+              wget
+              git
+              fish
+              which
+              file
+            ];
+          profile = ''export FHS=1'';
+          runScript = "fish";
+        })
+        # Mounting tools
+        cifs-utils
+        sshfs
+        ntfs3g
+        exfat
+      ]
+      ++ lib.optionals my-system.enableVirtualization or false [
+        swtpm
+        tpm-tools
+      ]
+      ++ lib.optionals my-system.enableUserMounts or false [
+        udisks
+      ]
+      ++ lib.optionals my-system.enableGui or false [
+        inputs.rose-pine-hyprcursor.packages.${pkgs.hostPlatform.system}.default
+        hyprpaper
+      ]
+      ++ lib.optionals my-system.enableSound or false [
+        pamixer
+      ]);
 
   environment = {
     variables =

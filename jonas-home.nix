@@ -26,12 +26,6 @@
   home.packages = with pkgs;
     [
       (
-        writers.writePython3Bin
-        "ghostty_wrap"
-        {}
-        (builtins.readFile ./scripts/ghostty_wrap.py)
-      )
-      (
         writeShellScriptBin
         "update-cmus-playlists"
         (builtins.readFile ./scripts/update-cmus-playlists.sh)
@@ -68,7 +62,6 @@
       python313Packages.ipython
       python313Packages.ptpython
       fishPlugins.bass
-      ast-grep
       wiki-tui
       glab
       gurk-rs
@@ -84,6 +77,7 @@
       }))
       nix-output-monitor
     ]
+    ++ lib.optionals (home_inputs ? "extraPkgs") (home_inputs.extraPkgs pkgs)
     ++ (
       if standalone
       then [
@@ -96,6 +90,12 @@
       ]
       else
         with pkgs; [
+          (
+            writers.writePython3Bin
+            "ghostty_wrap"
+            {}
+            (builtins.readFile ./scripts/ghostty_wrap.py)
+          )
           bluetui
           impala
           opencode
