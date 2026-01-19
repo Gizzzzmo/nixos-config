@@ -1,6 +1,4 @@
 {
-  nixpkgs,
-  config,
   pkgs,
   inputs,
   standalone,

@@ -1,12 +1,10 @@
 # sudo nixos-rebuild switch --flake /path/to/this/file#<profile>
 # home-manager switch --flake /path/to/this/file#<user>
 {
-  description = "Nixos config flake";
+  description = "Nixos and home manager config flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,90 +13,85 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    muxxies = {
+      url = "github:Gizzzzmo/muxxies/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     rose-pine-hyprcursor = {
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    muxxies = {
+
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    home-manager-stable = {
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    nixvim-stable = {
+      url = "github:nix-community/nixvim/nixos-25.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    muxxies-stable = {
       url = "github:Gizzzzmo/muxxies/main";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
 
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-stable,
     home-manager,
+    home-manager-stable,
+    nixvim-stable,
+    muxxies-stable,
     ...
   } @ inputs: {
-    homeConfigurations = let
+    homeConfigurations.jonas = let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      jonas = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs-stable.legacyPackages.${system};
+    in
+      home-manager-stable.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        modules = [../jonas-home.nix];
+        modules = [./jonas-home.nix];
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
         extraSpecialArgs = {
-          inherit inputs;
+          inputs = {
+            nixpkgs = nixpkgs-stable;
+            home-manager = home-manager-stable;
+            nixvim = nixvim-stable;
+            muxxies = muxxies-stable;
+          };
           standalone = true;
+          username = "jonas";
         };
       };
+
+    nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inherit inputs;
+        my-system = ./systems/thinkpad.nix;
+      };
+
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.default
+      ];
     };
 
-    nixosConfigurations = {
-      thinkpad = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          my-system = {
-            id = "thinkpad";
-            hardwareConfig = ./systems/thinkpad/hardware-configuration.nix;
-            enableBluetooth = true;
-            # enableIwd = true;
-            enableUserMounts = true;
-            enablePrinting = true;
-            enableSteam = true;
-            enableSound = true;
-            enableGui = true;
-          };
-        };
-
-        modules = [
-          ./configuration.nix
-          inputs.home-manager.nixosModules.default
-        ];
+    nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inherit inputs;
+        my-system = ./systems/framework-desktop.nix;
       };
-      framework-desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          my-system = {
-            id = "framework-desktop";
-            hostName = "hilbert";
-            hardwareConfig = ./systems/framework-desktop/hardware-configuration.nix;
-            enableSshServer = true;
-            enableVirtualization = true;
-            enableBluetooth = true;
-            enableIwd = false;
-            luks = "/dev/nvme0n1p2";
-            enableUserMounts = true;
-            enablePrinting = true;
-            enableSteam = true;
-            enableSound = true;
-            enableGui = true;
-            iommu = "amd";
-            pciPassthrough = true;
-            extraInitrdModules = ["amdgpu"];
-          };
-        };
 
-        modules = [
-          ./configuration.nix
-          inputs.home-manager.nixosModules.default
-        ];
-      };
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.default
+      ];
     };
   };
 }
