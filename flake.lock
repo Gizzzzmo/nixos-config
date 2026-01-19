@@ -195,11 +195,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1745564970,
-        "narHash": "sha256-d5tTkXNG3R1l1P+6+VGXjrft1fzDeulEIEiYx8SGMCE=",
+        "lastModified": 1768833821,
+        "narHash": "sha256-Ojyld7qSZAyxoRJdlhd56qXAW6KbwUPDDakNcKRFayE=",
         "owner": "Gizzzzmo",
         "repo": "muxxies",
-        "rev": "9ef4f011aaa3bb29566545e90f68927c42ba045a",
+        "rev": "df2308934eea0cde90e64a1c9d44eeb81cdb50b5",
         "type": "github"
       },
       "original": {
@@ -217,11 +217,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1745564970,
-        "narHash": "sha256-d5tTkXNG3R1l1P+6+VGXjrft1fzDeulEIEiYx8SGMCE=",
+        "lastModified": 1768833821,
+        "narHash": "sha256-Ojyld7qSZAyxoRJdlhd56qXAW6KbwUPDDakNcKRFayE=",
         "owner": "Gizzzzmo",
         "repo": "muxxies",
-        "rev": "9ef4f011aaa3bb29566545e90f68927c42ba045a",
+        "rev": "df2308934eea0cde90e64a1c9d44eeb81cdb50b5",
         "type": "github"
       },
       "original": {
