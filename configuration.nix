@@ -212,6 +212,23 @@
       sshfs
       ntfs3g
       exfat
+      (buildFHSEnv {
+        name = "fhs";
+        targetPkgs = pkgs:
+          with pkgs; [
+            python313
+            python313Packages.pip
+            coreutils
+            curl
+            wget
+            git
+            fish
+            which
+            file
+          ];
+        profile = ''export FHS=1'';
+        runScript = "fish";
+      })
     ]
     ++ my-system.extraPkgs or []
     ++ lib.optionals my-system.enableVirtualization or false [
