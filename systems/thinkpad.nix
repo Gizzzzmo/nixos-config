@@ -1,6 +1,6 @@
 {
   id = "thinkpad";
-  hardwareConfig = ./thinkpad-hardware.nix;
+  hardwareConfig = import ./thinkpad-hardware.nix;
   enableBluetooth = true;
   # enableIwd = true;
   enableUserMounts = true;

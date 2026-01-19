@@ -73,7 +73,7 @@
     nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
-        my-system = ./systems/thinkpad.nix;
+        my-system = import ./systems/thinkpad.nix;
       };
 
       modules = [
@@ -85,7 +85,7 @@
     nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
-        my-system = ./systems/framework-desktop.nix;
+        my-system = import ./systems/framework-desktop.nix;
       };
 
       modules = [

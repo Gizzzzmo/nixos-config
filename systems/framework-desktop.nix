@@ -1,7 +1,7 @@
 {
   id = "framework-desktop";
   hostName = "hilbert";
-  hardwareConfig = ./framework-desktop-hardware.nix;
+  hardwareConfig = import ./framework-desktop-hardware.nix;
   enableSshServer = true;
   enableVirtualization = true;
   enableBluetooth = true;
