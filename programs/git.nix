@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   enable = true;
   settings = {
     user.email =  "reyeb.sanoj@googlemail.com";

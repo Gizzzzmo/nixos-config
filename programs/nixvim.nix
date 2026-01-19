@@ -1,8 +1,4 @@
-{
-  pkgs,
-  standalone,
-  ...
-} @ home_inputs: {
+{ pkgs, ... } @ home_inputs: {
   enable = true;
 
   # colorschemes.lunaperche.enable = true;
@@ -106,9 +102,6 @@
 
   diagnostic.settings = {
     virtual_text = true;
-    # float = {
-    #   border = "rounded";
-    # };
   };
 
   clipboard.providers.wl-copy = {
