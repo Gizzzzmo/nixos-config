@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  standalone,
+  pkgs,
+  ...
+}: {
   enable = true;
   grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
     nix
@@ -18,7 +22,10 @@
     markdown
     python
   ];
-  folding.enable = true;
+  folding =
+    if standalone
+    then true
+    else {enable = true;};
   settings = {
     highlight.enable = true;
     incremental_selection = {
