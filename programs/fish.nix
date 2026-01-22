@@ -52,7 +52,7 @@
     if test -f $HOME/.config/api-keys.fish
       bass source $HOME/.config/api-keys.fish
     end
-    status --is-login; and begin
+    status --is-login; and if test -z "$TMUX"
       envmux
     end
   '';
