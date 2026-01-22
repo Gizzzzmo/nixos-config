@@ -251,6 +251,29 @@ if has('nvim') && !empty($TMUX)
 endif
 
 " ============================================================================
+" PAIR SNIPPETS - Type full pair to trigger
+" ============================================================================
+" Type () and get (|) with cursor in the middle, then <C-l> to jump out
+" Similar to luasnip autosnippets but without the plugin
+
+function! s:PairSnippet(open, close) abort
+  " Move cursor back one position (we're after the close char)
+  " Then move left past the open char, delete both chars, reinsert with cursor between
+  return a:open . a:close . "\<Left>"
+endfunction
+
+" Snippet mappings for bracket pairs
+inoremap <expr> () <SID>PairSnippet('(', ')')
+inoremap <expr> [] <SID>PairSnippet('[', ']')
+inoremap <expr> {} <SID>PairSnippet('{', '}')
+inoremap <expr> <> <SID>PairSnippet('<', '>')
+inoremap <expr> "" <SID>PairSnippet('"', '"')
+inoremap <expr> '' <SID>PairSnippet("'", "'")
+
+" Jump out of pairs with Ctrl-L (forward)
+inoremap <C-l> <Esc>la
+
+" ============================================================================
 " COMMENTING - gc operator (like vim-commentary)
 " ============================================================================
 " Implements gc{motion} to toggle comments
@@ -303,8 +326,13 @@ function! s:ToggleComment(start_line, end_line) abort
     for lnum in range(a:start_line, a:end_line)
       let line = getline(lnum)
       if !empty(line)
-        let indent = line[:min_indent-1]
-        let rest = line[min_indent:]
+        if min_indent > 0
+          let indent = line[:min_indent-1]
+          let rest = line[min_indent:]
+        else
+          let indent = ''
+          let rest = line
+        endif
         let line = indent . l . ' ' . rest
         if !empty(r)
           let line = line . ' ' . r
