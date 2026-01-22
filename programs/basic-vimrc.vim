@@ -10,6 +10,8 @@
 syntax enable               " Enable syntax highlighting
 filetype plugin indent on   " Enable filetype detection, plugins, and indent
 
+colorscheme habamax
+
 " Set leader key
 let mapleader = " "
 
@@ -490,8 +492,8 @@ function! s:setup_fzf()
     \ 'fg':      ['fg', 'Normal'],
     \ 'bg':      ['bg', 'Normal'],
     \ 'hl':      ['fg', 'Comment'],
-    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Label'],
+    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn', 'Comment'],
     \ 'hl+':     ['fg', 'Statement'],
     \ 'info':    ['fg', 'PreProc'],
     \ 'border':  ['fg', 'Ignore'],
