@@ -97,6 +97,7 @@
             {}
             (builtins.readFile ./scripts/ghostty_wrap.py)
           )
+          wiremix
           bluetui
           impala
           opencode
@@ -111,7 +112,6 @@
           android-file-transfer
           webcamoid
           nemo
-          pavucontrol
           vscode
           eog
           obsidian
