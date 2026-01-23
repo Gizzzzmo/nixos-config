@@ -13,23 +13,13 @@
       modules-center = ["hyprland/workspaces"];
       modules-right = [
         "tray"
-        "custom/cmus"
         "pulseaudio"
         "hyprland/language"
         "cpu"
         "memory"
         "disk"
       ];
-      "custom/cmus" = {
-        format = "| ♪ {text} |";
-        # "max-length"= 15;
-        interval = 10;
-        exec = ''cmus-remote -C "format_print '%t'" | sed 's/\(.\{15\}\).*/\1.../' ''; # artist - title
-        exec-if = "pgrep cmus";
-        on-click = "cmus-remote -u"; # toggle pause
-        on-click-right = "ghostty_wrap -e tmux at -t cmux";
-        escape = true; # handle markup entities
-      };
+
       "hyprland/language" = {
         format = " {} ⌨ ";
         format-de = "DE";
@@ -101,10 +91,10 @@
         format = "| {}%  ";
       };
       disk = {
-        format = "| {percentage_used}%  ";
+        format = "| {percentage_used}%   ";
         path = "/";
         on-click = "ghostty_wrap -e mmtui";
-        on-click-right = "ghostty_wrap -e ncdu /";
+        on-click-right = "ghostty_wrap -e ncdu ~";
       };
       battery = {
         bat = "BAT0";
@@ -152,7 +142,7 @@
             ""
           ];
         };
-        on-click = "pavucontrol";
+        on-click = "ghostty_wrap -e wiremix";
       };
     }
   ];
@@ -161,7 +151,7 @@
       border: none;
       border-radius: 0;
       font-family: "CaskaydiaCove Nerd Font";
-      font-size: 13px;
+      font-size: 15px;
       min-height: 0;
     }
 
@@ -203,13 +193,6 @@
 
     #battery, #network, #clock, #bluetooth {
       color: #cccccc;
-    }
-
-
-    /* #pulseaudio:hover, #cpu:hover, hyprland-language:hover, */
-    #custom-cmus:hover {
-      color: rgba(255, 255, 255, 1);
-      background: rgba(0, 0, 0, 0.1);
     }
 
     #clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
