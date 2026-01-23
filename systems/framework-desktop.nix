@@ -28,6 +28,7 @@
     extraPkgs = pkgs:
       with pkgs; [
         lmstudio
+        ardour
       ];
   };
 }
