@@ -25,7 +25,7 @@
         .outPath
       }/tmux_super_fingers.tmux
 
-      set -g update-environment 'DISPLAY ALACRITTY_WINDOW_ID ALACRITTY_LOG ALACRITTY_SOCKET DISPLAY WINDOWID SSH_ASKPASS SSH_CONNECTION XAUTHORITY KITTY_WINDOW_ID KITTY_PID'
+      set -g update-environment 'DISPLAY ALACRITTY_WINDOW_ID ALACRITTY_LOG ALACRITTY_SOCKET WINDOWID SSH_TTY SSH_ASKPASS SSH_CONNECTION SSH_CLIENT XAUTHORITY KITTY_WINDOW_ID KITTY_PID'
       set -g default-shell /home/jonas/.nix-profile/bin/fish
     ''
     + (
