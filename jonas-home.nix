@@ -30,6 +30,7 @@
         "update-cmus-playlists"
         (builtins.readFile ./scripts/update-cmus-playlists.sh)
       )
+      inputs.openclaw.packages.${pkgs.stdenv.hostPlatform.system}.openclaw
       mmtui
       imagemagick
       file
@@ -52,7 +53,6 @@
       lsof
       usbutils
       proximity-sort
-      nodejs
       ncdu
       netcat-openbsd
       nh

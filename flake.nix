@@ -21,6 +21,10 @@
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    openclaw = {
+      url = "github:openclaw/nix-openclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     home-manager-stable = {
