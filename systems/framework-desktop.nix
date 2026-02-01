@@ -30,6 +30,7 @@
       with pkgs; [
         lmstudio
         ardour
+        kdePackages.kdenlive
       ];
   };
 }
