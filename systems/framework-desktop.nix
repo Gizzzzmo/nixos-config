@@ -7,7 +7,7 @@
   enableTailscale = true;
   enableDocker = true;
   enableBluetooth = true;
-  enableIwd = false;
+  enableIwd = true;
   luks = "/dev/nvme0n1p2";
   enableUserMounts = true;
   enablePrinting = true;
