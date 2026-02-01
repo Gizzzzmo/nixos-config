@@ -277,6 +277,33 @@
     };
   };
 
+  # User-level systemd service for openclaw
+  systemd.user.services.openclaw-node = lib.mkIf (my-system.enableOpenclawNode or false) {
+    description = "OpenClaw Node Service";
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = let
+        openclawPkg = inputs.openclaw.packages.${pkgs.stdenv.hostPlatform.system}.openclaw;
+      in "${pkgs.writeShellScript "openclaw-wrapper" ''
+        export PATH="${openclawPkg}/bin:$PATH"
+        while true; do
+          echo "Starting openclaw node..."
+          openclaw node run --host ${my-system.openclawGateway or "100.64.0.2"} 2>&1
+          EXIT_CODE=$?
+          echo "openclaw exited with code $EXIT_CODE, restarting in 5 seconds..."
+          sleep 5
+        done
+      ''}";
+      Restart = "always";
+      RestartSec = "10s";
+    };
+
+    wantedBy = ["default.target"];
+  };
+
   fonts.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.caskaydia-cove

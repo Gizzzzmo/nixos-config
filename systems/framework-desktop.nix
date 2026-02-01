@@ -5,6 +5,7 @@
   enableSshServer = true;
   enableVirtualization = true;
   enableTailscale = true;
+  enableOpenclawNode = true;
   enableDocker = true;
   enableBluetooth = true;
   enableIwd = true;
