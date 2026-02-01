@@ -8,7 +8,8 @@
   enableOpenclawNode = true;
   enableDocker = true;
   enableBluetooth = true;
-  enableIwd = true;
+  # iwd doesn't work for some reason
+  # enableIwd = true;
   luks = "/dev/nvme0n1p2";
   enableUserMounts = true;
   enablePrinting = true;
