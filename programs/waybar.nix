@@ -41,8 +41,8 @@
         all-outputs = false;
         format = "{icon}";
         format-icons = {
-          "1" = "";
-          "2" = "";
+          "1" = "1";
+          "2" = "2";
           "3" = "3";
           "4" = "4";
           "5" = "5";
@@ -50,6 +50,7 @@
           "7" = "7";
           "8" = "8";
           "9" = "9";
+          "10" = "0";
           default = "...";
         };
       };
@@ -132,8 +133,8 @@
         format-muted = "      |";
         format-icons = {
           headphones = "";
-          handsfree = "";
-          headset = "";
+          # handsfree = "";
+          # headset = "";
           phone = "";
           portable = "";
           car = "";
@@ -156,7 +157,7 @@
     }
 
     window#waybar {
-      background: transparent;
+      background-color: rgba(0, 0, 0, 0.5);
       color: #eeeeee;
     }
 
@@ -192,10 +193,10 @@
     }
 
     #battery, #network, #clock, #bluetooth {
-      color: #cccccc;
+      color: #dddddd;
     }
 
-    #clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
+    #clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode {
       padding: 0 3px;
       margin: 0 2px;
     }
