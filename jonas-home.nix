@@ -97,6 +97,7 @@
             {}
             (builtins.readFile ./scripts/ghostty_wrap.py)
           )
+          veracrypt
           wiremix
           bluetui
           impala
