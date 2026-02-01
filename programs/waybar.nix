@@ -95,7 +95,7 @@
         format = "| {percentage_used}%   ";
         path = "/";
         on-click = "ghostty_wrap -e mmtui";
-        on-click-right = "ghostty_wrap -e ncdu ~";
+        on-click-right = "ghostty_wrap -e ncdu --exclude 'mnt/**' ~";
       };
       battery = {
         bat = "BAT0";
