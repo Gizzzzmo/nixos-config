@@ -30,6 +30,7 @@
   homeManagerConfig = {
     extraPkgs = pkgs:
       with pkgs; [
+        ollama
         lmstudio
         ardour
         kdePackages.kdenlive
