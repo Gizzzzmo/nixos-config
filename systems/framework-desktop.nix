@@ -4,6 +4,7 @@
   hardwareConfig = ./framework-desktop-hardware.nix;
   enableSshServer = true;
   enableVirtualization = true;
+  enableTailscale = true;
   enableDocker = true;
   enableBluetooth = true;
   enableIwd = false;

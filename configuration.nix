@@ -92,6 +92,24 @@
   services.atd.enable = true;
   services.xserver.enable = true;
   services.pcscd.enable = true;
+  services.tailscale = {
+    enable = my-system.enableTailscale or false;
+    authKeyFile = "/root/tailscale-auth-key";
+    extraUpFlags = [
+      "--login-server=https://78.47.49.217:8443"
+      "--accept-routes"
+    ];
+  };
+
+  # Add Headscale server certificate to system trust store
+  security.pki.certificateFiles = [
+    ./certificates/headscale.crt
+  ];
+
+  # Increase timeout for tailscale autoconnect service
+  systemd.services.tailscaled-autoconnect.serviceConfig = {
+    TimeoutStartSec = "5min";
+  };
 
   programs.hyprland = {
     enable = my-system.enableGui or false;

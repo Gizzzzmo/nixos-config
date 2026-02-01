@@ -8,4 +8,5 @@
   enableSteam = true;
   enableSound = true;
   enableGui = true;
+  enableTailscale = true;
 }
