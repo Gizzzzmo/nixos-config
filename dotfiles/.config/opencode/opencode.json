@@ -44,5 +44,27 @@
             ]
         },
     },
+    "provider": {
+        "ollama": {
+            "name": "Ollama",
+            "options": {
+                "baseURL": "http://100.64.0.3:11434/v1",
+            },
+            "models": {
+                "qwen3-next:80b": {
+                    "name": "qwen3-next:80b"
+                },
+                "deepseek-r1:8b": {
+                    "name": "deepseek-r1:8b"
+                },
+                "qwen3-coder:30b": {
+                    "name": "qwen3-coder:30b"
+                },
+                "mistral-small3.2:24b": {
+                    "name": "mistral-small3.2:24b"
+                }
+            }
+        }
+    },
     "layout": "stretch"
 }

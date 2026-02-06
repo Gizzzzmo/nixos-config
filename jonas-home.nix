@@ -31,6 +31,7 @@
         (builtins.readFile ./scripts/update-cmus-playlists.sh)
       )
       inputs.openclaw.packages.${pkgs.stdenv.hostPlatform.system}.openclaw
+      ollama
       mmtui
       imagemagick
       file

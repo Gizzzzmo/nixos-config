@@ -17,6 +17,7 @@
   enableSound = true;
   enableGui = true;
   enableOpenclAmd = true;
+  enableOllama = true;
   iommu = "amd";
   pciPassthrough = true;
   extraInitrdModules = ["amdgpu"];

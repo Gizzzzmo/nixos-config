@@ -100,6 +100,11 @@
       "--accept-routes"
     ];
   };
+  services.ollama = {
+    enable = my-system.enableOllama or false;
+    package = pkgs.ollama-vulkan;
+    host = "100.64.0.3"; # Bind to Tailscale interface
+  };
 
   # Add Headscale server certificate to system trust store
   security.pki.certificateFiles = [
