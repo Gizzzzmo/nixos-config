@@ -5,7 +5,7 @@
   enableSshServer = true;
   enableVirtualization = true;
   enableTailscale = true;
-  enableOpenclawNode = true;
+  enableOpenclawNode = false;
   enableDocker = true;
   enableBluetooth = true;
   # iwd doesn't work for some reason
@@ -31,6 +31,8 @@
   homeManagerConfig = {
     extraPkgs = pkgs:
       with pkgs; [
+        llama-cpp-vulkan
+        darktable
         ollama
         lmstudio
         ardour
