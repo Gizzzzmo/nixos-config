@@ -98,7 +98,9 @@
     extraUpFlags = [
       "--login-server=https://78.47.49.217:8443"
       "--accept-routes"
+      "--advertise-exit-node"
     ];
+    useRoutingFeatures = "client";
   };
   services.ollama = {
     enable = my-system.enableOllama or false;
@@ -437,6 +439,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  networking.firewall.checkReversePath = "loose";
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
