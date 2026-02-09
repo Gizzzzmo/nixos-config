@@ -46,6 +46,7 @@
     },
     "provider": {
         "ollama": {
+            "npm": "@ai-sdk/openai-compatible",
             "name": "Ollama",
             "options": {
                 "baseURL": "http://100.64.0.3:11434/v1",
@@ -57,8 +58,8 @@
                 "deepseek-r1:8b": {
                     "name": "deepseek-r1:8b"
                 },
-                "qwen3-coder:30b": {
-                    "name": "qwen3-coder:30b"
+                "qwen3-coder:30b-256k": {
+                    "name": "qwen3-coder:30b-256k",
                 },
                 "mistral-small3.2:24b": {
                     "name": "mistral-small3.2:24b"
