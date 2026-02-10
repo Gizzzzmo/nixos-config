@@ -1,7 +1,7 @@
 {...}: {
   enable = true;
   settings = {
-    user.email =  "reyeb.sanoj@googlemail.com";
+    user.email = "reyeb.sanoj@googlemail.com";
     user.name = "Jonas Beyer";
 
     init.defaultBranch = "main";
@@ -9,7 +9,6 @@
     commit.gpgsign = true;
 
     core.editor = "nvim";
-    core.hooksPath = "~/.config/git/hooks";
     core.excludesFile = "~/.config/git/exclude";
 
     alias = {
@@ -18,7 +17,6 @@
       dft = "-c diff.external=difft diff";
     };
   };
-
 
   includes = [
     {
