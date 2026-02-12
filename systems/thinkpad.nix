@@ -12,4 +12,10 @@
   extraUdevRules = pkgs: ''
     ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/coreutils --coreutils-prog=chgrp backlight $sys$devpath/brightness", RUN+="${pkgs.coreutils}/bin/coreutils --coreutils-prog=chmod g+w $sys$devpath/brightness"
   '';
+  homeManagerConfig = {
+    extraPkgs = pkgs:
+      with pkgs; [
+        darktable
+      ];
+  };
 }
