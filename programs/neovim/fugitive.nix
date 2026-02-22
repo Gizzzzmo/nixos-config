@@ -1,4 +1,4 @@
 {pkgs, ...}: {
   enable = true;
-  package = pkgs.vimPlugins.fugitive;
+  package = pkgs.vimPlugins.vim-fugitive;
 }
