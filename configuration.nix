@@ -107,6 +107,46 @@
     package = pkgs.ollama-vulkan;
     host = "100.64.0.3"; # Bind to Tailscale interface
   };
+  services.llama-cpp = let
+    qwen3CoderNextGGUF = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_M.gguf";
+      sha256 = "sha256-nmAy0vO1CmDxfOi/Wh2Fxxr5tTuJx5eAIK58Zg8psJA";
+    };
+    parallel = 2;
+  in {
+    enable = my-system.enableLlamaCpp or false;
+    package = pkgs.llama-cpp-rocm;
+    host = "100.64.0.3"; # Bind to Tailscale interface
+    port = 11404;
+
+    modelsDir = pkgs.linkFarm "llama-models" [
+      {
+        name = "qwen3-coder-next:q4_k_m";
+        path = qwen3CoderNextGGUF;
+      }
+    ];
+
+    modelsPreset = {
+      "qwen3-coder-next:q4_k_m" = {
+        model = "${qwen3CoderNextGGUF}";
+        alias = "qwen3-coder-next";
+        ctx-size = 262144 * parallel;
+        n-gpu-layers = "auto";
+        fit = "on";
+      };
+    };
+
+    # Global server flags (apply to all models)
+    extraFlags = [
+      "--models-max"
+      "4" # Max models in memory simultaneously
+      "--models-autoload" # Auto-load models on request (default: enabled)
+      # No idle timeout by default - unload imperatively via API when needed
+      "--parallel"
+      (toString parallel) # Number of parallel requests to allow
+      "--cont-batching" # Enable continuous batching (default: on)
+    ];
+  };
 
   # Add Headscale server certificate to system trust store
   security.pki.certificateFiles = [
@@ -348,6 +388,7 @@
         sshfs
         ntfs3g
         exfat
+        (pkgs.writeScriptBin "llama-ctl" (builtins.readFile ./scripts/llama-ctl.sh))
       ]
       ++ lib.optionals my-system.enableVirtualization or false [
         swtpm

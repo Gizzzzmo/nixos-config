@@ -18,6 +18,7 @@
   enableGui = true;
   enableOpenclAmd = true;
   enableOllama = true;
+  enableLlamaCpp = true;
   iommu = "amd";
   pciPassthrough = true;
   extraInitrdModules = ["amdgpu"];
@@ -31,8 +32,8 @@
   homeManagerConfig = {
     extraPkgs = pkgs:
       with pkgs; [
-        llama-cpp-vulkan
         darktable
+        llama-cpp-rocm
         ollama
         lmstudio
         ardour

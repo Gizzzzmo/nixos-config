@@ -45,6 +45,22 @@
         },
     },
     "provider": {
+        "llama-server": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "LLaMA Server",
+            "options": {
+                "baseURL": "http://100.64.0.3:11404/v1",
+            },
+            "models": {
+                "qwen3-coder-next:q4_k_m": {
+                    "name": "Qwen3 Coder Next",
+                    "limit": {
+                        "context": 256000,
+                        "output": 65536
+                    }
+                },
+            }
+        },
         "ollama": {
             "npm": "@ai-sdk/openai-compatible",
             "name": "Ollama",
@@ -52,6 +68,12 @@
                 "baseURL": "http://100.64.0.3:11434/v1",
             },
             "models": {
+                "qwen3-coder-next_80b_256k": {
+                    "name": "qwen3-coder-next_80b_256k"
+                },
+                "qwen3-coder-next_80b-half_256k": {
+                    "name": "qwen3-coder-next_80b-half_256k"
+                },
                 "qwen3-next:80b": {
                     "name": "qwen3-next:80b"
                 },
@@ -67,5 +89,22 @@
             }
         }
     },
-    "layout": "stretch"
+    "layout": "stretch",
+    "agent": {
+        "explore": {
+            "mode": "subagent",
+            "model": "llama-server/qwen3-coder-next:q4_k_m",
+            "description": "Exploratory agent for researching and investigating topics. Use for understanding combined with filtering/synthesizing information to prevent exploding your own context. Perform simple file reads yourself."
+        },
+        "code": {
+            "mode": "subagent",
+            "model": "llama-server/qwen3-coder-next:q4_k_m",
+            "description": "Agent specialized for code generation. Use for mid-size to larger, but self-contained, code generation/editing tasks to prevent exploding your own context. Perform small edits yourself."
+        },
+        "brain": {
+            "mode": "subagent",
+            "model": "github-copilot/gemini-3.1-pro-preview",
+            "description": "Agent for the most complex direct-synthesis tasks; whether for understanding or creation. Bad at tool calling; use only for direct response tasks when accuracy, depth, and particularly visual understanding are paramount (e.g. understanding and generating websites, or svgs)."
+        }
+    }
 }
