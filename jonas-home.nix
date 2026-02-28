@@ -34,6 +34,17 @@
         (builtins.readFile ./scripts/llama-ctl.sh)
       )
       (
+        writeShellScriptBin "sshmux"
+        (builtins.readFile ./scripts/sshmux.sh)
+      )
+      (
+        writeShellScriptBin "tmux"
+        (builtins.replaceStrings
+          ["REAL_TMUX=tmux"]
+          ["REAL_TMUX=${pkgs.tmux}/bin/tmux"]
+          (builtins.readFile ./scripts/tmux.sh))
+      )
+      (
         writeShellScriptBin "hyprpaper-ctl"
         (builtins.readFile ./scripts/hyprpaper-ctl.sh)
       )
