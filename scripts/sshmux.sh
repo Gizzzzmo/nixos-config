@@ -58,7 +58,7 @@ else
 fi
 
 if [ -n "$REMOTE_BASE" ]; then
-	SESSION="$(printf '%s-%s' "$HOST" "$REMOTE_BASE" | tr '/' '_')"
+	SESSION="$(printf '%s--%s' "$HOST" "$REMOTE_BASE" | tr '/' '_')"
 else
 	# Probe failed — fall back to just the hostname.
 	SESSION="$HOST"
@@ -136,6 +136,12 @@ else
 }
 EOF
 
+	# Capture the local PATH now, at session-creation time, so that a later
+	# sourcemux (which overwrites the tmux PATH with the remote PATH) does
+	# not cause ssh/awk/tmux to go missing when new panes are opened.
+	# We single-quote-escape any single quotes in PATH just in case.
+	LOCAL_PATH="$(printf '%s' "$PATH" | sed "s/'/'\\\\''/g")"
+
 	# default-command is evaluated fresh at each new pane/window creation.
 	# It must:
 	#   1. Build the export snippet from the current tmux environment (locally).
@@ -145,13 +151,13 @@ EOF
 	#      and exec the login shell.
 	if [ -n "$REMOTE_DIR" ]; then
 		QUOTED_DIR="$(printf '%s' "$REMOTE_DIR" | sed "s/'/'\\\\''/g")"
-		REMOTE_SUFFIX="cd '${QUOTED_DIR}' && clear && SSH_SERVER='$SERVER' SSH_PORT='$PORT' SSH_REVERSE_USER=$(whoami) SSH_REVERSE_PORT=$RPORT TMUX_SSH=\$TMUX exec \$SHELL -l"
+		REMOTE_SUFFIX="cd '${QUOTED_DIR}' && clear && SSH_SERVER='$SERVER' SSH_PORT='$PORT' SSH_REVERSE_USER=$(whoami) SSH_REVERSE_PORT=$RPORT TMUX_SSH=\$TMUX \$SHELL -l"
 	else
-		REMOTE_SUFFIX="clear && SSH_SERVER='$SERVER' SSH_PORT='$PORT' SSH_REVERSE_USER=$(whoami) SSH_REVERSE_PORT=$RPORT TMUX_SSH=\$TMUX exec \$SHELL -l"
+		REMOTE_SUFFIX="clear && SSH_SERVER='$SERVER' SSH_PORT='$PORT' SSH_REVERSE_USER=$(whoami) SSH_REVERSE_PORT=$RPORT TMUX_SSH=\$TMUX \$SHELL -l"
 	fi
 
 	tmux set-option -t "$SESSION" default-command \
-		'exec ssh '"$SSH_FLAGS $SERVER"' -- sh -c "$(tmux show-environment | awk -f '"$AWK_FILE"'); '"$REMOTE_SUFFIX"'"'
+		"PATH='${LOCAL_PATH}' ssh $SSH_FLAGS $SERVER -- sh -c \"\$(tmux show-environment | awk -f $AWK_FILE); $REMOTE_SUFFIX\""
 
 	# Trigger the first window to run the same command.
 	tmux send-keys -t "$SESSION" "$(tmux show-option -t "$SESSION" -v default-command)" Enter

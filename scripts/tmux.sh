@@ -7,6 +7,10 @@ if [ -z "$TMUX_SSH" ]; then
 	exec $REAL_TMUX "$@"
 fi
 
+if [ -n "$TMUX" ]; then
+	exec $REAL_TMUX "$@"
+fi
+
 # --- Scan for tmux pre-command flags ----------------------------------------
 #
 # tmux accepts global flags before the command name:
@@ -133,7 +137,7 @@ new-session | new)
 	# Build the sshmux.sh call via the reverse tunnel.
 	# sshmux is always called with -d here: attaching is the
 	# responsibility of the caller (tmux switch-client / attach-session).
-	ssh_cmd="sshmux.sh -d"
+	ssh_cmd="sshmux -d"
 	[ -n "$SSH_PORT" ] && ssh_cmd="$ssh_cmd -p '$SSH_PORT'"
 	[ -n "$session_name" ] && ssh_cmd="$ssh_cmd -s '$session_name'"
 	ssh_cmd="$ssh_cmd '$SSH_SERVER' '$dir'"
@@ -152,7 +156,7 @@ new-session | new)
 		fi
 		[ -n "$target" ] &&
 			ssh -p "$SSH_REVERSE_PORT" "$SSH_REVERSE_USER@localhost" \
-				"tmux switch-client -t '=$target'"
+				"tmux switch-client -t '$target'"
 	fi
 	;;
 
