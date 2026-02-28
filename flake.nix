@@ -13,10 +13,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    muxxies = {
-      url = "github:Gizzzzmo/muxxies/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     rose-pine-hyprcursor = {
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,10 +31,6 @@
       url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    muxxies-stable = {
-      url = "github:Gizzzzmo/muxxies/main";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
   };
 
   outputs = {
@@ -48,7 +40,6 @@
     home-manager,
     home-manager-stable,
     nixvim-stable,
-    muxxies-stable,
     ...
   } @ inputs: {
     homeConfigurations.jonas = let
@@ -67,7 +58,6 @@
             nixpkgs = nixpkgs-stable;
             home-manager = home-manager-stable;
             nixvim = nixvim-stable;
-            muxxies = muxxies-stable;
           };
           standalone = true;
           username = "jonas";

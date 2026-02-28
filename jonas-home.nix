@@ -34,6 +34,18 @@
         (builtins.readFile ./scripts/llama-ctl.sh)
       )
       (
+        writeShellScriptBin "multimux"
+        (builtins.readFile ./scripts/multimux.sh)
+      )
+      (
+        writeShellScriptBin "sourcemux"
+        (builtins.readFile ./scripts/sourcemux.sh)
+      )
+      (
+        writeShellScriptBin "envmux"
+        (builtins.readFile ./scripts/envmux.sh)
+      )
+      (
         writeShellScriptBin "sshmux"
         (builtins.readFile ./scripts/sshmux.sh)
       )
@@ -66,7 +78,6 @@
       zip
       wget
 
-      inputs.muxxies.defaultPackage.${pkgs.stdenv.hostPlatform.system}
       alejandra
       ruff
       shfmt
