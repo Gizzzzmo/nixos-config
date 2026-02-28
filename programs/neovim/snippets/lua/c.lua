@@ -15,13 +15,13 @@ return {
             trig = "#chead",
             show_condition = empty_file,
         }, {
-            t({"#pragma once", "#ifndef "}),
+            t({"#ifndef "}),
             i(1),
             t({"", "#define "}), rep(1),
             t({"", "", "#ifdef __cplusplus", "extern \"C\" {", "#endif", "", ""}),
             i(0),
             t({"", "", "#ifdef __cplusplus", "}", "#endif"}),
-            t({"", "", "#endif /* "}), rep(1), t(" include guard */")
+            t({"", "", "#endif // "}), rep(1), t(" include guard")
         }
     )
 }
