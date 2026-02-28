@@ -33,6 +33,10 @@
         writeShellScriptBin "llama-ctl"
         (builtins.readFile ./scripts/llama-ctl.sh)
       )
+      (
+        writeShellScriptBin "hyprpaper-ctl"
+        (builtins.readFile ./scripts/hyprpaper-ctl.sh)
+      )
       jq
       ollama
       gh
