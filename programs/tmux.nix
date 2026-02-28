@@ -13,9 +13,6 @@
       mv $out/bin/tmux $out/bin/tmux-unwrapped
     '';
   };
-  prefix = "C-b";
-  keyMode = "vi";
-  clock24 = true;
   baseIndex = 1;
   plugins = with pkgs.tmuxPlugins; [
     fingers
@@ -46,7 +43,7 @@
         set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
       ''
       else ''
-        set -g default-terminal "alacritty"
+        set -g default-terminal "xterm-ghostty"
         set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
         set -as terminal-overrides ',alacritty:RGB'
       ''
