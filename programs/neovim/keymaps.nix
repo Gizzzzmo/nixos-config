@@ -1,4 +1,58 @@
 [
+  # Git gutter
+  {
+    mode = "n";
+    key = "<leader>dy";
+    action = "<cmd>GitGutterPreviewHunk<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>dk";
+    action = "<cmd>GitGutterPrevHunk<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>dj";
+    action = "<cmd>GitGutterNextHunk<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>ds";
+    action = "<cmd>GitGutterStageHunk<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>di";
+    action = "<cmd>GitGutterResetHunk<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>du";
+    action = "<cmd>GitGutterUndoHunk<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>df";
+    action = "<cmd>GitGutterFold<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>dh";
+    action = "<cmd>GitGutterLineHighlightsToggle<cr>";
+  }
+
+  {
+    mode = "n";
+    key = "<leader>do";
+    action = "<cmd>GitGutterDiffOrig<cr>";
+  }
   # Iron
   {
     mode = ["n" "i"];

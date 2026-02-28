@@ -1,4 +1,4 @@
-{ pkgs, ... } @ home_inputs: {
+{pkgs, ...} @ home_inputs: {
   enable = true;
 
   # colorschemes.lunaperche.enable = true;
@@ -145,9 +145,7 @@
     gitgutter = {
       enable = true;
       settings = {
-        keys = {
-          map_keys = false;
-        };
+        map_keys = 0;
       };
     };
   };
