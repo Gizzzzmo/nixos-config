@@ -12,6 +12,7 @@
       "ctrl+9=set_font_size:8.9"
       "ctrl+shift+enter=toggle_fullscreen"
       "ctrl+enter=unbind"
+      "shift+enter=text:\\n"
     ];
   };
 }

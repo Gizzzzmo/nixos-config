@@ -1,8 +1,12 @@
-{...} @ home_inputs: let
+{pkgs, ...} @ home_inputs: let
   waybarHeight =
     if (home_inputs ? "waybarHeight")
     then home_inputs.waybarHeight
     else 30;
+  waybarOpacity =
+    if (home_inputs ? "waybarOpacity")
+    then home_inputs.waybarOpacity
+    else 0.5;
 in {
   enable = true;
   systemd.enable = true;
@@ -157,12 +161,12 @@ in {
       border: none;
       border-radius: 0;
       font-family: "CaskaydiaCove Nerd Font";
-      font-size: ${toString (waybarHeight / 2)}px;
+      font-size: ${toString (3 * waybarHeight / 5)}px;
       min-height: 0;
     }
 
     window#waybar {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, ${pkgs.lib.strings.floatToString waybarOpacity});
       color: #eeeeee;
     }
 

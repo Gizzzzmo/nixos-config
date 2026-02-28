@@ -45,8 +45,8 @@ def main():
 
     match height:
         case 2160:
-            font_size = "20.8"
-            font_size_small = "13.4"
+            font_size = "18"
+            font_size_small = "13.7"
         case 1440:
             font_size = "18.7"
             font_size_small = "14.2"
