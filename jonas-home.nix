@@ -30,8 +30,9 @@
         "update-cmus-playlists"
         (builtins.readFile ./scripts/update-cmus-playlists.sh)
       )
-      # inputs.openclaw.packages.${pkgs.stdenv.hostPlatform.system}.openclaw
+      jq
       ollama
+      gh
       mmtui
       imagemagick
       file
