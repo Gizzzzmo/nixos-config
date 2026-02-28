@@ -13,13 +13,13 @@ return {
             trig = "#chead",
             show_condition = empty_file,
         }, {
-            t({"#pragma once", "#ifndef "}),
+            t({"#ifndef "}),
             i(1),
             t({"", "#define "}), rep(1),
             t({"", "", "#ifdef __cplusplus", "extern \"C\" {", "#endif", "", ""}),
             i(0),
             t({"", "", "#ifdef __cplusplus", "}", "#endif"}),
-            t({"", "", "#endif /* "}), rep(1), t(" include guard */")
+            t({"", "", "#endif // "}), rep(1), t(" include guard")
         }
     ),
     s(
@@ -30,7 +30,7 @@ return {
             t({"#pragma once", "#ifndef "}), i(1), t({"", ""}),
             t({"#define "}), rep(1), t({"", "", ""}),
             i(0), t({"", "", ""}),
-            t({"#endif /* "}), rep(1), t(" include guard */")
+            t({"#endif // "}), rep(1), t(" include guard")
         }
     ),
     s(
@@ -44,7 +44,7 @@ return {
             i(2), t({"", ""}),
             t({"export namespace "}), i(3), t({" {", "", ""}),
             i(0),
-            t({"", "", "} /* export namespace "}), rep(3), t({" */", ""})
+            t({"", "", "} // export namespace "}), rep(3), t({"", ""})
         }
     )
 
