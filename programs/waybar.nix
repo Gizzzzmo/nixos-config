@@ -1,11 +1,16 @@
-{...}: {
+{...} @ home_inputs: let
+  waybarHeight =
+    if (home_inputs ? "waybarHeight")
+    then home_inputs.waybarHeight
+    else 30;
+in {
   enable = true;
   systemd.enable = true;
   settings = [
     {
       layer = "top";
       position = "top"; # Waybar at the bottom of your screen
-      height = 24; # Waybar height
+      height = waybarHeight; # Waybar height
       # width= 1366; // Waybar width
       # Choose the order of the modules
 
@@ -59,8 +64,8 @@
         spacing = 10;
       };
       clock = {
-        format = "{:%H:%M}   |";
-        format-alt = "{:%R, %B %d} |";
+        format = " {:%H:%M}   |";
+        format-alt = " {:%R, %B %d} |";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
         calendar = {
           mode = "month";
@@ -152,7 +157,7 @@
       border: none;
       border-radius: 0;
       font-family: "CaskaydiaCove Nerd Font";
-      font-size: 15px;
+      font-size: ${toString (waybarHeight / 2)}px;
       min-height: 0;
     }
 
@@ -172,7 +177,7 @@
     */
 
     #workspaces button {
-      padding: 0 5px;
+      padding: 0 0.8rem;
       background: transparent;
       color: #aaaaaa;
       border-top: 2px solid transparent;

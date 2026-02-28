@@ -125,7 +125,6 @@
           vscode
           eog
           obsidian
-          waybar
           firefox
           vlc
           wofi

@@ -30,6 +30,7 @@
     ];
 
   homeManagerConfig = {
+    waybarHeight = 46;
     extraPkgs = pkgs:
       with pkgs; [
         darktable
