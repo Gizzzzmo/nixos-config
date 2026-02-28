@@ -51,8 +51,8 @@ def main():
             font_size = "18.7"
             font_size_small = "14.2"
         case 1080 | _:
-            font_size = "12.5"
-            font_size_small = "8.9"
+            font_size = "14"
+            font_size_small = "8.7"
 
     print(f"font size {font_size}, monitor height {height}")
     execv(
