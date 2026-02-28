@@ -388,7 +388,6 @@
         sshfs
         ntfs3g
         exfat
-        (pkgs.writeScriptBin "llama-ctl" (builtins.readFile ./scripts/llama-ctl.sh))
       ]
       ++ lib.optionals my-system.enableVirtualization or false [
         swtpm

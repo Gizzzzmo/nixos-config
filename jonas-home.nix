@@ -26,9 +26,12 @@
   home.packages = with pkgs;
     [
       (
-        writeShellScriptBin
-        "update-cmus-playlists"
+        writeShellScriptBin "update-cmus-playlists"
         (builtins.readFile ./scripts/update-cmus-playlists.sh)
+      )
+      (
+        writeShellScriptBin "llama-ctl"
+        (builtins.readFile ./scripts/llama-ctl.sh)
       )
       jq
       ollama
