@@ -159,8 +159,10 @@ EOF
 	tmux set-option -t "$SESSION" default-command \
 		"PATH='${LOCAL_PATH}' ssh $SSH_FLAGS $SERVER -- sh -c \"\$(tmux show-environment | awk -f $AWK_FILE); $REMOTE_SUFFIX\""
 
-	# Trigger the first window to run the same command.
-	tmux send-keys -t "$SESSION" "$(tmux show-option -t "$SESSION" -v default-command)" Enter
+	tmux new-window -t "$SESSION:"
+	tmux kill-window -t "$SESSION":1
+	tmux new-window -t "$SESSION":
+	tmux kill-window -t "$SESSION":2
 fi
 
 # Switch or attach unless -d was given.
