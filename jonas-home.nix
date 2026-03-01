@@ -46,6 +46,10 @@
         (builtins.readFile ./scripts/envmux.sh)
       )
       (
+        writeShellScriptBin "tmux-select-session-fzf"
+        (builtins.readFile ./scripts/tmux-select-session-fzf.sh)
+      )
+      (
         writeShellScriptBin "sshmux"
         (builtins.readFile ./scripts/sshmux.sh)
       )
