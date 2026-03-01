@@ -14,6 +14,7 @@
   '';
   homeManagerConfig = {
     waybarHeight = 28;
+    useHyprland = true;
     extraPkgs = pkgs:
       with pkgs; [
         darktable

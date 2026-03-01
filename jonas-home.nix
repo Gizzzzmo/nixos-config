@@ -6,10 +6,10 @@
   ...
 } @ home_inputs: {
   targets.genericLinux.enable = standalone;
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
+
   home.username = username;
   home.homeDirectory = "/home/${username}";
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -60,10 +60,6 @@
           ["REAL_TMUX=${pkgs.tmux}/bin/tmux"]
           (builtins.readFile ./scripts/tmux.sh))
       )
-      (
-        writeShellScriptBin "hyprpaper-ctl"
-        (builtins.readFile ./scripts/hyprpaper-ctl.sh)
-      )
       jq
       ollama
       gh
@@ -90,20 +86,16 @@
       proximity-sort
       ncdu
       netcat-openbsd
-      nh
       nvd
       wl-clipboard
       wl-clipboard-x11
       python313
       python313Packages.ipython
-      python313Packages.ptpython
       fishPlugins.bass
-      wiki-tui
       glab
-      gurk-rs
       zathura
       (pkgs.nom.overrideAttrs (oldAttrs: {
-        pname = "nix-output-monitor-cli";
+        pname = "rss";
         # Optionally, you can rename the binary
         postInstall =
           (oldAttrs.postInstall or "")
@@ -112,6 +104,12 @@
           '';
       }))
       nix-output-monitor
+    ]
+    ++ lib.optionals ((home_inputs ? "useHyprland") && (home_inputs.useHyprland)) [
+      (
+        writeShellScriptBin "hyprpaper-ctl"
+        (builtins.readFile ./scripts/hyprpaper-ctl.sh)
+      )
     ]
     ++ lib.optionals (home_inputs ? "extraPkgs") (home_inputs.extraPkgs pkgs)
     ++ (
@@ -153,34 +151,15 @@
           obsidian
           firefox
           vlc
-          wofi
           discord
           qbittorrent
           grim
           slurp
           foliate
-          # # Adds the 'hello' command to your environment. It prints a friendly
-          # # "Hello, world!" when run.
-          # pkgs.hello
-
-          # # It is sometimes useful to fine-tune packages, for example, by applying
-          # # overrides. You can do that directly here, just don't forget the
-          # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-          # # fonts?
-          # # You can also create simple shell scripts directly inside your
-          # # configuration. For example, this adds a command 'my-hello' to your
-          # # environment:
-          # (pkgs.writeShellScriptBin "my-hello" ''
-          #   echo "Hello, ${config.home.username}!"
-          # '')
         ]
     );
 
   nixpkgs.config.allowUnfreePredicate = pkg: true;
-
-  services.syncthing = {
-    enable = !standalone;
-  };
 
   programs.gitui = (import ./programs/gitui.nix) home_inputs;
   programs.tmux = (import ./programs/tmux.nix) home_inputs;
@@ -204,14 +183,6 @@
       };
     };
   };
-
-  services.gpg-agent = {
-    enable = true;
-    maxCacheTtl = 18000;
-    defaultCacheTtl = 18000;
-    pinentry.package = pkgs.pinentry-qt;
-  };
-
   programs.mpv = {
     enable = !standalone;
   };
@@ -238,12 +209,12 @@
   programs.waybar =
     (import ./programs/waybar.nix) home_inputs
     // {
-      enable = !standalone;
+      enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
     };
   programs.hyprlock =
     (import ./programs/hyprlock.nix) home_inputs
     // {
-      enable = !standalone;
+      enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
     };
   programs.obs-studio =
     (import ./programs/obs.nix) home_inputs
@@ -278,13 +249,22 @@
     enableFishIntegration = true;
   };
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
+  services.hyprpolkitagent = {
+    enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
+  };
+
+  services.syncthing = {
+    enable = !standalone;
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    maxCacheTtl = 18000;
+    defaultCacheTtl = 18000;
+    pinentry.package = pkgs.pinentry-qt;
+  };
+
   home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
     ".config" = {
       source = dotfiles/.config;
       recursive = true;
@@ -292,12 +272,6 @@
     ".XCompose" = {
       source = dotfiles/.XCompose;
     };
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
   };
 
   # Home Manager can also manage your environment variables through

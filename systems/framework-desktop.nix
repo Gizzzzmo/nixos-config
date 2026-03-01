@@ -32,6 +32,7 @@
   homeManagerConfig = {
     waybarHeight = 36;
     waybarOpacity = 0.6;
+    useHyprland = true;
     extraPkgs = pkgs:
       with pkgs; [
         darktable
