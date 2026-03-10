@@ -4,7 +4,15 @@
   standalone,
   username,
   ...
-} @ home_inputs: {
+} @ home_inputs:
+let
+  tmux-notify-server = pkgs.writeShellScriptBin "tmux-notify-server"
+    (builtins.replaceStrings
+      ["SOCAT=socat" "TMUX_BIN=tmux"]
+      ["SOCAT=${pkgs.socat}/bin/socat" "TMUX_BIN=${pkgs.tmux}/bin/tmux"]
+      (builtins.readFile ./scripts/tmux-notify-server.sh));
+in
+{
   targets.genericLinux.enable = standalone;
 
   home.username = username;
@@ -60,6 +68,33 @@
           ["REAL_TMUX=${pkgs.tmux}/bin/tmux"]
           (builtins.readFile ./scripts/tmux.sh))
       )
+      # tmux notification system
+      tmux-notify-server
+      (
+        writeShellScriptBin "tmux-notify-build-list"
+        (builtins.readFile ./scripts/tmux-notify-build-list.sh)
+      )
+      (
+        writeShellScriptBin "tmux-notify-send"
+        (builtins.readFile ./scripts/tmux-notify-send.sh)
+      )
+      (
+        writeShellScriptBin "tmux-notify-list"
+        (builtins.readFile ./scripts/tmux-notify-list.sh)
+      )
+      (
+        writeShellScriptBin "tmux-notify-mode"
+        (builtins.readFile ./scripts/tmux-notify-mode.sh)
+      )
+      (
+        writeShellScriptBin "tmux-notify-close"
+        (builtins.replaceStrings
+          ["TMUX_BIN=tmux"]
+          ["TMUX_BIN=${pkgs.tmux}/bin/tmux"]
+          (builtins.readFile ./scripts/tmux-notify-close.sh))
+      )
+      glow
+      socat
       jq
       ollama
       gh
@@ -262,6 +297,19 @@
     maxCacheTtl = 18000;
     defaultCacheTtl = 18000;
     pinentry.package = pkgs.pinentry-qt;
+  };
+
+  systemd.user.services.tmux-notify-server = {
+    Unit = {
+      Description = "tmux notification server";
+      After = ["default.target"];
+    };
+    Service = {
+      ExecStart = "${tmux-notify-server}/bin/tmux-notify-server";
+      Restart = "on-failure";
+      RestartSec = "2s";
+    };
+    Install.WantedBy = ["default.target"];
   };
 
   home.file = {

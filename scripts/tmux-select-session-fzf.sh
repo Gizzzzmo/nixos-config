@@ -7,16 +7,18 @@ if [ -n "$TMUX" ]; then
 fi
 
 # Get a list of other directories
-other_dirs=$(zoxide query --list)
+other_dirs=$(zoxide query --list | head -n 100)
 other_dirs=$(printf "%s\n%s" "$HOME" "$other_dirs")
 
 # filter out directories whose basename matches any session name, to avoid cluttering the list with irrelevant entries
-filtered_dirs=$(echo "$other_dirs" | awk -v sessions="$sessions" 'BEGIN{split(sessions,a,"\
-"); for(i in a) sess[a[i]]=1} {base=$0; sub(/.*\//,"",base); if(!(base in sess)) print}')
+# filtered_dirs=$(echo "$other_dirs" | awk -v sessions="$sessions" 'BEGIN{split(sessions,a,"\
+# "); for(i in a) sess[a[i]]=1} {base=$0; sub(/.*\//,"",base); if(!(base in sess)) print}')
+
+filtered_dirs="$other_dirs"
 
 all_options=$(printf "%s\n%s" "$sessions" "$filtered_dirs")
 
-selected=$(echo "$all_options" | fzf --reverse --prompt="Switch to session: " --height=100%)
+selected=$(echo "$all_options" | fzf --no-sort --reverse --prompt="Switch to session: " --height=100%)
 
 echo "Selected session: $selected"
 
