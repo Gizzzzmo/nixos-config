@@ -123,8 +123,8 @@ in {
           ""
           ""
         ];
-        on-scroll-up = "light -A 2";
-        on-scroll-down = "light -U 2";
+        on-scroll-up = "xbacklight -inc 2";
+        on-scroll-down = "xbackligh -dec 2";
       };
 
       network = {

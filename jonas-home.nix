@@ -4,15 +4,14 @@
   standalone,
   username,
   ...
-} @ home_inputs:
-let
-  tmux-notify-server = pkgs.writeShellScriptBin "tmux-notify-server"
+} @ home_inputs: let
+  tmux-notify-server =
+    pkgs.writeShellScriptBin "tmux-notify-server"
     (builtins.replaceStrings
       ["SOCAT=socat" "TMUX_BIN=tmux"]
       ["SOCAT=${pkgs.socat}/bin/socat" "TMUX_BIN=${pkgs.tmux}/bin/tmux"]
       (builtins.readFile ./scripts/tmux-notify-server.sh));
-in
-{
+in {
   targets.genericLinux.enable = standalone;
 
   home.username = username;
@@ -172,7 +171,7 @@ in
           opencode
           keepassxc
           signal-desktop
-          light
+          acpilight
           cmus
           openvpn
           btop
