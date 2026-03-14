@@ -440,6 +440,8 @@ augroup END
 "    mkdir -p ~/.vim/pack/plugins/start
 "    git clone https://github.com/junegunn/fzf.vim ~/.vim/pack/plugins/start/fzf.vim
 "    git clone https://github.com/junegunn/fzf ~/.vim/pack/plugins/start/fzf
+"    On windows the paths are under ~\vimfiles\pack\plugins\start\ for vim
+"    and under ~\AppData\Local\nvim\pack\plugins\start\ for neovim
 "
 " 3. Optional but recommended: Install ripgrep for better grep functionality
 "    (available in most package managers as 'ripgrep' or 'rg')

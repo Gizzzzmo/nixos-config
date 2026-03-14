@@ -1,0 +1,13 @@
+[user]
+	name = Jonas Beyer
+	email = reyeb.sanoj@googlemail.com
+[core]
+	symlinks = true
+[pull]
+	rebase = true
+[rerere]
+	enabled = true
+[init]
+	defaultbranch = main
+[uploadpack]
+	allowfilter = true

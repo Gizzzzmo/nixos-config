@@ -1,0 +1,66 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "theme": "vercel",
+    "keybinds": {
+        "messages_half_page_down": "alt+d",
+        "messages_half_page_up": "alt+u",
+        "input_clear": "ctrl+u",
+        "messages_last": "ctrl+alt+g",
+        "input_newline": "ctrl+enter",
+        "session_interrupt": "ctrl+c",
+        "app_exit": "<leader>q"
+    },
+    "lsp": {
+        "clangd": {
+            "command": [
+                "clangd",
+                "--background-index",
+                "--header-insertion=never",
+                "--clang-tidy"
+            ],
+            "extensions": [
+                ".c",
+                ".cpp",
+                ".h",
+                ".hpp",
+                ".cc",
+                ".hh"
+            ]
+        },
+        "rust-analyzer": {
+            "command": [
+                "rust-analyzer"
+            ],
+            "extensions": [
+                ".rs"
+            ]
+        },
+        "basedpyright": {
+            "command": [
+                "basedpyright"
+            ],
+            "extensions": [
+                ".py"
+            ]
+        }
+    },
+    "provider": {
+        "llama-server": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "LLaMA Server",
+            "options": {
+                "baseURL": "http://100.64.0.3:11404/v1"
+            },
+            "models": {
+                "qwen3-coder-next:q4_k_m": {
+                    "name": "Qwen3 Coder Next",
+                    "limit": {
+                        "context": 256000,
+                        "output": 65536
+                    }
+                }
+            }
+        }
+    },
+    "layout": "stretch"
+}
