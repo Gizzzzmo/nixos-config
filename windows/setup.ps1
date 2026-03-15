@@ -28,7 +28,7 @@ $vimrc = Join-Path $repoRoot "programs\basic-vimrc.vim"
 
 $vimTargets = @(
     # Vim: $HOME\_vimrc
-    (Join-Path $HOME "_vimrc"),
+    (Join-Path $HOME ".vimrc"),
     # Neovim: $LOCALAPPDATA\nvim\init.vim
     (Join-Path $env:LOCALAPPDATA "nvim\init.vim")
 )

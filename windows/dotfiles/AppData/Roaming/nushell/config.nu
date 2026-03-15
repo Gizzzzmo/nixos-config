@@ -55,3 +55,6 @@ source ~/AppData/Roaming/nushell/completions/pixi.nu
 source ~/AppData/Roaming/nushell/completions/git.nu
 source ~/AppData/Roaming/nushell/completions/make.nu
 source ~/AppData/Roaming/nushell/completions/cargo.nu
+source ~/AppData/Roaming/nushell/completions/rg.nu
+source ~/AppData/Roaming/nushell/completions/ssh.nu
+source ~/AppData/Roaming/nushell/completions/winget.nu
