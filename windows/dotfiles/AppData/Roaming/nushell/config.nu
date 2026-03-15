@@ -54,3 +54,4 @@ source ~/AppData/Roaming/nushell/zoxide.nu
 source ~/AppData/Roaming/nushell/completions/pixi.nu
 source ~/AppData/Roaming/nushell/completions/git.nu
 source ~/AppData/Roaming/nushell/completions/make.nu
+source ~/AppData/Roaming/nushell/completions/cargo.nu
