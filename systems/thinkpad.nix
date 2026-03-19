@@ -2,6 +2,7 @@
   id = "thinkpad";
   hardwareConfig = import ./thinkpad-hardware.nix;
   enableBluetooth = true;
+  enableSshServer = true;
   # enableIwd = true;
   enableUserMounts = true;
   enablePrinting = true;
