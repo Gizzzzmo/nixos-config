@@ -11,6 +11,9 @@
     core.editor = "nvim";
     core.excludesFile = "~/.config/git/exclude";
 
+    uploadpack.allowAnySHA1InWant = true;
+    uploadpack.allowFilter = true;
+
     alias = {
       dl = "-c diff.external=difft log -p --ext-diff";
       ds = "-c diff.external=difft show --ext-diff";
