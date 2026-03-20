@@ -31,7 +31,7 @@
     };
     mappings = {
       i = {
-        "<M-q>".__raw = ''
+        "<M-S-q>".__raw = ''
           function(prompt_bufnr)
               require('telescope.actions').send_to_qflist(prompt_bufnr)
               require('telescope.actions').open_qflist()
@@ -40,7 +40,7 @@
         "<C-space>".__raw = "require('telescope.actions').to_fuzzy_refine";
       };
       n = {
-        "<M-q>".__raw = ''
+        "<M-S-q>".__raw = ''
           function(prompt_bufnr)
               require('telescope.actions').send_to_qflist(prompt_bufnr)
               require('telescope.actions').open_qflist()
