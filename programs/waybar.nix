@@ -124,7 +124,7 @@ in {
           ""
         ];
         on-scroll-up = "xbacklight -inc 2";
-        on-scroll-down = "xbackligh -dec 2";
+        on-scroll-down = "xbacklight -dec 2";
       };
 
       network = {
