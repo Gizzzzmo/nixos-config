@@ -59,32 +59,12 @@
                         "output": 65536
                     }
                 },
-            }
-        },
-        "ollama": {
-            "npm": "@ai-sdk/openai-compatible",
-            "name": "Ollama",
-            "options": {
-                "baseURL": "http://100.64.0.3:11434/v1",
-            },
-            "models": {
-                "qwen3-coder-next_80b_256k": {
-                    "name": "qwen3-coder-next_80b_256k"
-                },
-                "qwen3-coder-next_80b-half_256k": {
-                    "name": "qwen3-coder-next_80b-half_256k"
-                },
-                "qwen3-next:80b": {
-                    "name": "qwen3-next:80b"
-                },
-                "deepseek-r1:8b": {
-                    "name": "deepseek-r1:8b"
-                },
-                "qwen3-coder:30b-256k": {
-                    "name": "qwen3-coder:30b-256k",
-                },
-                "mistral-small3.2:24b": {
-                    "name": "mistral-small3.2:24b"
+                "gemma-4-31b-it:q8_k_xl": {
+                    "name": "Gemma 4 31B IT",
+                    "limit": {
+                        "context": 256000,
+                        "output": 65536
+                    }
                 }
             }
         }

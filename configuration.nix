@@ -92,6 +92,7 @@
   services.atd.enable = true;
   services.xserver.enable = true;
   services.pcscd.enable = true;
+
   services.tailscale = {
     enable = my-system.enableTailscale or false;
     authKeyFile = "/root/tailscale-auth-key";
@@ -102,15 +103,21 @@
     ];
     useRoutingFeatures = "client";
   };
+
   services.ollama = {
     enable = my-system.enableOllama or false;
     package = pkgs.ollama-vulkan;
     host = "100.64.0.3"; # Bind to Tailscale interface
   };
+
   services.llama-cpp = let
     qwen3CoderNextGGUF = pkgs.fetchurl {
       url = "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_M.gguf";
       sha256 = "sha256-nmAy0vO1CmDxfOi/Wh2Fxxr5tTuJx5eAIK58Zg8psJA";
+    };
+    gemma4GGUF = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/gemma-4-31B-it-UD-Q8_K_XL.gguf";
+      sha256 = "sha256-1YYh/x/WVMdfUOQsEUXOwoTTZEfFC2Hysp88HkCZpqo=";
     };
     parallel = 2;
   in {
@@ -124,12 +131,23 @@
         name = "qwen3-coder-next:q4_k_m";
         path = qwen3CoderNextGGUF;
       }
+      {
+        name = "gemma-4-31b-it:q8_k_xl";
+        path = gemma4GGUF;
+      }
     ];
 
     modelsPreset = {
       "qwen3-coder-next:q4_k_m" = {
         model = "${qwen3CoderNextGGUF}";
         alias = "qwen3-coder-next";
+        ctx-size = 262144 * parallel;
+        n-gpu-layers = "auto";
+        fit = "on";
+      };
+      "gemma-4-31b-it:q8_k_xl" = {
+        model = "${gemma4GGUF}";
+        alias = "gemma-4-31b-it";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
         fit = "on";
