@@ -48,6 +48,12 @@
   }
 
   {
+    command = ":silent! hledger-fmt --fix --exit-zero-on-changes '%'";
+    event = "BufWritePost";
+    pattern = ["*.journal"];
+  }
+
+  {
     command = ":silent! !test -f alejandra.toml && alejandra '%'";
     event = "BufWritePost";
     pattern = ["*.nix"];

@@ -21,6 +21,7 @@
     rust
     markdown
     python
+    ledger
   ];
   folding =
     if standalone
