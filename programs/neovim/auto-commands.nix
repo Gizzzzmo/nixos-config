@@ -48,7 +48,7 @@
   }
 
   {
-    command = ":silent! hledger-fmt --fix --exit-zero-on-changes '%'";
+    command = ":silent! !hledger-fmt --fix --exit-zero-on-changes '%'";
     event = "BufWritePost";
     pattern = ["*.journal"];
   }
