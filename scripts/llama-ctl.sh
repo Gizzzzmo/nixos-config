@@ -12,7 +12,7 @@ shift
 case "$command" in
 list | ls)
 	echo "=== Available Models ==="
-	curl -s "${BASE_URL}/v1/models" | jq -r '.data[] | "- \(.id)"' 2>/dev/null ||
+	curl -s "${BASE_URL}/v1/models" | jq -r '.data[] | "- \(.id)  [\(.status.value)]"' 2>/dev/null ||
 		curl -s "${BASE_URL}/v1/models"
 	;;
 
@@ -23,9 +23,25 @@ status | props)
 	;;
 
 slots)
-	echo "=== Active Slots (Loaded Models) ==="
-	curl -s "${BASE_URL}/slots" | jq '.' 2>/dev/null ||
-		curl -s "${BASE_URL}/slots"
+	model_name="$1"
+	echo "=== Active Slots ==="
+	if [ -n "$model_name" ]; then
+		echo "--- $model_name ---"
+		curl -s "${BASE_URL}/slots?model=${model_name}" | jq '.' 2>/dev/null ||
+			curl -s "${BASE_URL}/slots?model=${model_name}"
+	else
+		# Show slots for all loaded models
+		models=$(curl -s "${BASE_URL}/v1/models" | jq -r '.data[] | select(.status.value == "loaded") | .id' 2>/dev/null)
+		if [ -z "$models" ]; then
+			echo "No models currently loaded."
+		else
+			while IFS= read -r model; do
+				echo "--- $model ---"
+				curl -s "${BASE_URL}/slots?model=${model}" | jq '.' 2>/dev/null ||
+					curl -s "${BASE_URL}/slots?model=${model}"
+			done <<< "$models"
+		fi
+	fi
 	;;
 
 health)
@@ -43,18 +59,24 @@ unload)
 		exit 1
 	fi
 
-	echo "Attempting to unload model: $model_name"
-	# Try different API formats
-	response=$(curl -s -X POST "${BASE_URL}/models/unload" \
-		-H "Content-Type: application/json" \
-		-d "{\"model\":\"$model_name\"}")
-
-	if echo "$response" | grep -q "error"; then
-		# Try alternative format
-		response=$(curl -s -X POST "${BASE_URL}/models/unload?model=$model_name")
+	if [ "$model_name" = "all" ]; then
+		models=$(curl -s "${BASE_URL}/v1/models" | jq -r '.data[] | select(.status.value == "loaded") | .id' 2>/dev/null)
+		if [ -z "$models" ]; then
+			echo "No models currently loaded."
+		else
+			while IFS= read -r model; do
+				echo "Unloading: $model"
+				curl -s -X POST "${BASE_URL}/models/unload" \
+					-H "Content-Type: application/json" \
+					-d "{\"model\":\"$model\"}" | jq '.' 2>/dev/null
+			done <<< "$models"
+		fi
+	else
+		echo "Unloading model: $model_name"
+		curl -s -X POST "${BASE_URL}/models/unload" \
+			-H "Content-Type: application/json" \
+			-d "{\"model\":\"$model_name\"}" | jq '.' 2>/dev/null
 	fi
-
-	echo "$response" | jq '.' 2>/dev/null || echo "$response"
 	;;
 
 load)
@@ -100,7 +122,7 @@ Usage: $0 <command> [args]
 Commands:
   list, ls              List all available models
   status, props         Show server status and properties
-  slots                 Show active slots (loaded models)
+  slots [model]         Show slots for a model (or all loaded models)
   health                Check server health
   unload <model>        Unload a specific model from memory
   unload all            Unload all models from memory
@@ -121,8 +143,7 @@ Examples:
   $0 load qwen-coder                # Load specific model
   $0 status                         # Check server status
   
-Note: Model unload/load API may vary depending on llama.cpp version.
-      If unload doesn't work, you can restart the service: $0 restart
+Note: The router API uses POST /models/load and POST /models/unload with {"model":"<id>"}.
 EOF
 	;;
 
