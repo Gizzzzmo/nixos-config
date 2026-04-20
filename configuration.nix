@@ -295,10 +295,15 @@
   # Enable bluetooth
   hardware.bluetooth.enable = my-system.enableBluetooth or false;
   hardware.amdgpu.opencl.enable = my-system.enableOpenclAmd or false;
+  hardware.keyboard.qmk = {
+    enable = true;
+    keychronSupport = true;
+  };
 
   services.udev = {
     enable = true;
     extraRules = lib.mkIf (my-system ? "extraUdevRules") (my-system.extraUdevRules pkgs);
+    packages = [ pkgs.via ];
   };
 
   # Enable touchpad support (enabled default in most desktopManager).

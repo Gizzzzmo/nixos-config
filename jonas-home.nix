@@ -100,6 +100,7 @@ in {
       mmtui
       imagemagick
       file
+      xxd
       eza
       tree
       ripgrep
@@ -144,6 +145,10 @@ in {
         writeShellScriptBin "hyprpaper-ctl"
         (builtins.readFile ./scripts/hyprpaper-ctl.sh)
       )
+      (
+        writeShellScriptBin "cmus-control"
+        (builtins.readFile ./scripts/cmus-control.sh)
+      )
     ]
     ++ lib.optionals (home_inputs ? "extraPkgs") (home_inputs.extraPkgs pkgs)
     ++ (
@@ -164,6 +169,8 @@ in {
             {}
             (builtins.readFile ./scripts/ghostty_wrap.py)
           )
+          via
+          qmk
           veracrypt
           wiremix
           bluetui
