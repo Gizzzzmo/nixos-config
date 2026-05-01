@@ -59,6 +59,13 @@
                         "output": 65536
                     }
                 },
+                "qwen3.6-35b-a3b-it:q8_k_xl": {
+                    "name": "Qwen 3.6",
+                    "limit": {
+                        "context": 256000,
+                        "output": 65536
+                    }
+                },
                 "gemma-4-31b-it:q8_k_xl": {
                     "name": "Gemma 4 31B IT",
                     "limit": {

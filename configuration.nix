@@ -115,10 +115,48 @@
       url = "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_M.gguf";
       sha256 = "sha256-nmAy0vO1CmDxfOi/Wh2Fxxr5tTuJx5eAIK58Zg8psJA";
     };
+    qwen36GGUF = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf";
+      sha256 = "sha256-t2IhXF9Qf0hl30rD0a+oA4KK+kHgXsrD+sQxpnu9iOg=";
+    };
     gemma4GGUF = pkgs.fetchurl {
       url = "https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/gemma-4-31B-it-UD-Q8_K_XL.gguf";
       sha256 = "sha256-1YYh/x/WVMdfUOQsEUXOwoTTZEfFC2Hysp88HkCZpqo=";
     };
+    # miniMax27GGUF00001 = pkgs.fetchurl {
+    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf";
+    #   sha256 = "sha256-8s7IbP+qws6XGVJo8ixj93woOQo8aZCG3g6YKMUwfP4=";
+    # };
+    # miniMax27GGUF00002 = pkgs.fetchurl {
+    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00002-of-00004.gguf";
+    #   sha256 = "sha256-SE988ZTsTXhSezaBytRZEJzzdkRw1aAUFXBPrIODoAY=";
+    # };
+    # miniMax27GGUF00003 = pkgs.fetchurl {
+    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00003-of-00004.gguf";
+    #   sha256 = "sha256-DYAV0DmMdCW2jGLmvqG6jGqZwuvDdrbhzCRBvJUwkZc=";
+    # };
+    # miniMax27GGUF00004 = pkgs.fetchurl {
+    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00004-of-00004.gguf";
+    #   sha256 = "sha256-S1Z/7HCE1MnKSueJJjASXhuSXoe1bQUJ/zvI9+SZlvk=";
+    # };
+    # miniMax27Dir = pkgs.linkFarm "miniMax27GGUF" [
+    #   {
+    #     path = miniMax27GGUF00001;
+    #     name = "MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf";
+    #   }
+    #   {
+    #     path = miniMax27GGUF00002;
+    #     name = "MiniMax-M2.7-UD-IQ4_XS-00002-of-00004.gguf";
+    #   }
+    #   {
+    #     path = miniMax27GGUF00003;
+    #     name = "MiniMax-M2.7-UD-IQ4_XS-00003-of-00004.gguf";
+    #   }
+    #   {
+    #     path = miniMax27GGUF00004;
+    #     name = "MiniMax-M2.7-UD-IQ4_XS-00004-of-00004.gguf";
+    #   }
+    # ];
     parallel = 2;
   in {
     enable = my-system.enableLlamaCpp or false;
@@ -132,6 +170,10 @@
         path = qwen3CoderNextGGUF;
       }
       {
+        name = "qwen3.6-35b-a3b-it:q8_k_xl";
+        path = qwen36GGUF;
+      }
+      {
         name = "gemma-4-31b-it:q8_k_xl";
         path = gemma4GGUF;
       }
@@ -143,19 +185,46 @@
         alias = "qwen3-coder-next";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
+        cache-type-k = "q4_0";
+        cache-type-v = "q4_0";
         fit = "on";
       };
+
+      "qwen3.6-35b-a3b-it:q8_k_xl" = {
+        model = "${qwen36GGUF}";
+        alias = "qwen3.6";
+        ctx-size = 262144 * parallel;
+        n-gpu-layers = "auto";
+        cache-type-k = "q8_0";
+        cache-type-v = "q8_0";
+        fit = "on";
+      };
+
       "gemma-4-31b-it:q8_k_xl" = {
         model = "${gemma4GGUF}";
         alias = "gemma-4-31b-it";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
         fit = "on";
+        cache-type-k = "q8_0";
+        cache-type-v = "q8_0";
+        reasoning = "off";
       };
+
+      # "minimax-m2.7-ud-iq4_xs:q4_k_m" = {
+      #   model = "${miniMax27Dir}/MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf";
+      #   alias = "minimax-m2.7-ud-iq4_xs";
+      #   ctx-size = 196608 * parallel;
+      #   n-gpu-layers = "auto";
+      #   fit = "on";
+      #   cache-type-k = "q4_0";
+      #   cache-type-v = "q4_0";
+      # };
     };
 
     # Global server flags (apply to all models)
     extraFlags = [
+      "--no-mmap"
       "--models-max"
       "4" # Max models in memory simultaneously
       "--models-autoload" # Auto-load models on request (default: enabled)
@@ -303,7 +372,7 @@
   services.udev = {
     enable = true;
     extraRules = lib.mkIf (my-system ? "extraUdevRules") (my-system.extraUdevRules pkgs);
-    packages = [ pkgs.via ];
+    packages = [pkgs.via];
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
