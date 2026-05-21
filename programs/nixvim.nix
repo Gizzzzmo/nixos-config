@@ -53,6 +53,10 @@
       fg = "#f584ff";
       underline = true;
     };
+    "@markup.link.url.markdown_inline" = {
+      fg = "#f584ff";
+      underline = true;
+    };
   };
 
   extraConfigLuaPre = ''
