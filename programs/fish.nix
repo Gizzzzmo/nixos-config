@@ -27,6 +27,7 @@
     set -x NIX_PATH "nixpkgs=${inputs.nixpkgs.outPath}"
     set -x PATH $PATH:/nix/var/nix/profiles/default/bin
     set -x OLLAMA_HOST 100.64.0.3:11434
+
     status --is-interactive; and begin
       fish_vi_key_bindings
       bind --mode insert ctrl-f 'accept-autosuggestion'
@@ -53,6 +54,7 @@
     if test -f $HOME/.config/api-keys.fish
       bass source $HOME/.config/api-keys.fish
     end
+    test -f $HOME/.config/fish/local.fish; and source $HOME/.config/fish/local.fish
   '';
 
   plugins = with pkgs.fishPlugins; [
