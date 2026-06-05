@@ -18,6 +18,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    handy = {
+      url = "github:cjpais/Handy/v0.8.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     home-manager-stable = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -69,6 +74,7 @@
       modules = [
         ./configuration.nix
         home-manager.nixosModules.default
+        inputs.handy.nixosModules.default
       ];
     };
 
@@ -81,6 +87,7 @@
       modules = [
         ./configuration.nix
         home-manager.nixosModules.default
+        inputs.handy.nixosModules.default
       ];
     };
   };

@@ -26,7 +26,10 @@ in {
   # release notes.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
-  imports = [inputs.nixvim.homeModules.nixvim];
+  imports = [
+    inputs.nixvim.homeModules.nixvim
+    inputs.handy.homeManagerModules.default
+  ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -291,6 +294,10 @@ in {
   };
 
   services.hyprpolkitagent = {
+    enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
+  };
+
+  services.handy = {
     enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
   };
 

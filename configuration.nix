@@ -326,6 +326,8 @@
 
   programs.steam.enable = my-system.enableSteam or false;
 
+  programs.handy.enable = my-system.enableGui or false;
+
   programs.virt-manager.enable = my-system.enableVirtualization or false;
 
   virtualisation = {
@@ -396,6 +398,7 @@
         "wheel"
         "networkmanager"
         "backlight"
+        "input"
       ]
       ++ lib.optionals my-system.enableOpenclAmd or false ["video" "render"]
       ++ lib.optionals my-system.enableVirtualization or false ["libvirtd"]
@@ -447,6 +450,7 @@
       ++ lib.optionals my-system.enableGui or false [
         inputs.rose-pine-hyprcursor.packages.${pkgs.hostPlatform.system}.default
         hyprpaper
+        wtype
       ]
       ++ lib.optionals my-system.enableSound or false [
         pamixer
