@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WALLPAPER_DIR="$HOME/.config/hypr/wallpaper-groups"
+WALLPAPER_DIR="$HOME/.config/hypr/wallpaper-groups/"
 STATE_FILE="$HOME/.config/hypr/wallpaper-state"
 CYCLE_INTERVAL_FILE="$HOME/.config/hypr/wallpaper-cycle-interval"
 CYCLE_ENABLED_FILE="$HOME/.config/hypr/wallpaper-cycle-enabled"
