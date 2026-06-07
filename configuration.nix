@@ -13,7 +13,6 @@
     # Include the results of the hardware scan.
     my-system.hardwareConfig
     ./main-user.nix
-    inputs.home-manager.nixosModules.default
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -389,6 +388,7 @@
   users.groups = {
     backlight = {};
     libvirtd = {};
+    storage = {};
   };
 
   users.users.jonas = {
@@ -400,10 +400,10 @@
         "backlight"
         "input"
       ]
-      ++ lib.optionals my-system.enableOpenclAmd or false ["video" "render"]
-      ++ lib.optionals my-system.enableVirtualization or false ["libvirtd"]
-      ++ lib.optionals my-system.enableDocker or false ["docker"]
-      ++ lib.optionals my-system.enableUserMounts or false ["storage"];
+      ++ (lib.optionals my-system.enableOpenclAmd or false ["video" "render"])
+      ++ (lib.optionals my-system.enableVirtualization or false ["libvirtd"])
+      ++ (lib.optionals my-system.enableDocker or false ["docker"])
+      ++ (lib.optionals my-system.enableUserMounts or false ["storage"]);
   };
 
   home-manager = {
