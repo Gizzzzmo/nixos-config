@@ -448,7 +448,7 @@
         udisks
       ]
       ++ lib.optionals my-system.enableGui or false [
-        inputs.rose-pine-hyprcursor.packages.${pkgs.hostPlatform.system}.default
+        inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
         hyprpaper
         wtype
       ]
