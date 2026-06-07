@@ -17,19 +17,26 @@
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     handy = {
       url = "github:cjpais/Handy/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     home-manager-stable = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     nixvim-stable = {
-      url = "github:nix-community/nixvim/nixos-25.11";
+      url = "github:nix-community/nixvim/nixos-26.05";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    rose-pine-hyprcursor-stable = {
+      url = "github:ndom91/rose-pine-hyprcursor";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    handy-stable = {
+      url = "github:cjpais/Handy/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
@@ -41,6 +48,9 @@
     home-manager,
     home-manager-stable,
     nixvim-stable,
+    rose-pine-hyprcursor-stable,
+    handy,
+    handy-stable,
     ...
   } @ inputs: {
     homeConfigurations.jonas = let
@@ -74,20 +84,27 @@
       modules = [
         ./configuration.nix
         home-manager.nixosModules.default
-        inputs.handy.nixosModules.default
+        handy.nixosModules.default
       ];
     };
 
     nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
+        # inputs = {
+        #   nixpkgs = nixpkgs-stable;
+        #   home-manager = home-manager-stable;
+        #   nixvim = nixvim-stable;
+        #   rose-pine-hyprcursor = rose-pine-hyprcursor-stable;
+        #   handy = handy-stable;
+        # };
         my-system = import ./systems/framework-desktop.nix;
       };
 
       modules = [
         ./configuration.nix
         home-manager.nixosModules.default
-        inputs.handy.nixosModules.default
+        handy.nixosModules.default
       ];
     };
   };
