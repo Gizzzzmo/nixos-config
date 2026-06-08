@@ -55,7 +55,7 @@ in {
   # Bootloader: UEFI (systemd-boot) or Legacy BIOS (GRUB)
   boot.loader.systemd-boot.enable = !(my-system.enableLegacyBios or false);
   boot.loader.grub.enable = my-system.enableLegacyBios or false;
-  boot.loader.grub.devices = lib.mkIf (my-system.enableLegacyBios or false) [ "/dev/sda" ];
+  boot.loader.grub.devices = lib.mkIf (my-system.enableLegacyBios or false) ["/dev/sda"];
   boot.loader.grub.fsIdentifier = lib.mkIf (my-system.enableLegacyBios or false) "provided";
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault false;
 
@@ -133,7 +133,7 @@ in {
     enable = my-system.enableTailscale or false;
     authKeyFile = "/root/tailscale-auth-key";
     extraUpFlags = [
-      "--login-server=${my-system.tailscaleLoginServer or "https://78.47.49.217:8443"}"
+      "--login-server=${my-system.tailscaleLoginServer or "https://headscale.jonbyr.com"}"
       "--accept-routes"
       "--advertise-exit-node"
     ];
