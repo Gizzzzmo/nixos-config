@@ -109,6 +109,18 @@ in {
 
   nix.optimise.automatic = true;
 
+  system.autoUpgrade = lib.mkIf (my-system.enableAutoUpgrade or false) {
+    enable = true;
+    flake = "/home/jonas/nixos-config";
+    flags = [
+      "--update-input" "nixpkgs"
+      "--update-input" "home-manager"
+    ];
+    dates = "04:00";
+    allowReboot = false;
+    persistent = true;
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
