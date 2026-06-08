@@ -1,9 +1,8 @@
 # Base Dufs configuration (without credentials).
-# Credentials are in /home/jonas/nginx-config/dufs-auth.yaml on the server.
 
-serve-path: "/var/www/fileshare"
+serve-path: "/mnt/storagebox/fileshare"
 bind: 127.0.0.1
-port: 8080
+port: 8081
 
 allow-all: false
 allow-upload: true

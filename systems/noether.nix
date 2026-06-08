@@ -9,5 +9,6 @@
   enableNginx = true;
   tailscaleLoginServer = "https://headscale.jonbyr.com";
   enableLegacyBios = true;
+  enableStorageBox = true;
   homeManagerConfig = {};
 }

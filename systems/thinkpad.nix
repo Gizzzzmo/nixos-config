@@ -1,6 +1,7 @@
 {
   id = "thinkpad";
   hardwareConfig = import ./thinkpad-hardware.nix;
+  enableStorageBox = true;
   enableBluetooth = true;
   enableSshServer = true;
   # enableIwd = true;

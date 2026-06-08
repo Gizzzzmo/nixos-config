@@ -22,7 +22,7 @@
       import yaml
 
       CONFIG_BASE = "${./dufs-config.yaml}"
-      CONFIG_AUTH = "/home/jonas/.config/dufs/credentials.yaml"
+      CONFIG_AUTH = "/etc/dufs/credentials.yaml"
 
       with open(CONFIG_BASE) as f:
           config = yaml.safe_load(f)
@@ -309,6 +309,7 @@ in {
     description = "Dufs file server for fileshare.jonbyr.com";
     after = ["network.target"];
     wantedBy = ["multi-user.target"];
+    restartIfChanged = false;
     serviceConfig = {
       Type = "simple";
       User = "dufs";
@@ -317,8 +318,7 @@ in {
       Restart = "on-failure";
       RestartSec = "5s";
       NoNewPrivileges = true;
-      ReadWritePaths = ["/var/www/fileshare"];
-      ReadOnlyPaths = ["/home/jonas/.config/dufs"];
+      ReadWritePaths = ["/mnt/storagebox"];
       LockPersonality = true;
       RestrictRealtime = true;
       RestrictSUIDSGID = true;
@@ -337,7 +337,7 @@ in {
       enableACME = true;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:8080";
+        proxyPass = "http://127.0.0.1:8081";
         proxyWebsockets = true;
         extraConfig = ''
           proxy_set_header X-Real-IP $remote_addr;
@@ -365,7 +365,7 @@ in {
       enableACME = true;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "https://127.0.0.1:8443";
+        proxyPass = "https://127.0.0.1:8080";
         proxyWebsockets = true;
         extraConfig = ''
           proxy_ssl_verify off;
@@ -517,6 +517,40 @@ in {
   # Allow non-root users to use FUSE for sshfs mounting
   programs.fuse.userAllowOther = my-system.enableUserMounts or false;
 
+  # Auto-mount Hetzner Storage Box via CIFS
+  fileSystems."/home/jonas/mnt/storagebox" = lib.mkIf (my-system.enableStorageBox or false) {
+    device = "//u610415.your-storagebox.de/backup";
+    fsType = "cifs";
+    options = [
+      "_netdev"
+      "x-systemd.requires=network-online.target"
+      "credentials=/home/jonas/shared/.smbcredentials-storagebox"
+      "uid=1000"
+      "gid=100"
+      "file_mode=0644"
+      "dir_mode=0755"
+      "iocharset=utf8"
+      "noserverino"
+    ];
+  };
+
+  # Second mount of the same share for the dufs service (writable by dufs user)
+  fileSystems."/mnt/storagebox" = lib.mkIf ((my-system.enableStorageBox or false) && (my-system.enableDufs or false)) {
+    device = "//u610415.your-storagebox.de/backup";
+    fsType = "cifs";
+    options = [
+      "_netdev"
+      "x-systemd.requires=network-online.target"
+      "credentials=/home/jonas/shared/.smbcredentials-storagebox"
+      "uid=499"
+      "gid=499"
+      "file_mode=0664"
+      "dir_mode=0775"
+      "iocharset=utf8"
+      "noserverino"
+    ];
+  };
+
   # Enable bluetooth
   hardware.bluetooth.enable = my-system.enableBluetooth or false;
   hardware.amdgpu.opencl.enable = my-system.enableOpenclAmd or false;
@@ -544,13 +578,16 @@ in {
     backlight = {};
     libvirtd = lib.mkIf (my-system.enableVirtualization or false) {};
     storage = lib.mkIf (my-system.enableUserMounts or false) {};
-    dufs = lib.mkIf (my-system.enableDufs or false) {};
+    dufs = lib.mkIf (my-system.enableDufs or false) {
+      gid = 499;
+    };
   };
 
   users.users.dufs = lib.mkIf (my-system.enableDufs or false) {
     isSystemUser = true;
+    uid = 499;
     group = "dufs";
-    home = "/var/www/fileshare";
+    home = "/mnt/storagebox";
     shell = "${pkgs.shadow}/bin/nologin";
   };
 
@@ -566,6 +603,7 @@ in {
         "backlight"
         "input"
       ]
+      ++ (lib.optionals (my-system.enableDufs or false) ["dufs"])
       ++ (lib.optionals (my-system.enableOpenclAmd or false) ["video" "render"])
       ++ (lib.optionals (my-system.enableVirtualization or false) ["libvirtd"])
       ++ (lib.optionals (my-system.enableDocker or false) ["docker"])

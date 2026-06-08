@@ -8,6 +8,7 @@
   enableOpenclawNode = false;
   enableDocker = true;
   enableBluetooth = true;
+  enableStorageBox = true;
   # iwd doesn't work for some reason
   # enableIwd = true;
   luks = "/dev/nvme0n1p2";
