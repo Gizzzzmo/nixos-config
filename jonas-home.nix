@@ -312,22 +312,6 @@ in {
     pinentry.package = pkgs.pinentry-qt;
   };
 
-  systemd.user.services.sshfs-jonbyr = {
-    Unit = {
-      Description = "Mount jonbyr via SSHFS";
-      After = ["network-online.target"];
-      Wants = ["network-online.target"];
-    };
-    Service = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStartPre = "/run/current-system/sw/bin/mkdir -p /home/${username}/mnt/jonbyr";
-      ExecStart = "${pkgs.sshfs-fuse}/bin/sshfs jonas@78.47.49.217:/var/www/fileshare /home/${username}/mnt/jonbyr -o reconnect,ServerAliveInterval=15,uid=1000,gid=100";
-      ExecStop = "/run/current-system/sw/bin/umount /home/${username}/mnt/jonbyr";
-    };
-    Install.WantedBy = ["default.target"];
-  };
-
   systemd.user.services.tmux-notify-server = {
     Unit = {
       Description = "tmux notification server";
