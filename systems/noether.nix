@@ -11,5 +11,6 @@
   enableLegacyBios = true;
   enableStorageBox = true;
   enableAutoUpgrade = true;
+  enableGitServer = true;
   homeManagerConfig = {};
 }

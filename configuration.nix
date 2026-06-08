@@ -9,6 +9,9 @@
   my-system,
   ...
 }: let
+  mkbare = pkgs.writeShellScript "mkbare" ''
+    exec ${pkgs.git}/bin/git init --bare -b main "/srv/git/$1"
+  '';
   dufs-merge-auth =
     pkgs.writers.writePython3Bin "dufs-merge-auth"
     {
@@ -600,6 +603,7 @@ in {
     dufs = lib.mkIf (my-system.enableDufs or false) {
       gid = 499;
     };
+    git = lib.mkIf (my-system.enableGitServer or false) {};
   };
 
   users.users.dufs = lib.mkIf (my-system.enableDufs or false) {
@@ -610,10 +614,15 @@ in {
     shell = "${pkgs.shadow}/bin/nologin";
   };
 
+  users.users.git = lib.mkIf (my-system.enableGitServer or false) {
+    isSystemUser = true;
+    group = "git";
+    home = "/home/git";
+    createHome = true;
+    shell = "${pkgs.git}/bin/git-shell";
+  };
+
   users.users.jonas = {
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA/wAnb/iv8cQU+VCpilkNZrBx2zZ/arT2zdtnymsLrX jonas@noether"
-    ];
     extraGroups =
       [
         "audio"
@@ -626,7 +635,8 @@ in {
       ++ (lib.optionals (my-system.enableOpenclAmd or false) ["video" "render"])
       ++ (lib.optionals (my-system.enableVirtualization or false) ["libvirtd"])
       ++ (lib.optionals (my-system.enableDocker or false) ["docker"])
-      ++ (lib.optionals (my-system.enableUserMounts or false) ["storage"]);
+      ++ (lib.optionals (my-system.enableUserMounts or false) ["storage"])
+      ++ (lib.optionals (my-system.enableGitServer or false) ["git"]);
   };
 
   home-manager = {
@@ -754,6 +764,16 @@ in {
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  system.activationScripts.git-server = lib.mkIf (my-system.enableGitServer or false) ''
+    mkdir -p /home/git/git-shell-commands
+    mkdir -p /srv/git
+    cp ${mkbare} /home/git/git-shell-commands/mkbare
+    chmod 755 /home/git/git-shell-commands/mkbare
+    chown -R git:git /home/git
+    chown git:git /srv/git
+    chmod 6775 /srv/git
+  '';
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
