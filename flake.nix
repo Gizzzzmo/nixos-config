@@ -111,7 +111,7 @@
       nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit inputs-stable;
+          inputs = inputs-stable;
           my-system = import ./systems/noether.nix;
         };
 
