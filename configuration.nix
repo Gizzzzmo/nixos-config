@@ -113,8 +113,10 @@ in {
     enable = true;
     flake = "/home/jonas/nixos-config";
     flags = [
-      "--update-input" "nixpkgs"
-      "--update-input" "home-manager"
+      "--update-input"
+      "nixpkgs"
+      "--update-input"
+      "home-manager"
     ];
     dates = "04:00";
     allowReboot = false;
@@ -155,7 +157,7 @@ in {
   services.ollama = {
     enable = my-system.enableOllama or false;
     package = pkgs.ollama-vulkan;
-    host = "100.64.0.3"; # Bind to Tailscale interface
+    host = my-system.tailscaleIp or "127.0.0.1"; # Bind to Tailscale interface
   };
 
   services.llama-cpp = let
@@ -209,7 +211,7 @@ in {
   in {
     enable = my-system.enableLlamaCpp or false;
     package = pkgs.llama-cpp-rocm;
-    host = "100.64.0.3"; # Bind to Tailscale interface
+    host = my-system.tailscaleIp or "127.0.0.1"; # Bind to Tailscale interface
     port = 11404;
 
     modelsDir = pkgs.linkFarm "llama-models" [

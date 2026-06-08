@@ -20,6 +20,7 @@
   enableOpenclAmd = true;
   enableOllama = true;
   enableLlamaCpp = true;
+  tailscaleIp = "100.64.0.3";
   iommu = "amd";
   pciPassthrough = true;
   extraInitrdModules = ["amdgpu"];
