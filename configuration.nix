@@ -414,6 +414,9 @@ in {
       []
       ++ (lib.optionals (my-system.enableSshServer or false) [22])
       ++ (lib.optionals (my-system.enableNginx or false) [80 443]);
+    interfaces."tailscale0".allowedTCPPorts =
+      (lib.optionals (my-system.enableOllama or false) [11434])
+      ++ (lib.optionals (my-system.enableLlamaCpp or false) [11404]);
     checkReversePath = "loose";
   };
 
