@@ -1,4 +1,3 @@
-# Generated from live system scan — update via nixos-generate-config on target.
 { config, lib, pkgs, modulesPath, ... }:
 
 {
@@ -12,18 +11,17 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/REPLACE_ME";
+    device = "/dev/disk/by-uuid/39986961-506f-472c-8e7d-b7c5610ab526";
     fsType = "ext4";
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/REPLACE_ME";
-    fsType = "vfat";
-    options = [ "fmask=0022" "dmask=0022" ];
-  };
+  # /boot is on the root partition for BIOS/GRUB boot; the vfat partition
+  # (sda15) is only needed for UEFI but this VPS uses legacy BIOS boot.
 
   swapDevices = [ ];
 
   networking.useDHCP = lib.mkDefault true;
   networking.interfaces.eth0.useDHCP = lib.mkDefault true;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

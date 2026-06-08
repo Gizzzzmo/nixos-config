@@ -15,7 +15,11 @@
       libraries = [pkgs.python3Packages.pyyaml];
     }
     ''
-      import yaml, os, sys, tempfile
+      import os
+      import sys
+      import tempfile
+
+      import yaml
 
       CONFIG_BASE = "/home/jonas/nginx-config/dufs-config.yaml"
       CONFIG_AUTH = "/home/jonas/nginx-config/dufs-auth.yaml"
@@ -29,11 +33,14 @@
           if isinstance(auth_data, list):
               config["auth"] = auth_data
 
-      tmp = tempfile.NamedTemporaryFile(prefix="dufs-", suffix=".yaml", mode="w", delete=False)
+      tmp = tempfile.NamedTemporaryFile(
+          prefix="dufs-", suffix=".yaml", mode="w", delete=False
+      )
       yaml.dump(config, tmp)
       tmp.close()
 
-      os.execvp("${pkgs.dufs}/bin/dufs", ["dufs", "--config", tmp.name] + sys.argv[1:])
+      dufs = "${pkgs.dufs}/bin/dufs"
+      os.execvp(dufs, [dufs, "--config", tmp.name] + sys.argv[1:])
     '';
 in {
   imports = [
@@ -45,9 +52,12 @@ in {
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: true;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader: UEFI (systemd-boot) or Legacy BIOS (GRUB)
+  boot.loader.systemd-boot.enable = !(my-system.enableLegacyBios or false);
+  boot.loader.grub.enable = my-system.enableLegacyBios or false;
+  boot.loader.grub.devices = lib.mkIf (my-system.enableLegacyBios or false) [ "/dev/sda" ];
+  boot.loader.grub.fsIdentifier = lib.mkIf (my-system.enableLegacyBios or false) "provided";
+  boot.loader.efi.canTouchEfiVariables = lib.mkDefault false;
 
   boot.initrd.luks.devices = lib.mkIf (my-system ? "luks") {
     root = {
@@ -267,7 +277,7 @@ in {
   ];
 
   # Increase timeout for tailscale autoconnect service
-  systemd.services.tailscaled-autoconnect.serviceConfig = {
+  systemd.services.tailscaled-autoconnect.serviceConfig = lib.mkIf (my-system.enableTailscale or false) {
     TimeoutStartSec = "5min";
   };
 
@@ -275,13 +285,9 @@ in {
     enable = true;
     settings = {
       server_url = "https://headscale.jonbyr.com";
-      listen_addr = "0.0.0.0:8443";
-      metrics_listen_addr = "127.0.0.1:9090";
-      grpc_listen_addr = "127.0.0.1:50443";
       noise.private_key_path = "/var/lib/headscale/noise_private.key";
       prefixes.v4 = "100.64.0.0/10";
       prefixes.v6 = "fd7a:115c:a1e0::/48";
-      prefixes.allocation = "sequential";
       dns.magic_dns = true;
       dns.base_domain = "headscale.local";
       dns.override_local_dns = true;
@@ -291,25 +297,11 @@ in {
         "2606:4700:4700::1111"
         "2606:4700:4700::1001"
       ];
-      database.type = "sqlite";
       database.sqlite.path = "/var/lib/headscale/db.sqlite";
       tls_cert_path = "/etc/headscale/headscale.crt";
       tls_key_path = "/etc/headscale/headscale.key";
       log.level = "info";
-      log.format = "text";
-      unix_socket = "/var/run/headscale/headscale.sock";
-      unix_socket_permission = "0770";
-      randomize_client_port = false;
       ephemeral_node_inactivity_timeout = "30m";
-      disable_check_updates = false;
-      derp.server.enabled = false;
-      derp.server.region_id = 999;
-      derp.server.region_code = "headscale";
-      derp.server.region_name = "Headscale Embedded DERP";
-      derp.server.verify_clients = true;
-      derp.urls = ["https://controlplane.tailscale.com/derpmap/default"];
-      derp.auto_update_enabled = true;
-      derp.update_frequency = "3h";
     };
   };
 
@@ -321,7 +313,7 @@ in {
       Type = "simple";
       User = "dufs";
       Group = "dufs";
-      ExecStart = "${pkgs.dufs-merge-auth}/bin/dufs-merge-auth";
+      ExecStart = "${dufs-merge-auth}/bin/dufs-merge-auth";
       Restart = "on-failure";
       RestartSec = "5s";
       NoNewPrivileges = true;
@@ -406,7 +398,7 @@ in {
       []
       ++ (lib.optionals (my-system.enableSshServer or false) [22])
       ++ (lib.optionals (my-system.enableNginx or false) [80 443]);
-    firewall.checkReversePath = "loose";
+    checkReversePath = "loose";
   };
 
   programs.hyprland = {
@@ -490,8 +482,6 @@ in {
 
   programs.steam.enable = my-system.enableSteam or false;
 
-  programs.handy.enable = my-system.enableGui or false;
-
   programs.virt-manager.enable = my-system.enableVirtualization or false;
 
   virtualisation = {
@@ -561,10 +551,13 @@ in {
     isSystemUser = true;
     group = "dufs";
     home = "/var/www/fileshare";
-    shell = pkgs.nologin;
+    shell = "${pkgs.shadow}/bin/nologin";
   };
 
   users.users.jonas = {
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA/wAnb/iv8cQU+VCpilkNZrBx2zZ/arT2zdtnymsLrX jonas@noether"
+    ];
     extraGroups =
       [
         "audio"
@@ -665,8 +658,8 @@ in {
   };
 
   xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
+    enable = my-system.enableGui or false;
+    xdgOpenUsePortal = my-system.enableGui or false;
     config = {
       common.default =
         lib.mkIf (my-system.enableGui or false)

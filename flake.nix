@@ -108,19 +108,22 @@
       ];
     };
 
-    nixosConfigurations.noether = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.noether = nixpkgs-stable.lib.nixosSystem {
+      system = "x86_64-linux";
       specialArgs = {
         inputs = {
           nixpkgs = nixpkgs-stable;
           home-manager = home-manager-stable;
           nixvim = nixvim-stable;
+          handy = handy-stable;
         };
         my-system = import ./systems/noether.nix;
       };
 
       modules = [
         ./configuration.nix
-        home-manager.nixosModules.default
+        home-manager-stable.nixosModules.default
+        handy-stable.nixosModules.default
       ];
     };
   };

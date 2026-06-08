@@ -8,5 +8,6 @@
   enableDufs = true;
   enableNginx = true;
   tailscaleLoginServer = "https://headscale.jonbyr.com";
+  enableLegacyBios = true;
   homeManagerConfig = {};
 }
