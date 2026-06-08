@@ -298,7 +298,7 @@ in {
   };
 
   services.handy = {
-    enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
+    enable = (home_inputs ? "enableHandy") && home_inputs.enableHandy;
   };
 
   services.syncthing = {

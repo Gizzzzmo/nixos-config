@@ -5,7 +5,6 @@
   enableSshServer = true;
   enableVirtualization = true;
   enableTailscale = true;
-  enableOpenclawNode = false;
   enableDocker = true;
   enableBluetooth = true;
   enableStorageBox = true;
@@ -32,6 +31,7 @@
     ];
 
   homeManagerConfig = {
+    enableHandy = true;
     waybarHeight = 36;
     waybarOpacity = 0.6;
     useHyprland = true;
