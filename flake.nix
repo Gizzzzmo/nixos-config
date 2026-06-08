@@ -41,23 +41,27 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-stable,
-    home-manager,
-    home-manager-stable,
-    nixvim-stable,
-    rose-pine-hyprcursor-stable,
-    handy,
-    handy-stable,
-    ...
-  } @ inputs: {
-    homeConfigurations.jonas = let
+  outputs = {self, ...} @ args: let
+    inputs = {
+      nixpkgs = args.nixpkgs;
+      home-manager = args.home-manager;
+      nixvim = args.nixvim;
+      rose-pine-hyprcursor = args.rose-pine-hyprcursor;
+      handy = args.handy;
+    };
+    inputs-stable = {
+      nixpkgs = args.nixpkgs-stable;
+      home-manager = args.home-manager-stable;
+      nixvim = args.nixvim-stable;
+      rose-pine-hyprcursor = args.rose-pine-hyprcursor-stable;
+      handy = args.handy-stable;
+    };
+  in {
+    homeConfigurations.jonas = with inputs-stable; let
       system = "x86_64-linux";
-      pkgs = nixpkgs-stable.legacyPackages.${system};
+      pkgs = nixpkgs.legacyPackages.${system};
     in
-      home-manager-stable.lib.homeManagerConfiguration {
+      home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         modules = [./jonas-home.nix];
@@ -66,65 +70,55 @@
         # to pass through arguments to home.nix
         extraSpecialArgs = {
           inputs = {
-            nixpkgs = nixpkgs-stable;
-            home-manager = home-manager-stable;
-            nixvim = nixvim-stable;
+            nixpkgs = nixpkgs;
+            home-manager = home-manager;
+            nixvim = nixvim;
           };
           standalone = true;
           username = "jonas";
         };
       };
 
-    nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-        my-system = import ./systems/thinkpad.nix;
-      };
-
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.default
-        handy.nixosModules.default
-      ];
-    };
-
-    nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-        # inputs = {
-        #   nixpkgs = nixpkgs-stable;
-        #   home-manager = home-manager-stable;
-        #   nixvim = nixvim-stable;
-        #   rose-pine-hyprcursor = rose-pine-hyprcursor-stable;
-        #   handy = handy-stable;
-        # };
-        my-system = import ./systems/framework-desktop.nix;
-      };
-
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.default
-        handy.nixosModules.default
-      ];
-    };
-
-    nixosConfigurations.noether = nixpkgs-stable.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {
-        inputs = {
-          nixpkgs = nixpkgs-stable;
-          home-manager = home-manager-stable;
-          nixvim = nixvim-stable;
-          handy = handy-stable;
+    nixosConfigurations.thinkpad = with inputs-stable;
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inputs = inputs-stable;
+          my-system = import ./systems/thinkpad.nix;
         };
-        my-system = import ./systems/noether.nix;
+
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.default
+          # home-manager.nixosModules.default
+        ];
       };
 
-      modules = [
-        ./configuration.nix
-        home-manager-stable.nixosModules.default
-        handy-stable.nixosModules.default
-      ];
-    };
+    nixosConfigurations.framework-desktop = with inputs;
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+          my-system = import ./systems/framework-desktop.nix;
+        };
+
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.default
+          handy.nixosModules.default
+        ];
+      };
+
+    nixosConfigurations.noether = with inputs-stable;
+      nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs-stable;
+          my-system = import ./systems/noether.nix;
+        };
+
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.default
+        ];
+      };
   };
 }

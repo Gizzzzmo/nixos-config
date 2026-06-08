@@ -54,10 +54,12 @@ in {
 
   # Bootloader: UEFI (systemd-boot) or Legacy BIOS (GRUB)
   boot.loader.systemd-boot.enable = !(my-system.enableLegacyBios or false);
-  boot.loader.grub.enable = my-system.enableLegacyBios or false;
-  boot.loader.grub.devices = lib.mkIf (my-system.enableLegacyBios or false) ["/dev/sda"];
-  boot.loader.grub.fsIdentifier = lib.mkIf (my-system.enableLegacyBios or false) "provided";
-  boot.loader.efi.canTouchEfiVariables = lib.mkDefault false;
+  boot.loader.grub = {
+    enable = my-system.enableLegacyBios or false;
+    devices = ["/dev/sda"];
+    fsIdentifier = "provided";
+  };
+  boot.loader.efi.canTouchEfiVariables = my-system.enableLegacyBios or false;
 
   boot.initrd.luks.devices = lib.mkIf (my-system ? "luks") {
     root = {
@@ -114,9 +116,9 @@ in {
     flake = "/home/jonas/nixos-config";
     flags = [
       "--update-input"
-      "nixpkgs"
+      "nixpkgs-stable"
       "--update-input"
-      "home-manager"
+      "home-manager-stable"
     ];
     dates = "04:00";
     allowReboot = false;
@@ -711,17 +713,15 @@ in {
 
   xdg.portal = {
     enable = my-system.enableGui or false;
-    xdgOpenUsePortal = my-system.enableGui or false;
+    xdgOpenUsePortal = true;
     config = {
-      common.default =
-        lib.mkIf (my-system.enableGui or false)
-        ["gtk"];
-      hyprland.default = lib.mkIf (my-system.enableGui or false) [
+      common.default = ["gtk"];
+      hyprland.default = [
         "gtk"
         "hyprland"
       ];
     };
-    extraPortals = lib.mkIf (my-system.enableGui or false) [
+    extraPortals = [
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-hyprland
