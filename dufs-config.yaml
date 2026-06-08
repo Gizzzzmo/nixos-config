@@ -15,7 +15,7 @@ allow-hash: false
 enable-cors: false
 
 render-index: false
-render-try-index: false
+render-try-index: true
 render-spa: false
 
 hidden:
