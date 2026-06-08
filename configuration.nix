@@ -21,8 +21,8 @@
 
       import yaml
 
-      CONFIG_BASE = "/home/jonas/nginx-config/dufs-config.yaml"
-      CONFIG_AUTH = "/home/jonas/nginx-config/dufs-auth.yaml"
+      CONFIG_BASE = "${./dufs-config.yaml}"
+      CONFIG_AUTH = "/home/jonas/.config/dufs/credentials.yaml"
 
       with open(CONFIG_BASE) as f:
           config = yaml.safe_load(f)
@@ -318,7 +318,7 @@ in {
       RestartSec = "5s";
       NoNewPrivileges = true;
       ReadWritePaths = ["/var/www/fileshare"];
-      ReadOnlyPaths = ["/home/jonas/nginx-config"];
+      ReadOnlyPaths = ["/home/jonas/.config/dufs"];
       LockPersonality = true;
       RestrictRealtime = true;
       RestrictSUIDSGID = true;
