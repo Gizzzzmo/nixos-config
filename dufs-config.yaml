@@ -1,0 +1,30 @@
+# Base Dufs configuration (without credentials).
+# Credentials are in /home/jonas/nginx-config/dufs-auth.yaml on the server.
+
+serve-path: "/var/www/fileshare"
+bind: 127.0.0.1
+port: 8080
+
+allow-all: false
+allow-upload: true
+allow-delete: true
+allow-search: true
+allow-symlink: false
+allow-archive: true
+allow-hash: false
+
+enable-cors: false
+
+render-index: false
+render-try-index: false
+render-spa: false
+
+hidden:
+  - ".*"
+  - "*.log"
+  - "*.lock"
+  - "tmp"
+
+log-format: '$remote_addr "$request" $status'
+
+compress: low

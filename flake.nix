@@ -107,5 +107,21 @@
         handy.nixosModules.default
       ];
     };
+
+    nixosConfigurations.noether = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        inputs = {
+          nixpkgs = nixpkgs-stable;
+          home-manager = home-manager-stable;
+          nixvim = nixvim-stable;
+        };
+        my-system = import ./systems/noether.nix;
+      };
+
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.default
+      ];
+    };
   };
 }
