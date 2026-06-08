@@ -81,7 +81,7 @@
         "explore": {
             "mode": "subagent",
             "model": "llama-server/qwen3-coder-next:q4_k_m",
-            "description": "Exploratory agent for researching and investigating topics. Use for understanding combined with filtering/synthesizing information to prevent exploding your own context. Perform simple file reads yourself."
+            "description": "Exploratory agent for researching and investigating topics. Use for understanding combined with filtering/synthesizing information to prevent exploding your own context. Perform simple file reads yourself. Only use when actually *synthesizing* information. Don't use it to read files to you; do it yourself."
         },
         "explore-2": {
             "mode": "subagent",
