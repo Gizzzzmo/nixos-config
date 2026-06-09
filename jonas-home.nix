@@ -100,7 +100,6 @@ in {
       jq
       ollama
       gh
-      mmtui
       imagemagick
       file
       xxd
@@ -115,7 +114,13 @@ in {
       unzip
       zip
       wget
+      veracrypt
+      btop
+      keepassxc
+      gnupg
 
+      openvpn
+      opencode
       alejandra
       ruff
       shfmt
@@ -131,7 +136,6 @@ in {
       python313Packages.ipython
       fishPlugins.bass
       glab
-      zathura
       (pkgs.nom.overrideAttrs (oldAttrs: {
         pname = "rss";
         # Optionally, you can rename the binary
@@ -143,7 +147,7 @@ in {
       }))
       nix-output-monitor
     ]
-    ++ lib.optionals ((home_inputs ? "useHyprland") && (home_inputs.useHyprland)) [
+    ++ (lib.optionals (home_inputs.useHyprland or false) [
       (
         writeShellScriptBin "hyprpaper-ctl"
         (builtins.readFile ./scripts/hyprpaper-ctl.sh)
@@ -152,56 +156,40 @@ in {
         writeShellScriptBin "cmus-control"
         (builtins.readFile ./scripts/cmus-control.sh)
       )
-    ]
-    ++ lib.optionals (home_inputs ? "extraPkgs") (home_inputs.extraPkgs pkgs)
-    ++ (
-      if standalone
-      then [
-        gnupg
-        cmake
-        wslu
-        neocmakelsp
-        basedpyright
-        just
-      ]
-      else
-        with pkgs; [
-          (
-            writers.writePython3Bin
-            "ghostty_wrap"
-            {}
-            (builtins.readFile ./scripts/ghostty_wrap.py)
-          )
-          via
-          qmk
-          veracrypt
-          wiremix
-          bluetui
-          impala
-          opencode
-          keepassxc
-          signal-desktop
-          acpilight
-          cmus
-          openvpn
-          btop
-          digikam
-          # texpresso
-          android-file-transfer
-          webcamoid
-          nemo
-          vscode
-          eog
-          obsidian
-          firefox
-          vlc
-          discord
-          qbittorrent
-          grim
-          slurp
-          foliate
-        ]
-    );
+      (
+        writers.writePython3Bin
+        "ghostty_wrap"
+        {}
+        (builtins.readFile ./scripts/ghostty_wrap.py)
+      )
+      acpilight
+      grim
+      slurp
+    ])
+    ++ (lib.optionals (home_inputs ? "extraPkgs") (home_inputs.extraPkgs pkgs))
+    ++ (lib.optionals (home_inputs.enableGuiApps or false) [
+      foliate
+      eog
+      obsidian
+      firefox
+      vlc
+      discord
+      qbittorrent
+      via
+      qmk
+      signal-desktop
+      webcamoid
+      digikam
+      zathura
+      nemo
+    ])
+    ++ (lib.optionals (home_inputs.enableSoundApps or false) [
+      cmus
+      wiremix
+    ])
+    ++ (lib.optionals (home_inputs.wsl or false) [
+      wslu
+    ]);
 
   nixpkgs.config.allowUnfreePredicate = pkg: true;
 
@@ -211,14 +199,13 @@ in {
   programs.nixvim = (import ./programs/nixvim.nix) home_inputs;
   programs.fish = (import ./programs/fish.nix) home_inputs;
   programs.bat = (import ./programs/bat.nix) home_inputs;
-  programs.qutebrowser = (import ./programs/qutebrowser.nix) home_inputs;
   xdg = {
     enable = true;
     mimeApps = {
       enable = true;
       defaultApplications = {
         "text/html" =
-          if standalone
+          if (home_inputs.wsl or false)
           then "wslview.desktop"
           else "qutebrowser.desktop";
         "application/pdf" = "zathura.desktop";
@@ -227,43 +214,48 @@ in {
       };
     };
   };
+  programs.qutebrowser =
+    (import ./programs/qutebrowser.nix) home_inputs
+    // {
+      enable = home_inputs.enableGuiApps or false;
+    };
   programs.mpv = {
-    enable = !standalone;
+    enable = home_inputs.enableGuiApps or false;
   };
   programs.ghostty =
     (import ./programs/ghostty.nix) home_inputs
     // {
-      enable = !standalone;
+      enable = home_inputs.enableGuiApps or false;
     };
   programs.wofi =
     (import ./programs/wofi.nix) home_inputs
     // {
-      enable = !standalone;
+      enable = home_inputs.enableGuiApps or false;
     };
   programs.vscode =
     (import ./programs/vscode.nix) home_inputs
     // {
-      enable = !standalone;
+      enable = home_inputs.enableGuiApps or false;
     };
   programs.alacritty =
     (import ./programs/alacritty.nix) home_inputs
     // {
-      enable = !standalone;
+      enable = home_inputs.enableGuiApps or false;
     };
   programs.waybar =
     (import ./programs/waybar.nix) home_inputs
     // {
-      enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
+      enable = home_inputs.useHyprland or false;
     };
   programs.hyprlock =
     (import ./programs/hyprlock.nix) home_inputs
     // {
-      enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
+      enable = home_inputs.useHyprland or false;
     };
   programs.obs-studio =
     (import ./programs/obs.nix) home_inputs
     // {
-      enable = !standalone;
+      enable = home_inputs.enableGuiApps or false;
     };
   programs.command-not-found.enable = true;
   programs.nushell.enable = true;
@@ -294,15 +286,15 @@ in {
   };
 
   services.hyprpolkitagent = {
-    enable = (home_inputs ? "useHyprland") && home_inputs.useHyprland;
+    enable = home_inputs.useHyprland or false;
   };
 
   services.handy = {
-    enable = (home_inputs ? "enableHandy") && home_inputs.enableHandy;
+    enable = home_inputs.enableHandy or false;
   };
 
   services.syncthing = {
-    enable = !standalone;
+    enable = home_inputs.enableSyncthing or false;
   };
 
   services.gpg-agent = {
@@ -353,7 +345,7 @@ in {
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER =
-      if standalone
+      if (home_inputs.wsl or false)
       then "wslview"
       else "qutebrowser";
     MANPAGER = "nvim +Man!";

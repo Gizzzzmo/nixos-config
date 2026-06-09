@@ -1,8 +1,4 @@
-{
-  standalone,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   enable = true;
   grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
     nix
@@ -23,10 +19,7 @@
     python
     ledger
   ];
-  folding =
-    if standalone
-    then true
-    else {enable = true;};
+  folding.enable = true;
   settings = {
     highlight.enable = true;
     incremental_selection = {

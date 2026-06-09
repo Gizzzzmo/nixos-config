@@ -12,5 +12,8 @@
   enableStorageBox = true;
   enableAutoUpgrade = true;
   enableGitServer = true;
-  homeManagerConfig = {};
+  homeManagerConfig = {
+    enableSyncthing = true;
+    enableGui = false;
+  };
 }

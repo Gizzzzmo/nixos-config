@@ -8,8 +8,6 @@
   enableDocker = true;
   enableBluetooth = true;
   enableStorageBox = true;
-  # iwd doesn't work for some reason
-  # enableIwd = true;
   luks = "/dev/nvme0n1p2";
   enableUserMounts = true;
   enablePrinting = true;
@@ -35,8 +33,13 @@
     waybarHeight = 36;
     waybarOpacity = 0.6;
     useHyprland = true;
+    enableGuiApps = true;
+    enableSoundApps = true;
+    enableSyncthing = true;
     extraPkgs = pkgs:
       with pkgs; [
+        mmtui
+        bluetui
         darktable
         llama-cpp-rocm
         ollama

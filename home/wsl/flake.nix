@@ -1,5 +1,5 @@
 {
-  description = "Jonas standalone home-manager config";
+  description = "Jonas siemens wsl home-manager config";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
@@ -11,13 +11,15 @@
       url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    handy = {
-      url = "github:cjpais/Handy/v0.8.3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = {self, nixpkgs, home-manager, nixvim, handy, ...}: let
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nixvim,
+    ...
+  }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
@@ -31,6 +33,16 @@
           inherit nixpkgs home-manager nixvim;
         };
         standalone = true;
+        wsl = true;
+        extraPkgs = pkgs:
+          with pkgs; [
+            cmake
+            neocmakelsp
+            basedpyright
+            just
+            zathura
+            eog
+          ];
         username = "jonas";
       };
     };

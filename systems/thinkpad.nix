@@ -4,7 +4,6 @@
   enableStorageBox = true;
   enableBluetooth = true;
   enableSshServer = true;
-  # enableIwd = true;
   enableUserMounts = true;
   enablePrinting = true;
   enableSteam = true;
@@ -17,8 +16,13 @@
   homeManagerConfig = {
     waybarHeight = 28;
     useHyprland = true;
+    enableSyncthing = true;
+    enableGuiApps = true;
+    enableSoundApps = true;
     extraPkgs = pkgs:
       with pkgs; [
+        mmtui
+        bluetui
         darktable
       ];
   };

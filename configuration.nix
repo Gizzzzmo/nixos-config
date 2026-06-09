@@ -89,7 +89,6 @@ in {
 
   networking.networkmanager = {
     enable = true;
-    wifi.backend = lib.mkIf (my-system.enableIwd or false) "iwd";
     dispatcherScripts = [
       {
         source = pkgs.writeShellScript "mount-fritz-nas" ''
@@ -102,9 +101,6 @@ in {
         type = "basic";
       }
     ];
-  };
-  networking.wireless = {
-    iwd.enable = my-system.enableIwd or false;
   };
 
   nix.settings.experimental-features = [
