@@ -188,8 +188,7 @@ in {
       wiremix
     ])
     ++ (lib.optionals (home_inputs.wsl or false) [
-      wslu
-    ]);
+      ]);
 
   nixpkgs.config.allowUnfreePredicate = pkg: true;
 

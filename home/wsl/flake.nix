@@ -11,15 +11,18 @@
       url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    handy = {
+      url = "github:cjpais/Handy/v0.8.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
-    nixvim,
     ...
-  }: let
+  } @ inputs: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
@@ -29,9 +32,7 @@
       modules = [../../jonas-home.nix];
 
       extraSpecialArgs = {
-        inputs = {
-          inherit nixpkgs home-manager nixvim;
-        };
+        inherit inputs;
         standalone = true;
         wsl = true;
         extraPkgs = pkgs:
