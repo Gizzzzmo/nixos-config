@@ -155,6 +155,19 @@ in {
     useRoutingFeatures = "client";
   };
 
+  services.matrix-conduit = {
+    enable = my-system.enableMatrixServer or false;
+    settings = {
+      global = {
+        port = 34751;
+        address = my-system.tailscaleIp or "127.0.0.1"; # Bind to Tailscale interface
+        server_name = my-system.hostName or "nixos";
+        allow_registration = true;
+        allow_federation = false;
+      };
+    };
+  };
+
   services.ollama = {
     enable = my-system.enableOllama or false;
     package = pkgs.ollama-vulkan;
@@ -372,8 +385,8 @@ in {
     };
   };
 
-  services.nginx = lib.mkIf (my-system.enableNginx or false) {
-    enable = true;
+  services.nginx = {
+    enable = my-system.enableNginx or false;
     commonHttpConfig = ''
       limit_req_zone $binary_remote_addr zone=fileshare_limit:5m rate=10r/s;
     '';
