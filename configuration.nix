@@ -333,7 +333,7 @@ in {
       Restart = "on-failure";
       RestartSec = "5s";
       NoNewPrivileges = true;
-      ReadWritePaths = ["/mnt/storagebox"];
+      ReadWritePaths = ["/mnt/storagebox-dufs"];
       LockPersonality = true;
       RestrictRealtime = true;
       RestrictSUIDSGID = true;
@@ -553,8 +553,8 @@ in {
   };
 
   # Second mount of the same share for the dufs service (writable by dufs user)
-  fileSystems."/mnt/storagebox" = lib.mkIf ((my-system.enableStorageBox or false) && (my-system.enableDufs or false)) {
-    device = "//u610415.your-storagebox.de/backup";
+  fileSystems."/mnt/storagebox-dufs" = lib.mkIf (my-system.enableDufs or false) {
+    device = "//u610415.your-storagebox.de/backup/fileshare";
     fsType = "cifs";
     options = [
       "_netdev"
@@ -562,6 +562,22 @@ in {
       "credentials=/home/jonas/shared/.smbcredentials-storagebox"
       "uid=499"
       "gid=499"
+      "file_mode=0664"
+      "dir_mode=0775"
+      "iocharset=utf8"
+      "noserverino"
+    ];
+  };
+
+  fileSystems."/mnt/storagebox-git" = lib.mkIf (my-system.enableGitServer or false) {
+    device = "//u610415.your-storagebox.de/backup/git";
+    fsType = "cifs";
+    options = [
+      "_netdev"
+      "x-systemd.requires=network-online.target"
+      "credentials=/home/jonas/shared/.smbcredentials-storagebox"
+      "uid=998"
+      "gid=997"
       "file_mode=0664"
       "dir_mode=0775"
       "iocharset=utf8"
@@ -599,20 +615,23 @@ in {
     dufs = lib.mkIf (my-system.enableDufs or false) {
       gid = 499;
     };
-    git = lib.mkIf (my-system.enableGitServer or false) {};
+    git = lib.mkIf (my-system.enableGitServer or false) {
+      gid = 997;
+    };
   };
 
   users.users.dufs = lib.mkIf (my-system.enableDufs or false) {
     isSystemUser = true;
     uid = 499;
     group = "dufs";
-    home = "/mnt/storagebox";
+    home = "/mnt/storagebox-dufs";
     shell = "${pkgs.shadow}/bin/nologin";
   };
 
   users.users.git = lib.mkIf (my-system.enableGitServer or false) {
     isSystemUser = true;
     group = "git";
+    uid = 998;
     home = "/home/git";
     createHome = true;
     shell = "${pkgs.git}/bin/git-shell";
@@ -763,12 +782,11 @@ in {
 
   system.activationScripts.git-server = lib.mkIf (my-system.enableGitServer or false) ''
     mkdir -p /home/git/git-shell-commands
-    mkdir -p /srv/git
+    rm -f /srv/git
+    ln -s /mnt/storagebox-git /srv/git
     cp ${mkbare} /home/git/git-shell-commands/mkbare
     chmod 755 /home/git/git-shell-commands/mkbare
     chown -R git:git /home/git
-    chown git:git /srv/git
-    chmod 6775 /srv/git
   '';
 
   # Copy the NixOS configuration file and link it from the resulting system
