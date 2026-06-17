@@ -110,9 +110,9 @@ in {
 
   nix.optimise.automatic = true;
 
-  system.autoUpgrade = lib.mkIf (my-system.enableAutoUpgrade or false) {
-    enable = true;
-    flake = "/home/jonas/nixos-config";
+  system.autoUpgrade = {
+    enable = my-system ? "autoUpgradeFlake";
+    flake = my-system.autoUpgradeFlake or "";
     flags = [
       "--update-input"
       "nixpkgs-stable"

@@ -11,7 +11,7 @@
   tailscaleIp = "100.64.0.5";
   enableLegacyBios = true;
   enableStorageBox = true;
-  enableAutoUpgrade = true;
+  autoUpgradeFlake = "/home/jonas/nixos-config/systems/noether";
   enableGitServer = true;
   enableMatrixServer = true;
   homeManagerConfig = {
