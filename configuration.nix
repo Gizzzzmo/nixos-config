@@ -162,52 +162,52 @@ in {
   };
 
   services.llama-cpp = let
-    qwen3CoderNextGGUF = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_M.gguf";
-      sha256 = "sha256-nmAy0vO1CmDxfOi/Wh2Fxxr5tTuJx5eAIK58Zg8psJA";
+    mellum-base-4b = pkgs.fetchurl {
+      url = "https://huggingface.co/JetBrains/Mellum-4b-base-gguf/resolve/main/mellum-4b-base.Q8_0.gguf";
+      sha256 = "sha256-+Kiuj4sCzZknFuiEn+BCQYS8eibCuCkTHtVYVnMHxbI=";
     };
-    qwen36GGUF = pkgs.fetchurl {
+    qwen36-27b_q4_k_m = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-Q4_K_M.gguf";
+      sha256 = "sha256-XtYNCvRlCoVLF1W9OS+a70hyZD3CWiVLxoBD+mODkqA=";
+    };
+    qwen36-27b_q8_0 = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-Q8_0.gguf";
+      sha256 = "sha256-+T9RfzjmltNaGn3ywOMVWmT0xNzWYhB6FGriY/f7FM4=";
+    };
+    qwen36-35b = pkgs.fetchurl {
       url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf";
       sha256 = "sha256-t2IhXF9Qf0hl30rD0a+oA4KK+kHgXsrD+sQxpnu9iOg=";
     };
-    gemma4GGUF = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/gemma-4-31B-it-UD-Q8_K_XL.gguf";
-      sha256 = "sha256-1YYh/x/WVMdfUOQsEUXOwoTTZEfFC2Hysp88HkCZpqo=";
-    };
-    # miniMax27GGUF00001 = pkgs.fetchurl {
-    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf";
-    #   sha256 = "sha256-8s7IbP+qws6XGVJo8ixj93woOQo8aZCG3g6YKMUwfP4=";
-    # };
-    # miniMax27GGUF00002 = pkgs.fetchurl {
-    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00002-of-00004.gguf";
-    #   sha256 = "sha256-SE988ZTsTXhSezaBytRZEJzzdkRw1aAUFXBPrIODoAY=";
-    # };
-    # miniMax27GGUF00003 = pkgs.fetchurl {
-    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00003-of-00004.gguf";
-    #   sha256 = "sha256-DYAV0DmMdCW2jGLmvqG6jGqZwuvDdrbhzCRBvJUwkZc=";
-    # };
-    # miniMax27GGUF00004 = pkgs.fetchurl {
-    #   url = "https://huggingface.co/unsloth/MiniMax-M2.7-GGUF/resolve/main/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00004-of-00004.gguf";
-    #   sha256 = "sha256-S1Z/7HCE1MnKSueJJjASXhuSXoe1bQUJ/zvI9+SZlvk=";
-    # };
-    # miniMax27Dir = pkgs.linkFarm "miniMax27GGUF" [
-    #   {
-    #     path = miniMax27GGUF00001;
-    #     name = "MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf";
-    #   }
-    #   {
-    #     path = miniMax27GGUF00002;
-    #     name = "MiniMax-M2.7-UD-IQ4_XS-00002-of-00004.gguf";
-    #   }
-    #   {
-    #     path = miniMax27GGUF00003;
-    #     name = "MiniMax-M2.7-UD-IQ4_XS-00003-of-00004.gguf";
-    #   }
-    #   {
-    #     path = miniMax27GGUF00004;
-    #     name = "MiniMax-M2.7-UD-IQ4_XS-00004-of-00004.gguf";
-    #   }
-    # ];
+    qwen3Embedding = pkgs.linkFarm "qwen3Embedding" [
+      {
+        name = "model-00001-of-00004.safetensors";
+        path = pkgs.fetchurl {
+          url = "https://huggingface.co/Qwen/Qwen3-Embedding-8B/resolve/main/model-00001-of-00004.safetensors";
+          sha256 = "sha256-mbNDWX/oQHBhRhRGmai5GI3TOH5D62H68CMbcLJJ1FE=";
+        };
+      }
+      {
+        name = "model-00002-of-00004.safetensors";
+        path = pkgs.fetchurl {
+          url = "https://huggingface.co/Qwen/Qwen3-Embedding-8B/resolve/main/model-00002-of-00004.safetensors";
+          sha256 = "sha256-3/Y1sPbbuq0qLWM+8DfsCjm8FlzBgGxxL71vy8tFJsA=";
+        };
+      }
+      {
+        name = "model-00003-of-00004.safetensors";
+        path = pkgs.fetchurl {
+          url = "https://huggingface.co/Qwen/Qwen3-Embedding-8B/resolve/main/model-00003-of-00004.safetensors";
+          sha256 = "sha256-MLHUxT2E6wGPZCytezc/Cqv3lpmHLYcCwfOFd8Clmi8=";
+        };
+      }
+      {
+        name = "model-00004-of-00004.safetensors";
+        path = pkgs.fetchurl {
+          url = "https://huggingface.co/Qwen/Qwen3-Embedding-8B/resolve/main/model-00004-of-00004.safetensors";
+          sha256 = "sha256-NsvJxgN1aTYp8ldDwed+uxckr1jmcbI3ZGMZPH/SHvY=";
+        };
+      }
+    ];
     parallel = 2;
   in {
     enable = my-system.enableLlamaCpp or false;
@@ -217,23 +217,51 @@ in {
 
     modelsDir = pkgs.linkFarm "llama-models" [
       {
-        name = "qwen3-coder-next:q4_k_m";
-        path = qwen3CoderNextGGUF;
+        name = "mellum-4b-base:q8_0";
+        path = mellum-base-4b;
+      }
+      {
+        name = "qwen3.6-27b:q4_k_m";
+        path = qwen36-27b_q4_k_m;
+      }
+      {
+        name = "qwen3.6-27b:q8_0";
+        path = qwen36-27b_q8_0;
       }
       {
         name = "qwen3.6-35b-a3b-it:q8_k_xl";
-        path = qwen36GGUF;
+        path = qwen36-35b;
       }
       {
-        name = "gemma-4-31b-it:q8_k_xl";
-        path = gemma4GGUF;
+        name = "qwen3-embedding-8b";
+        path = qwen3Embedding;
       }
     ];
 
     modelsPreset = {
-      "qwen3-coder-next:q4_k_m" = {
-        model = "${qwen3CoderNextGGUF}";
-        alias = "qwen3-coder-next";
+      "mellum-4b-base:q8_0" = {
+        model = "${mellum-base-4b}";
+        alias = "mellum-4b-base";
+        ctx-size = 8192 * parallel;
+        n-gpu-layers = "auto";
+        cache-type-k = "q8_0";
+        cache-type-v = "q8_0";
+        fit = "on";
+      };
+
+      "qwen3.6-35b-a3b-it:q8_k_xl" = {
+        model = "${qwen36-35b}";
+        alias = "qwen3.6-35b_q8";
+        ctx-size = 262144 * parallel;
+        n-gpu-layers = "auto";
+        cache-type-k = "q8_0";
+        cache-type-v = "q8_0";
+        fit = "on";
+      };
+
+      "qwen3.6-27b:q4_k_m" = {
+        model = "${qwen36-27b_q4_k_m}";
+        alias = "qwen3.6-27b_q4";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
         cache-type-k = "q4_0";
@@ -241,9 +269,9 @@ in {
         fit = "on";
       };
 
-      "qwen3.6-35b-a3b-it:q8_k_xl" = {
-        model = "${qwen36GGUF}";
-        alias = "qwen3.6";
+      "qwen3.6-27b:q8_0" = {
+        model = "${qwen36-27b_q8_0}";
+        alias = "qwen3.6-27b_q8";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
         cache-type-k = "q8_0";
@@ -251,26 +279,10 @@ in {
         fit = "on";
       };
 
-      "gemma-4-31b-it:q8_k_xl" = {
-        model = "${gemma4GGUF}";
-        alias = "gemma-4-31b-it";
-        ctx-size = 262144 * parallel;
-        n-gpu-layers = "auto";
-        fit = "on";
-        cache-type-k = "q8_0";
-        cache-type-v = "q8_0";
-        reasoning = "off";
+      "qwen3-embedding-8b" = {
+        model = "${qwen3Embedding}/model-00001-of-00004.safetensors";
+        alias = "qwen3-embedding";
       };
-
-      # "minimax-m2.7-ud-iq4_xs:q4_k_m" = {
-      #   model = "${miniMax27Dir}/MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf";
-      #   alias = "minimax-m2.7-ud-iq4_xs";
-      #   ctx-size = 196608 * parallel;
-      #   n-gpu-layers = "auto";
-      #   fit = "on";
-      #   cache-type-k = "q4_0";
-      #   cache-type-v = "q4_0";
-      # };
     };
 
     # Global server flags (apply to all models)
@@ -413,9 +425,7 @@ in {
       []
       ++ (lib.optionals (my-system.enableSshServer or false) [22])
       ++ (lib.optionals (my-system.enableNginx or false) [80 443]);
-    interfaces."tailscale0".allowedTCPPorts =
-      (lib.optionals (my-system.enableOllama or false) [11434])
-      ++ (lib.optionals (my-system.enableLlamaCpp or false) [11404]);
+    trustedInterfaces = lib.optionals (my-system.enableTailscale or false) ["tailscale0"];
     checkReversePath = "loose";
   };
 
@@ -773,12 +783,6 @@ in {
       X11Forwarding = true;
     };
   };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   system.activationScripts.git-server = lib.mkIf (my-system.enableGitServer or false) ''
     mkdir -p /home/git/git-shell-commands

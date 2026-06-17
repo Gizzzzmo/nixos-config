@@ -52,22 +52,22 @@
                 "baseURL": "http://100.64.0.3:11404/v1",
             },
             "models": {
-                "qwen3-coder-next:q4_k_m": {
-                    "name": "Qwen3 Coder Next",
+                "qwen3.6-27b:q4_k_m": {
+                    "name": "Qwen 3.6 27B Q4_K_M",
+                    "limit": {
+                        "context": 256000,
+                        "output": 65536
+                    }
+                },
+                "qwen3.6-27b:q8_0": {
+                    "name": "Qwen 3.6 27B Q8_0",
                     "limit": {
                         "context": 256000,
                         "output": 65536
                     }
                 },
                 "qwen3.6-35b-a3b-it:q8_k_xl": {
-                    "name": "Qwen 3.6",
-                    "limit": {
-                        "context": 256000,
-                        "output": 65536
-                    }
-                },
-                "gemma-4-31b-it:q8_k_xl": {
-                    "name": "Gemma 4 31B IT",
+                    "name": "Qwen 3.6 35B Q8_K_XL",
                     "limit": {
                         "context": 256000,
                         "output": 65536
@@ -80,23 +80,13 @@
     "agent": {
         "explore": {
             "mode": "subagent",
-            "model": "llama-server/qwen3-coder-next:q4_k_m",
+            "model": "llama-server/qwen3.6-35b-a3b-it:q8_k_xl",
             "description": "Exploratory agent for researching and investigating topics. Use for understanding combined with filtering/synthesizing information to prevent exploding your own context. Perform simple file reads yourself. Only use when actually *synthesizing* information. Don't use it to read files to you; do it yourself."
-        },
-        "explore-2": {
-            "mode": "subagent",
-            "model": "github-copilot/claude-haiku-4.5",
-            "description": "Secondary exploratory agent for researching and investigating topics. Use for same purposes as explore agent, when it is already processing something else."
         },
         "code": {
             "mode": "subagent",
-            "model": "llama-server/qwen3-coder-next:q4_k_m",
+            "model": "llama-server/qwen3.6-35b-a3b-it:q8_k_xl",
             "description": "Agent specialized for code generation. Use for mid-size to larger, but self-contained, code generation/editing tasks to prevent exploding your own context. Perform small edits yourself."
-        },
-        "brain": {
-            "mode": "subagent",
-            "model": "github-copilot/gemini-3.1-pro-preview",
-            "description": "Agent for the most complex direct-synthesis tasks; whether for understanding or creation. Bad at tool calling; use only for direct response tasks when accuracy, depth, and particularly visual understanding are paramount (e.g. understanding and generating websites, or svgs)."
         }
     }
 }
