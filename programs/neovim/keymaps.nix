@@ -26,12 +26,6 @@
 
   {
     mode = "n";
-    key = "<leader>di";
-    action = "<cmd>GitGutterResetHunk<cr>";
-  }
-
-  {
-    mode = "n";
     key = "<leader>du";
     action = "<cmd>GitGutterUndoHunk<cr>";
   }
@@ -61,7 +55,7 @@
   }
 
   {
-    mode = ["x"];
+    mode = ["v"];
     key = "<M-Enter>";
     action.__raw = "function() require('iron.core').visual_send() end";
   }
@@ -161,7 +155,30 @@
     action = "<cmd>llast<cr>";
   }
 
+  # Quickfix List
+  {
+    mode = "n";
+    key = "<leader>Q";
+    action.__raw = ''
+      function()
+        -- check if quickfix list is open
+        if vim.iter(vim.fn.getwininfo()):any(function(wininf) return wininf.quickfix == 1 end) then
+          vim.cmd.cclose()
+        else
+          vim.cmd.copen()
+        end
+      end
+    '';
+  }
+
   # Telescope
+  {
+    mode = "n";
+    key = "<leader>fd";
+    options.silent = false;
+    action = "<cmd>DiffviewOpen<cr>";
+  }
+
   {
     mode = "n";
     key = "<leader>fa";
@@ -255,6 +272,8 @@
     mode = [
       "n"
       "i"
+      "v"
+      "t"
     ];
     key = "<M-\\>";
     options.silent = false;
@@ -327,6 +346,7 @@
       "n"
       "i"
       "t"
+      "v"
     ];
     key = "<M-K>";
     action = "<cmd>res +1<cr>";
@@ -337,6 +357,7 @@
       "n"
       "i"
       "t"
+      "v"
     ];
     key = "<M-J>";
     action = "<cmd>res -1<cr>";
@@ -347,6 +368,7 @@
       "n"
       "i"
       "t"
+      "v"
     ];
     key = "<M-H>";
     action = "<cmd>vertical:res -1<cr>";
@@ -357,6 +379,7 @@
       "n"
       "i"
       "t"
+      "v"
     ];
     key = "<M-L>";
     action = "<cmd>vertical:res +1<cr>";
@@ -468,6 +491,7 @@
     mode = [
       "n"
       "i"
+      "v"
     ];
     key = "<C-M-s>";
     options.silent = false;
