@@ -166,17 +166,21 @@ in {
       url = "https://huggingface.co/JetBrains/Mellum-4b-base-gguf/resolve/main/mellum-4b-base.Q8_0.gguf";
       sha256 = "sha256-+Kiuj4sCzZknFuiEn+BCQYS8eibCuCkTHtVYVnMHxbI=";
     };
-    qwen36-27b_q4_k_m = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-Q4_K_M.gguf";
-      sha256 = "sha256-XtYNCvRlCoVLF1W9OS+a70hyZD3CWiVLxoBD+mODkqA=";
+    qwen36-27b_q4_k_xl = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-UD-Q4_K_XL.gguf";
+      sha256 = "sha256-QIVmXuNtgqZyojikPw5WQ/Lw458te9XTc/DvEOz1MJU=";
     };
-    qwen36-27b_q8_0 = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-Q8_0.gguf";
-      sha256 = "sha256-+T9RfzjmltNaGn3ywOMVWmT0xNzWYhB6FGriY/f7FM4=";
+    qwen36-27b_q8_k_xl = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-UD-Q8_K_XL.gguf";
+      sha256 = "sha256-PW/xa+Mlj5EOrE3OxxQu3HpxANhAD+NjA1yM/twVEWQ=";
     };
-    qwen36-35b = pkgs.fetchurl {
-      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf";
-      sha256 = "sha256-t2IhXF9Qf0hl30rD0a+oA4KK+kHgXsrD+sQxpnu9iOg=";
+    qwen36-35b_q4_k_xl = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf";
+      sha256 = "sha256-VZg8WnWhq5aYJAd7O7PeQUboKpI0BytIrU6Pkq0/6fE=";
+    };
+    qwen36-35b_q8_k_xl = pkgs.fetchurl {
+      url = "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-MTP-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q8_K_XL.gguf";
+      sha256 = "sha256-bGuBZTerrZCyUKCXKzRUZgKNhh3f4xbV8N4xymRA94E=";
     };
     qwen3Embedding = pkgs.linkFarm "qwen3Embedding" [
       {
@@ -221,16 +225,20 @@ in {
         path = mellum-base-4b;
       }
       {
-        name = "qwen3.6-27b:q4_k_m";
-        path = qwen36-27b_q4_k_m;
+        name = "qwen3.6-27b:q4_k_xl";
+        path = qwen36-27b_q4_k_xl;
       }
       {
         name = "qwen3.6-27b:q8_0";
-        path = qwen36-27b_q8_0;
+        path = qwen36-27b_q8_k_xl;
+      }
+      {
+        name = "qwen3.6-35b-a3b-it:q4_k_xl";
+        path = qwen36-35b_q4_k_xl;
       }
       {
         name = "qwen3.6-35b-a3b-it:q8_k_xl";
-        path = qwen36-35b;
+        path = qwen36-35b_q8_k_xl;
       }
       {
         name = "qwen3-embedding-8b";
@@ -249,34 +257,52 @@ in {
         fit = "on";
       };
 
+      "qwen3.6-35b-a3b-it:q4_k_xl" = {
+        model = "${qwen36-35b_q4_k_xl}";
+        alias = "qwen3.6-35b_q4";
+        ctx-size = 262144 * parallel;
+        n-gpu-layers = "auto";
+        cache-type-k = "q4_0";
+        cache-type-v = "q4_0";
+        fit = "on";
+        spec-type = "draft-mtp";
+        spec-draft-n-max = 6;
+      };
+
       "qwen3.6-35b-a3b-it:q8_k_xl" = {
-        model = "${qwen36-35b}";
+        model = "${qwen36-35b_q8_k_xl}";
         alias = "qwen3.6-35b_q8";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
         cache-type-k = "q8_0";
         cache-type-v = "q8_0";
         fit = "on";
+        spec-type = "draft-mtp";
+        spec-draft-n-max = 6;
       };
 
-      "qwen3.6-27b:q4_k_m" = {
-        model = "${qwen36-27b_q4_k_m}";
+      "qwen3.6-27b:q4_k_xl" = {
+        model = "${qwen36-27b_q4_k_xl}";
         alias = "qwen3.6-27b_q4";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
         cache-type-k = "q4_0";
         cache-type-v = "q4_0";
         fit = "on";
+        spec-type = "draft-mtp";
+        spec-draft-n-max = 6;
       };
 
       "qwen3.6-27b:q8_0" = {
-        model = "${qwen36-27b_q8_0}";
+        model = "${qwen36-27b_q8_k_xl}";
         alias = "qwen3.6-27b_q8";
         ctx-size = 262144 * parallel;
         n-gpu-layers = "auto";
         cache-type-k = "q8_0";
         cache-type-v = "q8_0";
         fit = "on";
+        spec-type = "draft-mtp";
+        spec-draft-n-max = 6;
       };
 
       "qwen3-embedding-8b" = {

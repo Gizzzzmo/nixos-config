@@ -52,7 +52,7 @@
                 "baseURL": "http://100.64.0.3:11404/v1",
             },
             "models": {
-                "qwen3.6-27b:q4_k_m": {
+                "qwen3.6-27b:q4_k_xl": {
                     "name": "Qwen 3.6 27B Q4_K_M",
                     "limit": {
                         "context": 256000,
@@ -61,6 +61,13 @@
                 },
                 "qwen3.6-27b:q8_0": {
                     "name": "Qwen 3.6 27B Q8_0",
+                    "limit": {
+                        "context": 256000,
+                        "output": 65536
+                    }
+                },
+                "qwen3.6-35b-a3b-it:q4_k_xl": {
+                    "name": "Qwen 3.6 35B Q4_K_XL",
                     "limit": {
                         "context": 256000,
                         "output": 65536
