@@ -187,6 +187,13 @@
 
   {
     mode = "n";
+    key = "<leader>fr";
+    options.silent = false;
+    action = "<cmd>lua require('git-ref-picker').git_ref_picker({})<cr>";
+  }
+
+  {
+    mode = "n";
     key = "<leader>fp";
     action = "<cmd>lua require('prox-telescope').proximity_files({})<cr>";
   }

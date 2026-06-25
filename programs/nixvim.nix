@@ -102,6 +102,10 @@
       enable = true;
       source = ./neovim/lua/obsidian-helper.lua;
     };
+    "lua/git-ref-picker.lua" = {
+      enable = true;
+      source = ./neovim/lua/git-ref-picker.lua;
+    };
   };
 
   diagnostic.settings = {
