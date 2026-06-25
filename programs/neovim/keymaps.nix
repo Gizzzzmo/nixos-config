@@ -171,6 +171,12 @@
     action = "<cmd>llast<cr>";
   }
 
+  {
+    mode = "n";
+    key = "<leader>T";
+    action = "<cmd>tabclose<cr>";
+  }
+
   # Quickfix List
   {
     mode = "n";
