@@ -95,6 +95,7 @@ in {
           ["TMUX_BIN=${pkgs.tmux}/bin/tmux"]
           (builtins.readFile ./scripts/tmux-notify-close.sh))
       )
+      waypipe
       glow
       socat
       jq
