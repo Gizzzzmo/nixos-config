@@ -9,13 +9,29 @@
   {
     mode = "n";
     key = "<leader>dk";
-    action = "<cmd>GitGutterPrevHunk<cr>";
+    action.__raw = ''
+      function()
+        local start_line = vim.fn.line('.')
+        vim.cmd("GitGutterPrevHunk")
+        local end_line = vim.fn.line('.')
+        if end_line ~= start_line then
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cmd>GitGutterPreviewHunk<CR>", true, false, true), 'n', false)
+        end
+      end'';
   }
 
   {
     mode = "n";
     key = "<leader>dj";
-    action = "<cmd>GitGutterNextHunk<cr>";
+    action.__raw = ''
+        function()
+        local start_line = vim.fn.line('.')
+        vim.cmd("GitGutterNextHunk")
+        local end_line = vim.fn.line('.')
+        if end_line ~= start_line then
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cmd>GitGutterPreviewHunk<CR>", true, false, true), 'n', false)
+        end
+      end'';
   }
 
   {
