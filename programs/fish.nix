@@ -17,6 +17,7 @@
     "lt" = "eza -s modified -lg";
     "lta" = "eza -s modified -lga --git";
     "cat" = "bat";
+    "oc" = "opencode --port";
   };
 
   shellInit = ''
