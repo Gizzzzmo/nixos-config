@@ -95,6 +95,7 @@ in {
           ["TMUX_BIN=${pkgs.tmux}/bin/tmux"]
           (builtins.readFile ./scripts/tmux-notify-close.sh))
       )
+      bash
       waypipe
       glow
       socat
@@ -189,7 +190,10 @@ in {
       wiremix
     ])
     ++ (lib.optionals (home_inputs.wsl or false) [
-      ]);
+      ])
+    ++ (lib.optionals (home_inputs.enableHandy or false) [
+      handy
+    ]);
 
   nixpkgs.config.allowUnfreePredicate = pkg: true;
 

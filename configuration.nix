@@ -213,13 +213,7 @@ in {
       }
     ];
     parallel = 2;
-  in {
-    enable = my-system.enableLlamaCpp or false;
-    package = pkgs.llama-cpp-rocm;
-    host = my-system.tailscaleIp or "127.0.0.1"; # Bind to Tailscale interface
-    port = 11404;
-
-    modelsDir = pkgs.linkFarm "llama-models" [
+    llamaModels = pkgs.linkFarm "llama-models" [
       {
         name = "mellum-4b-base:q8_0";
         path = mellum-base-4b;
@@ -245,83 +239,80 @@ in {
         path = qwen3Embedding;
       }
     ];
+  in {
+    enable = my-system.enableLlamaCpp or false;
+    package = pkgs.llama-cpp-rocm;
 
-    modelsPreset = {
-      "mellum-4b-base:q8_0" = {
-        model = "${mellum-base-4b}";
-        alias = "mellum-4b-base";
-        ctx-size = 8192 * parallel;
-        n-gpu-layers = "auto";
-        cache-type-k = "q8_0";
-        cache-type-v = "q8_0";
-        fit = "on";
-      };
+    settings = {
+      host = my-system.tailscaleIp or "127.0.0.1";
+      port = 11404;
 
-      "qwen3.6-35b-a3b-it:q4_k_xl" = {
-        model = "${qwen36-35b_q4_k_xl}";
-        alias = "qwen3.6-35b_q4";
-        ctx-size = 262144 * parallel;
-        n-gpu-layers = "auto";
-        cache-type-k = "q4_0";
-        cache-type-v = "q4_0";
-        fit = "on";
-        spec-type = "draft-mtp";
-        spec-draft-n-max = 6;
-      };
+      # Must be a string, not a derivation (CLI formatter can't handle attrsets)
+      models-dir = "${llamaModels}";
 
-      "qwen3.6-35b-a3b-it:q8_k_xl" = {
-        model = "${qwen36-35b_q8_k_xl}";
-        alias = "qwen3.6-35b_q8";
-        ctx-size = 262144 * parallel;
-        n-gpu-layers = "auto";
-        cache-type-k = "q8_0";
-        cache-type-v = "q8_0";
-        fit = "on";
-        spec-type = "draft-mtp";
-        spec-draft-n-max = 6;
-      };
+      no-mmap = true;
+      models-max = 4;
+      models-autoload = true;
+      parallel = parallel;
+      cont-batching = true;
 
-      "qwen3.6-27b:q4_k_xl" = {
-        model = "${qwen36-27b_q4_k_xl}";
-        alias = "qwen3.6-27b_q4";
-        ctx-size = 262144 * parallel;
-        n-gpu-layers = "auto";
-        cache-type-k = "q4_0";
-        cache-type-v = "q4_0";
-        fit = "on";
-        spec-type = "draft-mtp";
-        spec-draft-n-max = 6;
-      };
+      # Must be a string (INI file path), not a derivation
+      models-preset = "${pkgs.writeText "models.ini" ''
+        [mellum-4b-base:q8_0]
+        model = ${mellum-base-4b};
+        alias = mellum-4b-base;
+        ctx-size = ${toString (8192 * parallel)};
+        n-gpu-layers = auto;
+        cache-type-k = q8_0;
+        cache-type-v = q8_0;
+        fit = on;
 
-      "qwen3.6-27b:q8_0" = {
-        model = "${qwen36-27b_q8_k_xl}";
-        alias = "qwen3.6-27b_q8";
-        ctx-size = 262144 * parallel;
-        n-gpu-layers = "auto";
-        cache-type-k = "q8_0";
-        cache-type-v = "q8_0";
-        fit = "on";
-        spec-type = "draft-mtp";
-        spec-draft-n-max = 6;
-      };
+        [qwen3.6-35b-a3b-it:q4_k_xl]
+        model = ${qwen36-35b_q4_k_xl};
+        alias = qwen3.6-35b_q4;
+        ctx-size = ${toString (262144 * parallel)};
+        n-gpu-layers = auto;
+        cache-type-k = q4_0;
+        cache-type-v = q4_0;
+        fit = on;
 
-      "qwen3-embedding-8b" = {
-        model = "${qwen3Embedding}/model-00001-of-00004.safetensors";
-        alias = "qwen3-embedding";
-      };
+        [qwen3.6-35b-a3b-it:q8_k_xl]
+        model = ${qwen36-35b_q8_k_xl};
+        alias = qwen3.6-35b_q8;
+        ctx-size = ${toString (262144 * parallel)};
+        n-gpu-layers = auto;
+        cache-type-k = q8_0;
+        cache-type-v = q8_0;
+        fit = on;
+
+        [qwen3.6-27b:q4_k_xl]
+        model = ${qwen36-27b_q4_k_xl};
+        alias = qwen3.6-27b_q4;
+        ctx-size = ${toString (262144 * parallel)};
+        n-gpu-layers = auto;
+        cache-type-k = q4_0;
+        cache-type-v = q4_0;
+        fit = on;
+
+        [qwen3.6-27b:q8_0]
+        model = ${qwen36-27b_q8_k_xl};
+        alias = qwen3.6-27b_q8;
+        ctx-size = ${toString (262144 * parallel)};
+        n-gpu-layers = auto;
+        cache-type-k = q8_0;
+        cache-type-v = q8_0;
+        fit = on;
+
+        [qwen3-embedding-8b]
+        model = ${qwen3Embedding}/model-00001-of-00004.safetensors;
+        alias = qwen3-embedding;
+        ctx-size = ${toString (262144 * parallel)};
+        n-gpu-layers = auto;
+        cache-type-k = q8_0;
+        cache-type-v = q8_0;
+        fit = on;
+      ''}";
     };
-
-    # Global server flags (apply to all models)
-    extraFlags = [
-      "--no-mmap"
-      "--models-max"
-      "4" # Max models in memory simultaneously
-      "--models-autoload" # Auto-load models on request (default: enabled)
-      # No idle timeout by default - unload imperatively via API when needed
-      "--parallel"
-      (toString parallel) # Number of parallel requests to allow
-      "--cont-batching" # Enable continuous batching (default: on)
-    ];
   };
 
   # Add Headscale server certificate to system trust store
@@ -677,6 +668,7 @@ in {
     extraGroups =
       [
         "audio"
+        "pipewire"
         "wheel"
         "networkmanager"
         "backlight"
@@ -740,6 +732,7 @@ in {
       ]
       ++ lib.optionals my-system.enableSound or false [
         pamixer
+        pkgs.pipewire.jack
         # Audio production helper script
         (pkgs.writeScriptBin "set-audio-rate" (builtins.readFile ./scripts/set-audio-rate.sh))
       ]
