@@ -674,6 +674,7 @@ in {
         "backlight"
         "input"
       ]
+      ++ (lib.optionals (my-system ? "extraGroups") (my-system.extraGroups))
       ++ (lib.optionals (my-system.enableDufs or false) ["dufs"])
       ++ (lib.optionals (my-system.enableOpenclAmd or false) ["video" "render"])
       ++ (lib.optionals (my-system.enableVirtualization or false) ["libvirtd"])

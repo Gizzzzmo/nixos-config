@@ -27,6 +27,10 @@
       rocmPackages.rocm-smi
       rocmPackages.rocminfo
     ];
+  extraGroups = ["dialout"];
+  extraUdevRules = pkgs: ''
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", MODE="0666", GROUP="dialout"
+  '';
 
   homeManagerConfig = {
     enableHandy = true;
