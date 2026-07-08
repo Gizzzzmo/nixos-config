@@ -27,7 +27,7 @@ get_groups() {
 
 get_images() {
     local group="$1"
-    find "$WALLPAPER_DIR/$group" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort
+    find "$WALLPAPER_DIR/$group" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | sort
 }
 
 get_current_group() {
