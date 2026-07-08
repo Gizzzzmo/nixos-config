@@ -7,6 +7,19 @@
     if (home_inputs ? "waybarOpacity")
     then home_inputs.waybarOpacity
     else 0.5;
+
+  keyboardLayoutScript = pkgs.writeShellScript "keyboard-layout" ''
+    ${pkgs.hyprland}/bin/hyprctl devices -j | ${pkgs.jq}/bin/jq -r '
+      .keyboards[] | select(.main == true) |
+      (.layout / ",")[.active_layout_index] as $l |
+      (.variant / ",")[.active_layout_index] as $v |
+      if $l == "us" and $v == "altgr-intl" then "US-altgr"
+      elif $l == "us" and $v == "intl" then "US-intl"
+      elif $l == "de" then "DE"
+      else $l
+      end
+    '
+  '';
 in {
   enable = true;
   systemd.enable = true;
@@ -23,17 +36,16 @@ in {
       modules-right = [
         "tray"
         "pulseaudio"
-        "hyprland/language"
+        "custom/language"
         "cpu"
         "memory"
         "disk"
       ];
 
-      "hyprland/language" = {
-        format = " {} ⌨ ";
-        format-de = "DE";
-        format-us = "US";
-        format-en = "US";
+      "custom/language" = {
+        exec = "${keyboardLayoutScript}";
+        interval = 1;
+        format = "{} ⌨ ";
         on-click = "hyprctl switchxkblayout all next";
       };
 
@@ -63,10 +75,12 @@ in {
           default = "...";
         };
       };
+
       tray = {
         icon-size = 16;
         spacing = 10;
       };
+
       clock = {
         format = " {:%H:%M}   |";
         format-alt = " {:%R, %B %d} |";
@@ -93,19 +107,23 @@ in {
           on-scroll-down = "shift_down";
         };
       };
+
       cpu = {
         format = "| {usage}%  ";
         on-click = "ghostty_wrap --font-size=8.9 -e btop";
       };
+
       memory = {
         format = "| {}%  ";
       };
+
       disk = {
         format = "| {percentage_used}%   ";
         path = "/";
         on-click = "ghostty_wrap -e mmtui";
         on-click-right = "ghostty_wrap -e ncdu --exclude 'mnt/**' ~";
       };
+
       battery = {
         bat = "BAT0";
         states = {
@@ -135,6 +153,7 @@ in {
         tooltip-format-wifi = "{essid}";
         on-click = "ghostty_wrap -e impala";
       };
+
       pulseaudio = {
         scroll-step = 2;
         format = "{volume}% {icon}  |";
