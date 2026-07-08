@@ -353,6 +353,7 @@ in {
       then "wslview"
       else "qutebrowser";
     MANPAGER = "nvim +Man!";
+    _ZO_EXCLUDE_DIRS = "/home/jonas/mnt/storagebox/**";
   };
 
   # Let Home Manager install and manage itself.
