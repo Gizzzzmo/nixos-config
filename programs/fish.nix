@@ -30,6 +30,11 @@
     set -x OLLAMA_HOST 100.64.0.3:11434
 
     status --is-interactive; and begin
+      if test -n "$SSH_CLIENT"
+        and status --is-login
+        set -x TMUX_TMPDIR /run/user/1000/sshmux/(echo "$SSH_CLIENT" | base64 | tr -d '\n')
+        mkdir -p $TMUX_TMPDIR
+      end
       fish_vi_key_bindings
       bind --mode insert ctrl-f 'accept-autosuggestion'
       bind --mode insert ctrl-p up-or-search
