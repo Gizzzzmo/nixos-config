@@ -32,7 +32,7 @@
     status --is-interactive; and begin
       if test -n "$SSH_CLIENT"
         and status --is-login
-        set -x TMUX_TMPDIR /run/user/1000/sshmux/(echo "$SSH_CLIENT" | base64 | tr -d '\n')
+        set -x TMUX_TMPDIR /run/user/1000/sshmux/(echo "$SSH_CLIENT" | awk '{print $1}' | tr -d '\n')
         mkdir -p $TMUX_TMPDIR
       end
       fish_vi_key_bindings
