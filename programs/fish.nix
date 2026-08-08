@@ -1,6 +1,9 @@
 {
   inputs,
+  lib,
   pkgs,
+  standalone,
+  username,
   ...
 }: {
   enable = true;
@@ -26,7 +29,12 @@
 
   shellInitLast = ''
     set -x NIX_PATH "nixpkgs=${inputs.nixpkgs.outPath}"
-    set -x PATH $PATH:/nix/var/nix/profiles/default/bin
+    ${lib.optionalString (!standalone) ''
+      set -gx PATH /home/${username}/.local/state/zen/bin /home/${username}/.local/state/zen/system-bin /run/wrappers/bin /nix/var/nix/profiles/default/bin
+    ''}
+    ${lib.optionalString standalone ''
+      set -x PATH $PATH:/nix/var/nix/profiles/default/bin
+    ''}
     set -x OLLAMA_HOST 100.64.0.3:11434
 
     status --is-interactive; and begin

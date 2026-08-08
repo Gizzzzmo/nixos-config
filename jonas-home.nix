@@ -1,10 +1,16 @@
 {
   pkgs,
+  lib,
   inputs,
   standalone,
   username,
   ...
 } @ home_inputs: let
+  zen = pkgs.writeShellApplication {
+    name = "zen";
+    runtimeInputs = [pkgs.coreutils];
+    text = builtins.readFile ./scripts/zen.sh;
+  };
   tmux-notify-server =
     pkgs.writeShellScriptBin "tmux-notify-server"
     (builtins.replaceStrings
@@ -39,6 +45,7 @@ in {
         writeShellScriptBin "update-cmus-playlists"
         (builtins.readFile ./scripts/update-cmus-playlists.sh)
       )
+      zen
       (
         writeShellScriptBin "llama-ctl"
         (builtins.readFile ./scripts/llama-ctl.sh)
@@ -346,15 +353,27 @@ in {
   #
   #  /etc/profiles/per-user/jonas/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    BROWSER =
-      if (home_inputs.wsl or false)
-      then "wslview"
-      else "qutebrowser";
-    MANPAGER = "nvim +Man!";
-    _ZO_EXCLUDE_DIRS = "/home/jonas/mnt/storagebox/**";
+  home.sessionVariables =
+    {
+      EDITOR = "nvim";
+      BROWSER =
+        if (home_inputs.wsl or false)
+        then "wslview"
+        else "qutebrowser";
+      MANPAGER = "nvim +Man!";
+      _ZO_EXCLUDE_DIRS = "/home/jonas/mnt/storagebox/**";
+    }
+    // lib.optionalAttrs (!standalone) {
+      PATH = "/home/${username}/.local/state/zen/bin:/home/${username}/.local/state/zen/system-bin:/run/wrappers/bin:/nix/var/nix/profiles/default/bin";
+    };
+
+  systemd.user.sessionVariables = lib.mkIf (!standalone) {
+    PATH = "/home/${username}/.local/state/zen/bin:/home/${username}/.local/state/zen/system-bin:/run/wrappers/bin:/nix/var/nix/profiles/default/bin";
   };
+
+  home.activation.zen = lib.mkIf (!standalone) (lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run ${zen}/bin/zen --refresh
+  '');
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
