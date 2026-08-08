@@ -34,7 +34,6 @@ in {
 
   imports = [
     inputs.nixvim.homeModules.nixvim
-    inputs.handy.homeManagerModules.default
   ];
 
   # The home.packages option allows you to install Nix packages into your
@@ -298,10 +297,6 @@ in {
 
   services.hyprpolkitagent = {
     enable = home_inputs.useHyprland or false;
-  };
-
-  services.handy = {
-    enable = home_inputs.enableHandy or false;
   };
 
   services.syncthing = {

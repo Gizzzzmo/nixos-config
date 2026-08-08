@@ -15,15 +15,18 @@
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    handy = {
-      url = "github:cjpais/Handy/v0.8.3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = {self, nixpkgs, home-manager, nixvim, rose-pine-hyprcursor, handy, ...}: let
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nixvim,
+    rose-pine-hyprcursor,
+    ...
+  }: let
     inputs = {
-      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor handy;
+      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor ;
     };
   in {
     nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {
@@ -35,7 +38,6 @@
       modules = [
         ../../configuration.nix
         home-manager.nixosModules.default
-        handy.nixosModules.default
       ];
     };
   };
