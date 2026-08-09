@@ -44,8 +44,7 @@
       with pkgs; [
         mmtui
         bluetui
-        darktable
-        llama-cpp-rocm
+        (darktable.override {withAi = true;})
         ollama
         lmstudio
         ardour
