@@ -142,29 +142,36 @@ refresh_bin() {
   source_bin="$1"
   full_current="$2"
   restricted_current="$3"
-  restricted_prefix="$4"
+  full_prefix="$4"
+  restricted_prefix="$5"
+  wrappers_bin="${ZEN_WRAPPERS_BIN:-/run/wrappers/bin}"
 
   if [ ! -d "$source_bin" ]; then
     printf 'zen: profile bin directory is unavailable: %s\n' "$source_bin" >&2
     exit 1
   fi
 
-  replace_link "$source_bin" "$state_dir/$full_current"
-
+  full_bin="$state_dir/$full_prefix.$$.new"
   restricted_bin="$state_dir/$restricted_prefix.$$.new"
+  mkdir "$full_bin"
   mkdir "$restricted_bin"
   for executable in "$source_bin"/*; do
     [ -e "$executable" ] || continue
     name="${executable##*/}"
+    # Point setuid tools at /run/wrappers/bin so the mirror never shadows them.
+    target="$executable"
+    [ -e "$wrappers_bin/$name" ] && target="$wrappers_bin/$name"
+    ln -s "$target" "$full_bin/$name"
     [ -n "${configured_programs[$name]+x}" ] && continue
-    ln -s "$executable" "$restricted_bin/$name"
+    ln -s "$target" "$restricted_bin/$name"
   done
+  replace_link "$full_bin" "$state_dir/$full_current"
   replace_link "$restricted_bin" "$state_dir/$restricted_current"
 }
 
 refresh_bins() {
-  refresh_bin "$profile_bin" full-current restricted-current restricted-bin
-  refresh_bin "$system_profile_bin" system-full-current system-restricted-current system-restricted-bin
+  refresh_bin "$profile_bin" full-current restricted-current full-bin restricted-bin
+  refresh_bin "$system_profile_bin" system-full-current system-restricted-current system-full-bin system-restricted-bin
 }
 
 restore_removed_directories() {
