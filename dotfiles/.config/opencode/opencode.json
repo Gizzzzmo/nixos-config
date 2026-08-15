@@ -10,7 +10,6 @@
         "edit": {
             "/tmp/*": "allow"
         }
-        
     },
     "shell": "/home/jonas/.nix-profile/bin/bash",
     "keybinds": {
@@ -64,28 +63,28 @@
                 "baseURL": "http://100.64.0.3:11404/v1",
             },
             "models": {
-                "qwen3.6-27b:q4_k_xl": {
+                "qwen3.6-27b:Q4_K_XL": {
                     "name": "Qwen 3.6 27B Q4_K_M",
                     "limit": {
                         "context": 256000,
                         "output": 65536
                     }
                 },
-                "qwen3.6-27b:q8_0": {
+                "qwen3.6-27b:Q8_0": {
                     "name": "Qwen 3.6 27B Q8_0",
                     "limit": {
                         "context": 256000,
                         "output": 65536
                     }
                 },
-                "qwen3.6-35b-a3b-it:q4_k_xl": {
+                "qwen3.6-35b-a3b-it:Q4_K_XL": {
                     "name": "Qwen 3.6 35B Q4_K_XL",
                     "limit": {
                         "context": 256000,
                         "output": 65536
                     }
                 },
-                "qwen3.6-35b-a3b-it:q8_k_xl": {
+                "qwen3.6-35b-a3b-it:Q8_K_XL": {
                     "name": "Qwen 3.6 35B Q8_K_XL",
                     "limit": {
                         "context": 256000,
@@ -99,17 +98,17 @@
     "agent": {
         "explore": {
             "mode": "subagent",
-            "model": "llama-server/qwen3.6-35b-a3b-it:q8_k_xl",
+            "model": "openrouter/deepseek/deepseek-v4-flash-0731",
             "description": "Exploratory agent for researching and investigating topics. Use for understanding combined with filtering/synthesizing information to prevent exploding your own context. Perform simple file reads yourself. Only use when actually *synthesizing* information. Don't use it to read files to you; do it yourself."
         },
         "code": {
             "mode": "subagent",
-            "model": "llama-server/qwen3.6-35b-a3b-it:q8_k_xl",
+            "model": "openrouter/deepseek/deepseek-v4-flash-0731",
             "description": "Agent specialized for code generation. Use for mid-size to larger, but self-contained, code generation/editing tasks to prevent exploding your own context. Perform small edits yourself."
         },
         "senses": {
             "mode": "subagent",
-            "model": "openrouter/google/gemini-3.5-flash",
+            "model": "openrouter/google/gemini-3.7-flash",
             "description": "Agent to use for understanding multimodal content. Use for analyzing image-, video-, and sound-files when you don't have that capability yourself. Provide it with the relevant file path(s) and a description of what you want to understand. It will return a text description of the content."
         }
     }
