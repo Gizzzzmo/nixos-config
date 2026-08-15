@@ -176,6 +176,7 @@ in {
     ])
     ++ (lib.optionals (home_inputs ? "extraPkgs") (home_inputs.extraPkgs pkgs))
     ++ (lib.optionals (home_inputs.enableGuiApps or false) [
+      element-desktop
       foliate
       eog
       obsidian
