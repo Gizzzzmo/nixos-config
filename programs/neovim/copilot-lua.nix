@@ -1,5 +1,5 @@
-{...}: {
-  enable = true;
+{standalone, ...}: {
+  enable = standalone;
   autoLoad = true;
   settings = {
     filetypes = {

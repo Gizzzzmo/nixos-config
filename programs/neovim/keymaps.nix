@@ -540,6 +540,13 @@
     action = "<cmd>Copilot enable<cr>";
   }
 
+  # llm-ls
+  {
+    mode = "n";
+    key = "<leader>ct";
+    action = "<cmd>LLMToggleAutoSuggest<cr>";
+  }
+
   # Neogen
   {
     mode = "n";

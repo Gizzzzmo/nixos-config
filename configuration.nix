@@ -274,6 +274,7 @@ in {
         [mellum-4b-base:q8_0]
         model = ${mellum-base-4b};
         alias = mellum-4b-base;
+        n-predict = 64;
         ctx-size = ${toString (8192 * parallel)};
         n-gpu-layers = auto;
         cache-type-k = q8_0;

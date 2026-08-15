@@ -1,0 +1,18 @@
+--- a/crates/llm-ls/src/main.rs
++++ b/crates/llm-ls/src/main.rs
+@@ -289,13 +289,7 @@
+                     warn!("completion type should not be empty when post processing completions");
+                     Completion { generated_text }
+                 }
+-                CompletionType::SingleLine => Completion {
+-                    generated_text: generated_text
+-                        .split_once('\n')
+-                        .unwrap_or((&generated_text, ""))
+-                        .0
+-                        .to_owned(),
+-                },
++                CompletionType::SingleLine => Completion { generated_text },
+                 CompletionType::MultiLine => Completion { generated_text },
+             }
+         })
+

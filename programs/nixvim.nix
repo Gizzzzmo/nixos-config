@@ -127,6 +127,7 @@
     lualine = (import ./neovim/lualine.nix) home_inputs;
     fugitive = (import ./neovim/fugitive.nix) home_inputs;
     obsidian = (import ./neovim/obsidian.nix) home_inputs;
+    llm = (import ./neovim/llm.nix) home_inputs;
     copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
     lsp = (import ./neovim/lsp.nix) home_inputs;
     blink-cmp = (import ./neovim/blink-cmp.nix) home_inputs;
@@ -199,5 +200,16 @@
 
   dependencies = {
     git.enable = true;
+    llm-ls = {
+      enable = true;
+      package = pkgs.llm-ls.overrideAttrs (old: {
+        patches =
+          (old.patches or [])
+          ++ [
+            # ./neovim/patches/llm-ls-keep-multiline.patch
+            ./neovim/patches/llm-ls-utf16.patch
+          ];
+      });
+    };
   };
 }

@@ -1,0 +1,17 @@
+--- a/crates/llm-ls/src/document.rs
++++ b/crates/llm-ls/src/document.rs
+@@ -155,10 +155,10 @@
+     type Error = Error;
+ 
+     fn try_from(value: Vec<tower_lsp::lsp_types::PositionEncodingKind>) -> Result<Self> {
+-        if value.contains(&tower_lsp::lsp_types::PositionEncodingKind::UTF8) {
+-            Ok(PositionEncodingKind::Utf8)
+-        } else if value.contains(&tower_lsp::lsp_types::PositionEncodingKind::UTF16) {
++        if value.contains(&tower_lsp::lsp_types::PositionEncodingKind::UTF16) {
+             Ok(PositionEncodingKind::Utf16)
++        } else if value.contains(&tower_lsp::lsp_types::PositionEncodingKind::UTF8) {
++            Ok(PositionEncodingKind::Utf8)
+         } else if value.contains(&tower_lsp::lsp_types::PositionEncodingKind::UTF32) {
+             Ok(PositionEncodingKind::Utf32)
+         } else {
+
