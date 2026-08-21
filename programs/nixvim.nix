@@ -2,62 +2,7 @@
   enable = true;
 
   # colorschemes.lunaperche.enable = true;
-  colorscheme = "lunaperche";
-
-  highlightOverride = {
-    IblIdent = {
-      fg = "#080808";
-    };
-    WinSeparator = {
-      fg = "#444444";
-    };
-    Comment = {
-      fg = "#ffc244";
-    };
-    LineNr = {
-      fg = "#ccddff";
-    };
-    LineNrAbove = {
-      fg = "#7e7e7e";
-    };
-    LineNrBelow = {
-      fg = "#7e7e7e";
-    };
-    # overwrites below are specifically meant for lunaperche
-    Normal = {
-      bg = "#0c1016";
-    };
-    "@variable.member" = {
-      fg = "#ee8866";
-    };
-    "@lsp.type.property" = {
-      fg = "#ffbb99";
-    };
-    "@property".link = "@lsp.type.property";
-    "@variable.member".link = "@lsp.type.property";
-    Type = {
-      bold = true;
-      fg = "#5fd75f";
-    };
-    "@keyword.type".link = "Statement";
-    "@function.call" = {
-      fg = "#6699dd";
-    };
-    "@variable.parameter" = {
-      fg = "#cccc55";
-    };
-    "@lsp.type.parameter".link = "@variable.parameter";
-    typstHashtagIdentifier.link = "@function.call";
-    "@lsp.type.function.typst".link = "@function.call";
-    "@markup.link.label.markdown_inline" = {
-      fg = "#f584ff";
-      underline = true;
-    };
-    "@markup.link.url.markdown_inline" = {
-      fg = "#f584ff";
-      underline = true;
-    };
-  };
+  colorscheme = "my-lunaperche";
 
   extraConfigLuaPre = ''
     -- require("vague").setup({})
@@ -81,6 +26,10 @@
   globals.mapleader = " ";
 
   extraFiles = {
+    "colors/my-lunaperche.vim" = {
+      enable = true;
+      source = ./neovim/colors/my-lunaperche.vim;
+    };
     # "pack/blub/start/vague.nvim" = {
     #   enable = true;
     #   source = pkgs.fetchFromGitHub {
