@@ -22,12 +22,6 @@
     runtimeInputs = [pkgs.coreutils];
     text = builtins.readFile ../scripts/zen.sh;
   };
-  tmux-notify-server =
-    pkgs.writeShellScriptBin "tmux-notify-server"
-    (builtins.replaceStrings
-      ["SOCAT=socat" "TMUX_BIN=tmux"]
-      ["SOCAT=${pkgs.socat}/bin/socat" "TMUX_BIN=${pkgs.tmux}/bin/tmux"]
-      (builtins.readFile ../scripts/tmux-notify-server.sh));
 in {
   imports = [
     inputs.nixvim.homeModules.nixvim
@@ -56,6 +50,55 @@ in {
     waybarOpacity = lib.mkOption {
       type = lib.types.number;
       default = 0.5;
+    };
+    monitors = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          output = lib.mkOption {
+            type = lib.types.str;
+          };
+          mode = lib.mkOption {
+            type = lib.types.str;
+            default = "preferred";
+          };
+          position = lib.mkOption {
+            type = lib.types.str;
+            default = "auto";
+          };
+          scale = lib.mkOption {
+            type = lib.types.str;
+            default = "auto";
+          };
+          bitdepth = lib.mkOption {
+            type = lib.types.nullOr lib.types.int;
+            default = null;
+          };
+        };
+      });
+      default = [
+        {
+          output = "eDP-1";
+          mode = "1920x1080";
+          position = "0x216";
+          scale = "1.5";
+          bitdepth = 10;
+        }
+        {
+          output = "DP-1";
+          mode = "2560x1440";
+          position = "1280x0";
+          scale = "1";
+          bitdepth = 10;
+        }
+        {
+          output = "DP-5";
+          mode = "1680x1050";
+          position = "3840x51";
+          scale = "1";
+          bitdepth = 10;
+        }
+      ];
+      description = "Monitor rules rendered into the Hyprland Lua config.";
     };
   };
 
@@ -99,42 +142,6 @@ in {
       (
         writeShellScriptBin "tmux-select-session-fzf"
         (builtins.readFile ../scripts/tmux-select-session-fzf.sh)
-      )
-      (
-        writeShellScriptBin "sshmux"
-        (builtins.readFile ../scripts/sshmux.sh)
-      )
-      (
-        writeShellScriptBin "tmux"
-        (builtins.replaceStrings
-          ["REAL_TMUX=tmux"]
-          ["REAL_TMUX=${pkgs.tmux}/bin/tmux"]
-          (builtins.readFile ../scripts/tmux.sh))
-      )
-      # tmux notification system
-      tmux-notify-server
-      (
-        writeShellScriptBin "tmux-notify-build-list"
-        (builtins.readFile ../scripts/tmux-notify-build-list.sh)
-      )
-      (
-        writeShellScriptBin "tmux-notify-send"
-        (builtins.readFile ../scripts/tmux-notify-send.sh)
-      )
-      (
-        writeShellScriptBin "tmux-notify-list"
-        (builtins.readFile ../scripts/tmux-notify-list.sh)
-      )
-      (
-        writeShellScriptBin "tmux-notify-mode"
-        (builtins.readFile ../scripts/tmux-notify-mode.sh)
-      )
-      (
-        writeShellScriptBin "tmux-notify-close"
-        (builtins.replaceStrings
-          ["TMUX_BIN=tmux"]
-          ["TMUX_BIN=${pkgs.tmux}/bin/tmux"]
-          (builtins.readFile ../scripts/tmux-notify-close.sh))
       )
       bash
       waypipe
@@ -246,19 +253,6 @@ in {
       maxCacheTtl = 18000;
       defaultCacheTtl = 18000;
       pinentry.package = pkgs.pinentry-qt;
-    };
-
-    systemd.user.services.tmux-notify-server = {
-      Unit = {
-        Description = "tmux notification server";
-        After = ["default.target"];
-      };
-      Service = {
-        ExecStart = "${tmux-notify-server}/bin/tmux-notify-server";
-        Restart = "on-failure";
-        RestartSec = "2s";
-      };
-      Install.WantedBy = ["default.target"];
     };
 
     home.file = {

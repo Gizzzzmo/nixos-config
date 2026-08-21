@@ -2,13 +2,6 @@
   enable = true;
   # Rename the tmux binary to tmux-unwrapped so our wrapper script in
   # home.packages can take the name "tmux" without a collision.
-  package = pkgs.symlinkJoin {
-    name = "tmux-unwrapped";
-    paths = [pkgs.tmux];
-    postBuild = ''
-      mv $out/bin/tmux $out/bin/tmux-unwrapped
-    '';
-  };
   baseIndex = 1;
   plugins = with pkgs.tmuxPlugins; [
     fingers

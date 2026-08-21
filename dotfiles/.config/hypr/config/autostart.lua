@@ -1,0 +1,11 @@
+-- Autostart: run once when the session starts.
+hl.on("hyprland.start", function()
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("hyprpaper-ctl randomize")
+    hl.exec_cmd("hyprpaper-ctl daemon")
+    hl.exec_cmd("wl-paste -t text --watch clipman store --no-persist")
+    hl.exec_cmd("update-cmus-playlists")
+    hl.exec_cmd("tmux new-session -s cmux -d 'cmus'")
+    hl.exec_cmd("ghostty_wrap -e bash -c 'rss; $SHELL'", { workspace = 2 })
+end)
