@@ -20,7 +20,7 @@
     "lt" = "eza -s modified -lg";
     "lta" = "eza -s modified -lga --git";
     "cat" = "bat";
-    "oc" = "opencode --port";
+    "oc" = "OPENCODE_ENABLE_EXA=1 OPENCODE_EXPERIMENTAL_LSP_TOOL=true opencode --port";
   };
 
   shellInit = ''

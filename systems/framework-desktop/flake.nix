@@ -32,17 +32,16 @@
     ...
   }: let
     inputs = {
-      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor rocmfpx ;
+      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor rocmfpx;
     };
   in {
     nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
-        my-system = import ../framework-desktop.nix;
       };
 
       modules = [
-        ../../configuration.nix
+        ../framework-desktop.nix
         home-manager.nixosModules.default
       ];
     };

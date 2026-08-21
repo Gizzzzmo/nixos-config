@@ -1,21 +1,29 @@
-{
-  id = "noether";
-  hostName = "noether";
-  hardwareConfig = import ./noether-hardware.nix;
-  enableSshServer = true;
-  enableTailscale = true;
-  enableHeadscale = true;
-  enableDufs = true;
-  enableNginx = true;
-  tailscaleLoginServer = "https://headscale.jonbyr.com";
-  tailscaleIp = "100.64.0.5";
-  enableLegacyBios = true;
-  enableStorageBox = true;
-  autoUpgradeFlake = "/home/jonas/nixos-config/systems/noether";
-  enableGitServer = true;
-  enableMatrixServer = true;
-  homeManagerConfig = {
-    enableSyncthing = true;
-    enableGui = false;
+{inputs, ...}: {
+  imports = [
+    ../modules/core.nix
+    ../modules/main-user.nix
+    ../modules/services/ssh.nix
+    ../modules/services/tailscale.nix
+    ../modules/services/headscale.nix
+    ../modules/services/nginx.nix
+    ../modules/services/dufs.nix
+    ../modules/services/git-server.nix
+    ../modules/services/matrix.nix
+    ../modules/services/storage-box.nix
+    ../modules/services/home-manager.nix
+    ./noether-hardware.nix
+  ];
+
+  main-user.enable = true;
+  main-user.userName = "jonas";
+
+  sys = {
+    hostName = "noether";
+    legacyBios = true;
+    bindAddress = "100.64.0.5";
+    tailscaleLoginServer = "https://headscale.jonbyr.com";
+    autoUpgradeFlake = "/home/jonas/nixos-config/systems/noether";
   };
+
+  hm.profile = ../home/profiles/noether.nix;
 }

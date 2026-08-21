@@ -29,22 +29,10 @@
     homeConfigurations.jonas = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
-      modules = [../../jonas-home.nix];
+      modules = [../profiles/wsl.nix];
 
       extraSpecialArgs = {
         inherit inputs;
-        standalone = true;
-        wsl = true;
-        extraPkgs = pkgs:
-          with pkgs; [
-            cmake
-            neocmakelsp
-            basedpyright
-            just
-            zathura
-            eog
-          ];
-        username = "jonas";
       };
     };
   };

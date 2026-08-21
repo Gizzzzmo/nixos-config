@@ -1,29 +1,34 @@
 {
-  id = "thinkpad";
-  hardwareConfig = import ./thinkpad-hardware.nix;
-  enableStorageBox = true;
-  enableBluetooth = true;
-  enableSshServer = true;
-  enableUserMounts = true;
-  enablePrinting = true;
-  enableSteam = true;
-  enableSound = true;
-  enableGui = true;
-  enableTailscale = true;
-  extraUdevRules = pkgs: ''
+  inputs,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ../modules/core.nix
+    ../modules/main-user.nix
+    ../modules/services/ssh.nix
+    ../modules/services/gui.nix
+    ../modules/services/audio.nix
+    ../modules/services/bluetooth.nix
+    ../modules/services/tailscale.nix
+    ../modules/services/steam.nix
+    ../modules/services/printing.nix
+    ../modules/services/storage-box.nix
+    ../modules/services/user-mounts.nix
+    ../modules/services/home-manager.nix
+    ./thinkpad-hardware.nix
+  ];
+
+  main-user.enable = true;
+  main-user.userName = "jonas";
+
+  sys = {
+    hostName = "nixos";
+  };
+
+  services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", RUN+="${pkgs.coreutils}/bin/coreutils --coreutils-prog=chgrp backlight $sys$devpath/brightness", RUN+="${pkgs.coreutils}/bin/coreutils --coreutils-prog=chmod g+w $sys$devpath/brightness"
   '';
-  homeManagerConfig = {
-    waybarHeight = 28;
-    useHyprland = true;
-    enableSyncthing = true;
-    enableGuiApps = true;
-    enableSoundApps = true;
-    extraPkgs = pkgs:
-      with pkgs; [
-        mmtui
-        bluetui
-        darktable
-      ];
-  };
+
+  hm.profile = ../home/profiles/thinkpad.nix;
 }

@@ -32,11 +32,10 @@
     nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
-        my-system = import ../thinkpad.nix;
       };
 
       modules = [
-        ../../configuration.nix
+        ../thinkpad.nix
         home-manager.nixosModules.default
       ];
     };

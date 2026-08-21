@@ -4,10 +4,6 @@
   # colorschemes.lunaperche.enable = true;
   colorscheme = "my-lunaperche";
 
-  extraConfigLuaPre = ''
-    -- require("vague").setup({})
-  '';
-
   opts = {
     diffopt = "vertical";
     undofile = true;
@@ -30,15 +26,6 @@
       enable = true;
       source = ./neovim/colors/my-lunaperche.vim;
     };
-    # "pack/blub/start/vague.nvim" = {
-    #   enable = true;
-    #   source = pkgs.fetchFromGitHub {
-    #     owner = "vague2k";
-    #     repo = "vague.nvim";
-    #     rev = "v1.4.1";
-    #     hash = "sha256-isROQFePz8ofJg0qa3Avbwh4Ml4p9Ii2d+VAAkbeGO8=";
-    #   };
-    # };
     "lua/prox-telescope.lua" = {
       enable = true;
       source = ./neovim/lua/prox-telescope.lua;
@@ -86,7 +73,6 @@
     treesitter = (import ./neovim/treesitter.nix) home_inputs;
     tmux-navigator = (import ./neovim/tmux-navigator.nix) home_inputs;
     snacks = (import ./neovim/snacks.nix) home_inputs;
-    neogen = (import ./neovim/neogen.nix) home_inputs;
     iron = (import ./neovim/iron.nix) home_inputs;
 
     schemastore.enable = true;
@@ -112,40 +98,7 @@
     [
       nvim-gdb
       telescope-emoji-nvim
-    ]
-    ++
-    # fetch tidal-nvim from codeberg
-    [
-      (pkgs.vimUtils.buildVimPlugin {
-        pname = "tidal-nvim";
-        version = "0.2.0";
-        src = pkgs.fetchurl {
-          url = "https://codeberg.org/madskjeldgaard/tidal-nvim/archive/61aee27a7b55370b94e4ab5a3021bfd311cffba0.tar.gz";
-          hash = "sha256-4fQR/+15u4pkMUqrlt1c+720vaUJkKNtOzD9OTxkoM4=";
-        };
-      })
     ];
-
-  extraConfigLua = ''
-    -- Configure tidal-nvim (note: module name uses underscore)
-    require('tidal_nvim').setup({
-      -- Tidal configuration
-      ghci = "ghci",
-      boot = nil,  -- Auto-detect BootTidal.hs
-
-      -- SuperCollider configuration
-      sc_strategy = "scnvim",  -- or "terminal"
-      sc_enable = true,  -- Set to true if you want SuperCollider
-
-      -- Interface settings
-      split_direction = "below",
-      flash_duration = 150,
-      preserve_curpos = true,
-      keymaps = {
-        toggle = "<leader>tt",
-      }
-    })
-  '';
 
   dependencies = {
     git.enable = true;

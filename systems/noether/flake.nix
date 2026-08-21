@@ -26,11 +26,10 @@
       system = "x86_64-linux";
       specialArgs = {
         inherit inputs;
-        my-system = import ../noether.nix;
       };
 
       modules = [
-        ../../configuration.nix
+        ../noether.nix
         home-manager.nixosModules.default
       ];
     };
