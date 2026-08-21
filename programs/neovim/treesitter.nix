@@ -18,6 +18,7 @@
     markdown
     python
     ledger
+    nim
   ];
   folding.enable = true;
   settings = {
