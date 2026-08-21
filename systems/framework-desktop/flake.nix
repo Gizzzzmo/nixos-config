@@ -15,6 +15,11 @@
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rocmfpx = {
+      # PIN: ROCmFPX build we validated (Vulkan+MTP on qwen3.6-35B)
+      url = "github:charlie12345/ROCmFPX/0a59add89b8cba06fb6a0baf25a253a4e45faa78";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -23,10 +28,11 @@
     home-manager,
     nixvim,
     rose-pine-hyprcursor,
+    rocmfpx,
     ...
   }: let
     inputs = {
-      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor ;
+      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor rocmfpx ;
     };
   in {
     nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {
