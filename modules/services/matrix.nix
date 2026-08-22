@@ -69,26 +69,32 @@
     livekitUrl = "wss://matrix-rtc.jonbyr.com";
     port = 8091; # reached via nginx on loopback only (8081 is dufs)
   };
-  systemd.services.lk-jwt-service.environment.LIVEKIT_FULL_ACCESS_HOMESERVERS =
-    "matrix.jonbyr.com";
+  systemd.services.lk-jwt-service.environment.LIVEKIT_FULL_ACCESS_HOMESERVERS = "matrix.jonbyr.com";
 
   # Tuwunel runs as a runtime (DynamicUser) identity; put it in the static
   # `tuwunel` group so the registration token file can stay root:tuwunel 0640.
-  # The Signal bridge health must be up before us, because its PreStart
-  # generates the appservice registration we copy into `appservice_dir`
+  # The bridge units' health must be up before us, because their PreStarts
+  # generate the appservice registrations we copy into `appservice_dir`
   # (Tuwunel only reads that directory at startup).
   systemd.services.tuwunel = {
     # The tuwunel group for reading the registration token file, plus the
-    # mautrix-signal group so the ExecStartPre below can read the bridge's
-    # generated registration (640, owned by mautrix-signal) and copy it into
-    # appservice_dir.
-    serviceConfig.SupplementaryGroups = ["tuwunel" "mautrix-signal"];
-    after = ["mautrix-signal.service"];
-    wants = ["mautrix-signal.service"];
+    # mautrix-signal/mautrix-whatsapp groups so the ExecStartPre below can
+    # read the bridges' generated registrations (640, owned by each bridge)
+    # and copy them into appservice_dir.
+    serviceConfig.SupplementaryGroups = [
+      "tuwunel"
+      "mautrix-signal"
+      "mautrix-whatsapp"
+    ];
+    after = ["mautrix-signal.service" "mautrix-whatsapp.service"];
+    wants = ["mautrix-signal.service" "mautrix-whatsapp.service"];
     preStart = ''
       install -d -o tuwunel -g tuwunel -m 0755 /var/lib/tuwunel/appservices
       install -m 0644 \
         /var/lib/mautrix-signal/signal-registration.yaml \
+        /var/lib/tuwunel/appservices/
+      install -m 0644 \
+        /var/lib/mautrix-whatsapp/whatsapp-registration.yaml \
         /var/lib/tuwunel/appservices/
     '';
   };
@@ -117,6 +123,60 @@
       # on connect. Without this, only live events create rooms.
       backfill = {
         enabled = true;
+        max_catchup_messages = 500;
+        unread_hours_threshold = 720;
+      };
+    };
+  };
+
+  # WhatsApp bridge appservice. Same registration dance as the Signal bridge:
+  # the module generates whatsapp-registration.yaml with random as/hs tokens in
+  # /var/lib/mautrix-whatsapp (outside the store), copied to Tuwunel's
+  # appservice_dir by tuwunel's ExecStartPre above.
+  # Basic mode: no encryption pickle key, no double-puppeting.
+  services.mautrix-whatsapp = {
+    enable = true;
+    registerToSynapse = false; # served via Tuwunel's appservice_dir instead
+    settings = {
+      homeserver = {
+        address = "http://127.0.0.1:34751"; # Tuwunel client-server API
+        domain = "matrix.jonbyr.com";
+      };
+      appservice.hostname = "127.0.0.1"; # loopback only (module default [::])
+      bridge.permissions = {
+        "*" = "relay"; # everyone else gets relay mode only
+        "@jonas:matrix.jonbyr.com" = "admin";
+      };
+      # WhatsApp connector settings live under `network.`: mxmain proxies the
+      # connector config into that section and it is the only one the bridge
+      # reads (top-level duplicates get dropped by the config upgrade).
+      # DeviceProps.HistorySyncConfig is only advertised to the phone when all
+      # three full_sync_config values are non-zero (connector.go Init); with
+      # them unset (the default) many phones never push the history-sync blob
+      # at all - which is why chats/messages never arrived even though
+      # contacts (app state) kept working.
+      network = {
+        identity_change_notices = true;
+        initial_auto_reconnect = true; # re-request sync after connection drops
+        history_sync = {
+          request_full_sync = true; # ask WhatsApp for full history
+          max_initial_conversations = -1; # portal EVERY chat (DMs + groups)
+          dispatch_wait = "1m"; # wait for all chunks before creating portals
+          # Non-zero values are what actually make the phone deliver the
+          # history-sync blob on (re)login.
+          full_sync_config = {
+            days_limit = 180;
+            size_mb_limit = 100;
+            storage_quota_mb = 50;
+          };
+          media_requests.auto_request_media = true; # fetch expired media on backfill
+        };
+      };
+      # Without this, history-synced conversations are stored but never
+      # materialized as messages in the portal rooms (example default: off).
+      backfill = {
+        enabled = true;
+        max_initial_messages = 50;
         max_catchup_messages = 500;
         unread_hours_threshold = 720;
       };
