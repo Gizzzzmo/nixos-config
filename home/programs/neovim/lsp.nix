@@ -1,22 +1,6 @@
 {...}: {
   enable = true;
   inlayHints = true;
-  preConfig = ''
-    local border = {
-      { '┌', 'FloatBorder' }, { '─', 'FloatBorder' },
-      { '┐', 'FloatBorder' },
-      { '│', 'FloatBorder' },
-      { '┘', 'FloatBorder' },
-      { '─', 'FloatBorder' },
-      { '└', 'FloatBorder' },
-      { '│', 'FloatBorder' },
-    };
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, {
-        border = border
-      }
-    )
-  '';
 
   servers = {
     mojo = {
@@ -36,18 +20,6 @@
     #   package = null;
     #   cmd = ["/home/jonas/npmpkgs/node_modules/.bin/mdx-language-server" "--stdio"];
     #   filetypes = ["markdown"];
-    # };
-
-    # mojo = {
-    #   enable = true;
-    #   package = null;
-    # };
-
-    # rust_analyzer = { enable = true;
-    #   package = null;
-    #   cmd = ["rust-analyzer"];
-    #   installCargo = false;
-    #   installRustc = false;
     # };
 
     neocmake = {
