@@ -1,5 +1,6 @@
 {standalone, ...}: {
-  enable = !standalone;
+  # enable = !standalone;
+  enable = false;
 
   settings = {
     backend = "openai";
