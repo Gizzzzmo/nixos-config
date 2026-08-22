@@ -20,6 +20,10 @@
       url = "github:charlie12345/ROCmFPX/0a59add89b8cba06fb6a0baf25a253a4e45faa78";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    matui = {
+      url = "github:pkulak/matui/86dccde832a590c5220ea93ec0e4a7df752fef46";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -29,10 +33,11 @@
     nixvim,
     rose-pine-hyprcursor,
     rocmfpx,
+    matui,
     ...
   }: let
     inputs = {
-      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor rocmfpx;
+      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor rocmfpx matui;
     };
   in {
     nixosConfigurations.framework-desktop = nixpkgs.lib.nixosSystem {

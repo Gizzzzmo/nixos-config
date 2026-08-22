@@ -14,6 +14,7 @@
   hm.waybarHeight = 28;
 
   home.packages = with pkgs; [
+    inputs.matui.packages.${pkgs.system}.default
     mmtui
     bluetui
     darktable

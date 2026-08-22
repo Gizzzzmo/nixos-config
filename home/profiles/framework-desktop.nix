@@ -18,6 +18,7 @@
   };
 
   home.packages = with pkgs; [
+    inputs.matui.packages.${pkgs.system}.default
     mmtui
     bluetui
     (darktable.override {withAi = true;})

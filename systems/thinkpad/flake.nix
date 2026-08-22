@@ -15,6 +15,10 @@
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    matui = {
+      url = "github:pkulak/matui/86dccde832a590c5220ea93ec0e4a7df752fef46";
+      input.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -23,10 +27,11 @@
     home-manager,
     nixvim,
     rose-pine-hyprcursor,
+    matui,
     ...
   }: let
     inputs = {
-      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor;
+      inherit nixpkgs home-manager nixvim rose-pine-hyprcursor matui;
     };
   in {
     nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
