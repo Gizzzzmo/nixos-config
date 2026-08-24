@@ -5,13 +5,13 @@
   ...
 }: {
   options = {
-    main-user.enable = lib.mkEnableOption "enable user module";
-    main-user.userName = lib.mkOption {
+    guy-user.enable = lib.mkEnableOption "enable user module";
+    guy.userName = lib.mkOption {
       type = lib.types.str;
       default = "mainuser";
       description = "Username.";
     };
-    main-user.extraGroups = lib.mkOption {
+    guy.extraGroups = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
       description = "Extra groups for the main user (merged from all imported modules).";
@@ -32,6 +32,7 @@
           "networkmanager"
           "backlight"
           "input"
+          "systemd-journal"
         ]
         ++ config.main-user.extraGroups;
     };

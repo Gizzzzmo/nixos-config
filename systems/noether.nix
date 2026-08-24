@@ -1,7 +1,12 @@
-{inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ../modules/core.nix
     ../modules/main-user.nix
+    ../modules/guy-user.nix
     ../modules/services/ssh.nix
     ../modules/services/tailscale.nix
     ../modules/services/headscale.nix
@@ -16,6 +21,17 @@
 
   main-user.enable = true;
   main-user.userName = "jonas";
+  guy-user.enable = true;
+
+  users.users.guy = {
+    isNormalUser = true;
+    initialPassword = "blub";
+    description = "guy";
+    shell = pkgs.bash;
+    extraGroups = [
+      "systemd-journal"
+    ];
+  };
 
   sys = {
     hostName = "noether";
