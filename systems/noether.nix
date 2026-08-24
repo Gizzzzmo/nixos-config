@@ -23,16 +23,6 @@
   main-user.userName = "jonas";
   guy-user.enable = true;
 
-  users.users.guy = {
-    isNormalUser = true;
-    initialPassword = "blub";
-    description = "guy";
-    shell = pkgs.bash;
-    extraGroups = [
-      "systemd-journal"
-    ];
-  };
-
   sys = {
     hostName = "noether";
     legacyBios = true;
