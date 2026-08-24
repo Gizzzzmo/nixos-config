@@ -1,4 +1,5 @@
 -- Keybindings. See https://wiki.hypr.land/Configuring/Basics/Binds/
+local hl = hl
 local mainMod = "SUPER"
 
 -- Launch applications

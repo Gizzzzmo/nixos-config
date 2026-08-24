@@ -1,4 +1,6 @@
 -- Input / keyboard / touchpad.
+local hl = hl
+
 hl.config({
     input = {
         kb_layout  = "us,de,us",

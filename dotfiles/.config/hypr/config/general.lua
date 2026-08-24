@@ -1,5 +1,6 @@
 -- Look and feel: window decorations, layout, appearance.
 -- See https://wiki.hypr.land/Configuring/Basics/Variables/
+local hl = hl
 
 -- Cursor
 hl.config({ cursor = { inactive_timeout = 5 } })
