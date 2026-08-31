@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ../core.nix
+    ../modules/openviking.nix
   ];
 
   hm = {
@@ -15,5 +16,6 @@
     just
     zathura
     eog
+    nodejs
   ];
 }
