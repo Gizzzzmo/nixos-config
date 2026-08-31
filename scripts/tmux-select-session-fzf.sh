@@ -2,13 +2,32 @@
 
 sessions=$(tmux list-sessions -F '#{session_name} #{session_last_attached}' | sort -t" " -rnk2 | awk '{ print $1; }')
 
+# Build a query that excludes tmux sessions from the zoxide results.
+grep_query=$(printf '%s\n' "$sessions" | awk \
+	'/./ {
+         if (query != "")
+             query = query "|"
+         query = query $0
+     }
+     END {
+         if (query != "")
+             print "(" query ")$"
+         else
+             print "a^"
+     }')
+
 if [ -n "$TMUX" ]; then
 	sessions=$(echo "$sessions" | tail -n +2) # Exclude the current session from the list if we're already inside tmux
 fi
 
-selected=$(printf "%s\n%s\n%s" "$sessions" "$HOME" "$(zoxide query --list)" | fzf --reverse --prompt="Switch to session: " --height=100%)
-
-echo "Selected session: $selected"
+selected=$(
+	{
+		# Keep tmux sessions ahead of zoxide entries, while preserving their MRU order.
+		printf '%s\n' "$sessions" | awk 'NF { print (1000000000 - NR) "\t" $0 }'
+		printf '99999999\t%s\n' "$HOME" | grep -v -E "$grep_query"
+		zoxide query --list --score | grep -v -E "$grep_query" | awk '{ score = $1; $1 = ""; sub(/^ /, ""); print score "\t" $0 }'
+	} | fzf --delimiter="$(printf '\t')" --with-nth=2.. --accept-nth=2.. --tiebreak=index --reverse --prompt="Switch to session: " --height=100%
+)
 
 if [ -z "$selected" ]; then
 	exit 1
