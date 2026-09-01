@@ -82,11 +82,6 @@
     action.__raw = "function() require('iron.core').send_code_block() end";
   }
 
-  {
-    mode = ["n" "i"];
-    key = "<M-U>";
-    action = "<cmd>redo<cr>";
-  }
   # toggle fold
   {
     mode = "n";
