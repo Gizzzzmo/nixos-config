@@ -65,7 +65,6 @@
     obsidian = (import ./neovim/obsidian.nix) home_inputs;
     llm = (import ./neovim/llm.nix) home_inputs;
     copilot-lua = (import ./neovim/copilot-lua.nix) home_inputs;
-    lsp = (import ./neovim/lsp.nix) home_inputs;
     blink-cmp = (import ./neovim/blink-cmp.nix) home_inputs;
     luasnip = (import ./neovim/luasnip.nix) home_inputs;
     telescope = (import ./neovim/telescope.nix) home_inputs;
@@ -75,9 +74,13 @@
     snacks = (import ./neovim/snacks.nix) home_inputs;
     iron = (import ./neovim/iron.nix) home_inputs;
 
-    schemastore.enable = true;
+    # lsp stuff
+    lsp = (import ./neovim/lsp.nix) home_inputs;
     clangd-extensions.enable = true;
     rustaceanvim.enable = true;
+    typescript-tools.enable = true;
+
+    schemastore.enable = true;
     fzf-lua.enable = true;
     # cmp_luasnip.enable = true;
     diffview.enable = true;
@@ -94,11 +97,10 @@
     };
   };
 
-  extraPlugins = with pkgs.vimPlugins;
-    [
-      nvim-gdb
-      telescope-emoji-nvim
-    ];
+  extraPlugins = with pkgs.vimPlugins; [
+    nvim-gdb
+    telescope-emoji-nvim
+  ];
 
   dependencies = {
     git.enable = true;
