@@ -34,8 +34,6 @@
     extraInitrdModules = ["amdgpu"];
   };
 
-  services.llama-cpp.enableRocmFp4 = true;
-
   services.udev.extraRules = ''
     SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", MODE="0666", GROUP="dialout"
   '';

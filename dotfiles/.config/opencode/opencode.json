@@ -59,33 +59,37 @@
             },
             "models": {
                 "qwen3.8-27b": {
-                    "name": "Qwen 3.8 27B Q8",
+                    "name": "Qwen 3.8 27B ROCmFP4 STRIX",
                     "limit": {
                         "context": 196608,
                         "output": 16384
+                    },
+                    "attachment": true,
+                    "modalities": {
+                        "input": [
+                            "text",
+                            "image"
+                        ],
+                        "output": [
+                            "text"
+                        ]
                     }
                 },
-                "qwen3.6-35b-a3b-it": {
-                    "name": "Qwen 3.6 35B Q8_K_XL",
+                "ornith-1.5": {
+                    "name": "Ornith 1.5 35B ROCmFP4 STRIX_LEAN",
                     "limit": {
                         "context": 196608,
                         "output": 16384
-                    }
-                }
-            }
-        },
-        "llama-server-rocmfp4": {
-            "npm": "@ai-sdk/openai-compatible",
-            "name": "LLaMA Server ROCmFP4",
-            "options": {
-                "baseURL": "http://100.64.0.3:11405/v1"
-            },
-            "models": {
-                "qwen3.6-35b_q4": {
-                    "name": "Qwen 3.6 35B ROCmFP4 STRIX_LEAN",
-                    "limit": {
-                        "context": 196608,
-                        "output": 16384
+                    },
+                    "attachment": true,
+                    "modalities": {
+                        "input": [
+                            "text",
+                            "image"
+                        ],
+                        "output": [
+                            "text"
+                        ]
                     }
                 }
             }
