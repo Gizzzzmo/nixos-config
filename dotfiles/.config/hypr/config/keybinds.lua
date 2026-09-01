@@ -7,7 +7,7 @@ hl.bind(mainMod .. " + SHIFT + Q",  hl.dsp.exec_cmd([[ghostty_wrap -e bash -c "t
 hl.bind(mainMod .. " + M",          hl.dsp.exec_cmd("tmux at -t cmux"))
 hl.bind(mainMod .. " + Q",          hl.dsp.exec_cmd("ghostty_wrap"))
 hl.bind(mainMod .. " + CTRL + Q",   hl.dsp.exec_cmd("alacritty"))
-hl.bind(mainMod .. " + C",          hl.dsp.window.kill())
+hl.bind(mainMod .. " + C",          hl.dsp.window.close())
 hl.bind(mainMod .. " + S",          hl.dsp.exec_cmd("steam"))
 hl.bind(mainMod .. " + E",          hl.dsp.exec_cmd("nemo"))
 hl.bind(mainMod .. " + A",          hl.dsp.exec_cmd("pw-jack ardour9"))
