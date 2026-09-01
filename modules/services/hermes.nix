@@ -15,8 +15,8 @@ in {
       User = "jonas";
       ExecStart = ''
         ${sshBin} -oServerAliveInterval=30 -oServerAliveCountMax=2 \
-          -L 127.0.0.1:9119:127.0.0.1:9120 \
-          guy@46.225.139.112 "HERMES_DASHBOARD_SESSION_TOKEN=$(cat /home/guy/.hermes/dashboard_session_token) hermes serve --port 9120"
+          -L 127.0.0.1:9119:127.0.0.1:9119 \
+          guy@46.225.139.112 "HERMES_DASHBOARD_SESSION_TOKEN=$(cat /home/guy/.hermes/dashboard_session_token) hermes serve --port 9119"
       '';
       Restart = "on-failure";
       RestartSec = "5s";

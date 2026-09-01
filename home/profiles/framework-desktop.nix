@@ -19,6 +19,7 @@
 
   home.packages = with pkgs; [
     inputs.matui.packages.${pkgs.system}.default
+    inputs.hermes.packages.${pkgs.system}.desktop
     mmtui
     bluetui
     (darktable.override {withAi = true;})
