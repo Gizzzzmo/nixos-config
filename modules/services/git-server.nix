@@ -30,7 +30,7 @@ in {
       "_netdev"
       "x-systemd.requires=network-online.target"
       "credentials=/home/jonas/shared/.smbcredentials-storagebox"
-      "uid=997"
+      "uid=998"
       "gid=997"
       "file_mode=0664"
       "dir_mode=0775"
