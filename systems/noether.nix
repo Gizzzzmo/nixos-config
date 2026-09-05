@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }: {
   imports = [
@@ -32,4 +33,30 @@
   };
 
   hm.profile = ../home/profiles/noether.nix;
+
+  # Allow root's `nixos-upgrade.service` to READ jonas's user-owned git repo (the local flake
+  # at /home/jonas/nixos-config). Without this, root's `nix build` on the local-path flake is
+  # refused by libgit2's ownership check (safe.directory). Root is only whitelisted for READ:
+  # the nightly upgrade no longer updates the lock (see modules/core.nix, flags), so root never
+  # writes files owned by jonas here.
+  system.activationScripts.gitSafeDir = lib.mkAfter ''
+    mkdir -p /root
+    ${pkgs.git}/bin/git config --file /root/.gitconfig --list >/dev/null 2>&1 || true
+    if ! ${pkgs.git}/bin/git config --file /root/.gitconfig --get-all safe.directory 2>/dev/null | ${pkgs.gnugrep}/bin/grep -qxF "/home/jonas/nixos-config"; then
+      ${pkgs.git}/bin/git config --file /root/.gitconfig --add safe.directory /home/jonas/nixos-config
+    fi
+  '';
+
+  # Two-step nightly upgrade — Step 1: bump the flake lock AS jonas (repo owner) before root
+  # switches. `runuser` runs `nix flake update` as jonas, writing flake.lock into his repo and
+  # leaving it unstaged (exactly his manual workflow). Step 2 is the autoUpgrade switch as root
+  # (see modules/core.nix). The gitSafeDir activation above lets root READ the repo for step 2.
+  systemd.services.nixos-upgrade.serviceConfig.ExecStartPre = [
+    (lib.concatStrings [
+      "${pkgs.util-linux}/bin/runuser -u jonas -- "
+      "${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' "
+      "flake update /home/jonas/nixos-config/systems/noether "
+      "nixpkgs-stable home-manager-stable"
+    ])
+  ];
 }

@@ -111,12 +111,15 @@
     system.autoUpgrade = lib.mkIf (config.sys.autoUpgradeFlake != null) {
       enable = true;
       flake = toString config.sys.autoUpgradeFlake;
-      flags = [
-        "--update-input"
-        "nixpkgs-stable"
-        "--update-input"
-        "home-manager-stable"
-      ];
+      # Two-step nightly upgrade (real auto-update):
+      #   Step 1 — update the flake lock AS THE REPO OWNER (runuser -> jonas) via
+      #            `nix flake update nixpkgs-stable home-manager-stable`, wired in the host
+      #            module (systems/noether.nix) as ExecStartPre. jonas owns /home/jonas/nixos-config,
+      #            so this writes flake.lock without root ever touching it; it leaves the change
+      #            unstaged, matching how jonas bumps manually.
+      #   Step 2 — build + switch AS ROOT against the updated local lock (this block).
+      # flags intentionally EMPTY so root only ever READS the repo and never rewrites flake.lock.
+      flags = [];
       dates = "04:00";
       allowReboot = false;
       persistent = true;
