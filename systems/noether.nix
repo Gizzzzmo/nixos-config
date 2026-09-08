@@ -33,6 +33,15 @@
     autoUpgradeFlake = "/home/jonas/nixos-config/systems/noether";
   };
 
+  # Services (hermes/ollama/llama vhosts) bind the tailnet IP (sys.bindAddress).
+  # nginx refuses to start if that address is absent from tailscale0 - which happens
+  # whenever tailscaled is restarting or unauthenticated. That used to deadlock the
+  # whole box: headscale.jonbyr.com is fronted by this nginx, so tailscaled itself
+  # could not re-authenticate, keeping the address absent forever (seen 2026-09-08).
+  # ip_nonlocal_bind lets nginx bind the address regardless; traffic only flows once
+  # tailscale0 actually has it.
+  boot.kernel.sysctl."net.ipv4.ip_nonlocal_bind" = 1;
+
   hm.profile = ../home/profiles/noether.nix;
 
   # Allow root's `nixos-upgrade.service` to READ jonas's user-owned git repo (the local flake
