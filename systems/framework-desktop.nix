@@ -17,7 +17,6 @@
     ../modules/services/steam.nix
     ../modules/services/printing.nix
     ../modules/services/bluetooth.nix
-    ../modules/services/hermes.nix
     ./framework-desktop-hardware.nix
   ];
 
