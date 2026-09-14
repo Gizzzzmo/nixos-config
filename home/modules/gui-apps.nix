@@ -22,6 +22,7 @@ in {
     eog
     obsidian
     firefox
+    brave
     vlc
     discord
     qbittorrent
@@ -34,11 +35,6 @@ in {
     nemo
   ];
 
-  programs.qutebrowser =
-    (import ../programs/qutebrowser.nix) homeArgs
-    // {
-      enable = true;
-    };
   programs.mpv.enable = true;
   programs.ghostty =
     (import ../programs/ghostty.nix) homeArgs

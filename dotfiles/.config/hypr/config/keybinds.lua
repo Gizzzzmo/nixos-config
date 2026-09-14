@@ -15,7 +15,7 @@ hl.bind(mainMod .. " + V",          hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R",          hl.dsp.exec_cmd("wofi --show drun"))
 hl.bind(mainMod .. " + P",          hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + SHIFT + B",  hl.dsp.exec_cmd("firefox"))
-hl.bind(mainMod .. " + B",          hl.dsp.exec_cmd("qutebrowser"))
+hl.bind(mainMod .. " + B",          hl.dsp.exec_cmd("brave"))
 hl.bind(mainMod .. " + D",          hl.dsp.exec_cmd("discord --ozone-platform=wayland"))
 
 -- Multimedia keys (locked = layer-shell, i.e. old bindl)

@@ -213,7 +213,7 @@ in {
           "text/html" =
             if config.hm.wsl
             then "wslview.desktop"
-            else "qutebrowser.desktop";
+            else "brave.desktop";
           "application/pdf" = "zathura.desktop";
           "image/png" = "eog.desktop";
           "image/jpeg" = "eog.desktop";
@@ -271,7 +271,7 @@ in {
         BROWSER =
           if config.hm.wsl
           then "wslview"
-          else "qutebrowser";
+          else "brave";
         MANPAGER = "nvim +Man!";
         _ZO_EXCLUDE_DIRS = "/home/jonas/mnt/storagebox/**";
       }
