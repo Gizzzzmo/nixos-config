@@ -16,6 +16,7 @@
     ../modules/services/loctrack.nix
     ../modules/services/git-server.nix
     ../modules/services/matrix.nix
+    ../modules/services/xandikos.nix
     ../modules/services/storage-box.nix
     ../modules/services/home-manager.nix
     ../modules/services/hermes-tunnel.nix
