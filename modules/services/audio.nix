@@ -5,6 +5,18 @@
   ...
 }: {
   security.rtkit.enable = true;
+
+  # Allow pro-audio apps (SCHED_FIFO 99, e.g. Septabee) to get realtime priority
+  security.pam.loginLimits = [
+    {
+      domain = "@audio";
+      item = "rtprio";
+      type = "-";
+      value = "99";
+    }
+  ];
+  systemd.user.settings.Manager.DefaultLimitRTPRIO = 99;
+
   services.pipewire = {
     enable = true;
 
@@ -67,6 +79,8 @@
   environment.systemPackages = with pkgs; [
     pamixer
     pipewire.jack
+    jq
     (pkgs.writeScriptBin "set-audio-rate" (builtins.readFile ../../scripts/set-audio-rate.sh))
+    (pkgs.writeScriptBin "fix-ssl-sink" (builtins.readFile ../../scripts/fix-ssl-sink.sh))
   ];
 }

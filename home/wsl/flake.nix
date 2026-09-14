@@ -11,10 +11,6 @@
       url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    handy = {
-      url = "github:cjpais/Handy/v0.8.3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
