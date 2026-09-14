@@ -13,6 +13,7 @@
     ../modules/services/headscale.nix
     ../modules/services/nginx.nix
     ../modules/services/dufs.nix
+    ../modules/services/loctrack.nix
     ../modules/services/git-server.nix
     ../modules/services/matrix.nix
     ../modules/services/storage-box.nix
