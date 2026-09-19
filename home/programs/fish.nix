@@ -21,6 +21,7 @@
     "lta" = "eza -s modified -lga --git";
     "cat" = "bat";
     "oc" = "OPENCODE_ENABLE_EXA=1 OPENCODE_EXPERIMENTAL_LSP_TOOL=true opencode --port";
+    "cl" = "nvim -c Bloocky";
   };
 
   shellInit = ''

@@ -1,0 +1,16 @@
+--- a/lua/bloocky/sync/providers/caldav.lua
++++ b/lua/bloocky/sync/providers/caldav.lua
+@@ -125,7 +125,12 @@
+ 			local readonly = false
+ 			local privileges = xml.find(response, "current-user-privilege-set")
+ 			if privileges then
+-				readonly = xml.find(privileges, "write-content") == nil and xml.find(privileges, "write") == nil
++				-- RFC 3744: `all` is an aggregate that includes `write` (and so
++				-- `write-content`). xandikos reports exactly `all`, which used
++				-- to mark every calendar read-only and silently skip all pushes.
++				readonly = xml.find(privileges, "write-content") == nil
++					and xml.find(privileges, "write") == nil
++					and xml.find(privileges, "all") == nil
+ 			end
+ 
+ 			if supports_events then

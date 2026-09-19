@@ -97,10 +97,50 @@
     };
   };
 
-  extraPlugins = with pkgs.vimPlugins; [
-    nvim-gdb
-    telescope-emoji-nvim
-  ];
+  extraPlugins = with pkgs.vimPlugins;
+    let
+      bloocky-nvim = (pkgs.vimUtils.buildVimPlugin {
+        pname = "bloocky";
+        version = "1.1.0-beta.1";
+        src = pkgs.fetchFromGitHub {
+          owner = "atiladefreitas";
+          repo = "bloocky";
+          rev = "ce68cf311ed10d937398a7211dd21efca2ea5c59"; # main HEAD: v1.1.0-beta.1 + sync interval fix
+          sha256 = "sha256-XZVsRMf/vOcLLQ63pUAk7KxvSzoEwVwUAiVpSWSNEgk=";
+        };
+      }).overrideAttrs (old: {
+        patches =
+          (old.patches or [])
+          ++ [
+            # Treat the RFC 3744 aggregate `all` privilege as granting write
+            # (xandikos reports only `all`; without this every push is skipped).
+            ./neovim/patches/bloocky-dav-all-privilege.patch
+          ];
+      });
+    in [
+      nvim-gdb
+      telescope-emoji-nvim
+      bloocky-nvim
+    ];
+
+  extraConfigLua = ''
+    require("bloocky").setup({
+      sync = {
+        enabled = true,
+        accounts = {
+          {
+            id = "xandikos",
+            provider = "caldav",
+            url = "https://calendar.jonbyr.com/",
+            username = "jonas",
+            password_cmd = { "cat", "/home/jonas/shared/xandikos-passwd" },
+          },
+        },
+      },
+    })
+  '';
+
+  extraPackages = [ pkgs.curl ];
 
   dependencies = {
     git.enable = true;

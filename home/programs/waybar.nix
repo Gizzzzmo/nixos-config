@@ -100,7 +100,7 @@ in {
           };
         };
         actions = {
-          on-click-right = "mode";
+          on-click-right = "ghostty_wrap -e 'nvim -c Bloocky'";
           on-click-forward = "tz_up";
           on-click-backward = "tz_down";
           on-scroll-up = "shift_up";
