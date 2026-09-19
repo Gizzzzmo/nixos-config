@@ -16,7 +16,7 @@
       inherit (config.hm) standalone useHyprland waybarHeight waybarOpacity;
     };
   mkMonitor = m: let
-    bd = lib.optionalString (m.bitdepth != null) ", bitdepth = ${builtins.toString m.bitdepth}";
+    bd = lib.optionalString (m.bitdepth != null) ", bitdepth = ${toString m.bitdepth}";
   in "hl.monitor({ output = \"${m.output}\", mode = \"${m.mode}\", position = \"${m.position}\", scale = \"${m.scale}\"${bd} })";
 
   # The bulk of the config lives as real .lua files in
@@ -48,6 +48,8 @@ in {
     acpilight
     grim
     slurp
+    wl-clipboard
+    wl-clipboard-x11
   ];
 
   programs.waybar = (import ../programs/waybar.nix) homeArgs;

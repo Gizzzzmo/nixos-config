@@ -167,7 +167,6 @@ in {
       ripgrep-all
       hyperfine
       xh
-      fd
       htop
       unzip
       zip
@@ -188,8 +187,6 @@ in {
       ncdu
       netcat-openbsd
       nvd
-      wl-clipboard
-      wl-clipboard-x11
       python313
       python313Packages.ipython
       fishPlugins.bass
