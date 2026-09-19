@@ -6,6 +6,7 @@
     ../modules/services/gui.nix
     ../modules/services/audio.nix
     ../modules/services/tailscale.nix
+    ../modules/services/control-panel.nix
     ../modules/services/docker.nix
     ../modules/services/rocm.nix
     ../modules/services/virtualization.nix
@@ -30,6 +31,13 @@
     iommu = "amd";
     pciPassthrough = true;
     extraInitrdModules = ["amdgpu"];
+
+    controlPanel = {
+      enable = true;
+      # Hilbert runs no nginx, so the panel binds the tailnet IP directly;
+      # buttons for container control need the docker socket group.
+      extraGroups = ["docker"];
+    };
   };
 
   services.udev.extraRules = ''

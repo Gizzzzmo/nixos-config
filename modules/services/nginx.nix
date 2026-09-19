@@ -11,8 +11,11 @@
   };
 
   # Catch-all: the default server for the tailnet HTTP port. Anything that
-  # does not hit server_name below (the bare noether.headscale.local name,
-  # unknown hosts, missing Host) is dropped here — never leaked to hermes.
+  # does not hit a known server_name (unknown hosts, missing Host) is dropped
+  # here. The bare <hostname>.headscale.local name is served by the control
+  # panel vhost (modules/services/control-panel.nix) when the panel is
+  # enabled; with the panel off it falls through to this catch-all and is
+  # dropped too.
   services.nginx.virtualHosts."tailnet-reserved" = {
     listen = [
       {
@@ -21,8 +24,7 @@
         ssl = false;
       }
     ];
-    default = true; # this vhost is the default_server for 100.64.0.5:80
-    serverName = "noether.headscale.local"; # reserved — drop, don't serve hermes
+    default = true;
     locations."/" = {
       return = "444";
     };
@@ -33,6 +35,17 @@
   };
 
   networking.firewall.allowedTCPPorts = [80 443];
+
+  sys.controlPanel.actions.restartNginx = {
+    title = "Restart nginx";
+    shell = "systemctl restart nginx";
+    unit = "nginx.service";
+    icon = "restart";
+    timeout = 30;
+    # nginx fronts headscale and the hermes vhost — a mid-flight restart
+    # briefly drops tailnet HTTP, so require a deliberate click.
+    confirmation = true;
+  };
 
   nixpkgs.config.allowUnfreePredicate = pkg: true;
 }

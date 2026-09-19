@@ -10,6 +10,7 @@
     ../modules/guy-user.nix
     ../modules/services/ssh.nix
     ../modules/services/tailscale.nix
+    ../modules/services/control-panel.nix
     ../modules/services/headscale.nix
     ../modules/services/nginx.nix
     ../modules/services/dufs.nix
@@ -33,6 +34,8 @@
     bindAddress = "100.64.0.5";
     tailscaleLoginServer = "https://headscale.jonbyr.com";
     autoUpgradeFlake = "/home/jonas/nixos-config/systems/noether";
+
+    controlPanel.enable = true;
   };
 
   # Services (hermes/ollama/llama vhosts) bind the tailnet IP (sys.bindAddress).

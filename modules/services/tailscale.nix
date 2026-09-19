@@ -19,4 +19,15 @@
   };
 
   networking.firewall.trustedInterfaces = ["tailscale0"];
+
+  sys.controlPanel.actions.restartTailscaled = {
+    title = "Restart tailscaled";
+    shell = "systemctl restart tailscaled";
+    unit = "tailscaled.service";
+    icon = "restart";
+    timeout = 60;
+    # Restarting tailscaled tears down tailscale0 for a few seconds — tailnet
+    # connectivity (including this panel) drops until it comes back up.
+    confirmation = true;
+  };
 }
