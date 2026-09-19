@@ -47,4 +47,16 @@ in {
     chmod 755 /home/git/git-shell-commands/mkbare
     chown -R git:git /home/git
   '';
+
+  # The git user only ever talks git-shell. Its SSH connection must never
+  # become a tunnel into the tailnet services the control panel exposes:
+  # DisableForwarding covers TCP, unix-socket, agent, X11 and tun-device
+  # forwarding in one directive; git needs no TTY either. extraConfig is
+  # appended at the very end of the generated sshd_config — the only legal
+  # place for a Match block, since it applies to everything following it.
+  services.openssh.extraConfig = ''
+    Match User git
+      DisableForwarding yes
+      PermitTTY no
+  '';
 }
