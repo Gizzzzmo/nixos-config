@@ -26,8 +26,8 @@ in {
       "credentials=/home/jonas/shared/.smbcredentials-storagebox"
       "uid=495"
       "gid=495"
-      "file_mode=0664"
-      "dir_mode=0775"
+      "file_mode=0640"
+      "dir_mode=0750"
       "iocharset=utf8"
       "noserverino"
     ];
