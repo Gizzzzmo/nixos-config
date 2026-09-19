@@ -17,6 +17,7 @@
     pumheight = 7;
     tabstop = 4;
     foldlevel = 99;
+    clipboard = "osc52";
   };
 
   globals.mapleader = " ";
@@ -46,11 +47,6 @@
 
   diagnostic.settings = {
     virtual_text = true;
-  };
-
-  clipboard.providers.wl-copy = {
-    enable = true;
-    package = pkgs.wl-clipboard;
   };
 
   autoCmd = import ./neovim/auto-commands.nix;
