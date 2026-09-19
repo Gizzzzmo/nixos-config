@@ -263,6 +263,10 @@ in {
       ".XCompose" = {
         source = ../dotfiles/.XCompose;
       };
+      ".docker" = {
+        source = ../dotfiles/.docker;
+        recursive = true;
+      };
     };
 
     home.sessionVariables =
