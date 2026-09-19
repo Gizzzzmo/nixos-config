@@ -11,7 +11,6 @@
     ../modules/services/virtualization.nix
     ../modules/services/storage-box.nix
     ../modules/services/user-mounts.nix
-    ../modules/services/ollama.nix
     ../modules/services/llama.nix
     ../modules/services/home-manager.nix
     ../modules/services/steam.nix
