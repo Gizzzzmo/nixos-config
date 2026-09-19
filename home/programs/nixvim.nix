@@ -140,16 +140,5 @@
 
   dependencies = {
     git.enable = true;
-    llm-ls = {
-      enable = true;
-      package = pkgs.llm-ls.overrideAttrs (old: {
-        patches =
-          (old.patches or [])
-          ++ [
-            # ./neovim/patches/llm-ls-keep-multiline.patch
-            ./neovim/patches/llm-ls-utf16.patch
-          ];
-      });
-    };
   };
 }
