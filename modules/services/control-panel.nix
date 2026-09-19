@@ -251,6 +251,27 @@ in {
         };
       };
     };
+
+    links = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule {
+        options = {
+          title = lib.mkOption {
+            type = lib.types.str;
+            description = "Link text shown on the Services dashboard.";
+          };
+          url = lib.mkOption {
+            type = lib.types.str;
+            description = "Target URL, rendered as a plain anchor element.";
+          };
+        };
+      });
+      default = {};
+      description = ''
+        Service links for the panel's "Services" dashboard. Any module can
+        declare a link (e.g. hermes-tunnel.nix). The dashboard only exists
+        when at least one link is declared.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -288,39 +309,62 @@ in {
             name = "tailnetHost";
           }
         ];
-        dashboards = [
-          {
-            title = "Home";
+        dashboards =
+          [
+            {
+              title = "Home";
+              contents = [
+                {
+                  title = "Actions";
+                  type = "fieldset";
+                  contents =
+                    lib.mapAttrsToList
+                    (name: action: {title = resolveTitle name action;})
+                    cfg.actions;
+                }
+                {
+                  type = "fieldset";
+                  entity = "tailnetHost";
+                  title = "Tailnet host: {{ tailnetHost.title }}";
+                  contents = [
+                    {
+                      type = "display";
+                      # The color arrives as a plain string from the entity
+                      # data (statusColor) and is interpolated into the style
+                      # attribute — no HTML travels through templating.
+                      title = ''
+                        <a href="{{ tailnetHost.url }}">{{ tailnetHost.title }}</a><br />
+                        IP: <strong>{{ tailnetHost.ip }}</strong><br />
+                        Status: <strong style="color: {{ tailnetHost.statusColor }}">{{ tailnetHost.status }}</strong>
+                      '';
+                    }
+                  ];
+                }
+              ];
+            }
+          ]
+          # A Services dashboard only exists when some module declares links.
+          ++ lib.optional (cfg.links != {}) {
+            title = "Services";
             contents = [
               {
-                title = "Actions";
+                title = "Services";
                 type = "fieldset";
+                # URLs/titles are baked into config.yaml at Nix level — no
+                # templating. attrset iteration is name-sorted, so the tile
+                # order is stable.
                 contents =
                   lib.mapAttrsToList
-                  (name: action: {title = resolveTitle name action;})
-                  cfg.actions;
-              }
-              {
-                type = "fieldset";
-                entity = "tailnetHost";
-                title = "Tailnet host: {{ tailnetHost.title }}";
-                contents = [
-                  {
-                    type = "display";
-                    # The color arrives as a plain string from the entity
-                    # data (statusColor) and is interpolated into the style
-                    # attribute — no HTML travels through templating.
-                    title = ''
-                      <a href="{{ tailnetHost.url }}">{{ tailnetHost.title }}</a><br />
-                      IP: <strong>{{ tailnetHost.ip }}</strong><br />
-                      Status: <strong style="color: {{ tailnetHost.statusColor }}">{{ tailnetHost.status }}</strong>
-                    '';
-                  }
-                ];
+                  (
+                    name: link: {
+                      type = "display";
+                      title = ''<a href="${link.url}">${link.title}</a>'';
+                    }
+                  )
+                  cfg.links;
               }
             ];
-          }
-        ];
+          };
       };
     };
 

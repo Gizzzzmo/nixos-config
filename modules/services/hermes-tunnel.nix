@@ -11,8 +11,10 @@
   targetUser = "guy"; # account on that VPS
   sshKey = "/home/jonas/.ssh/id_ed25519"; # private key, provisioned out-of-band (0600)
 
-  bind = config.sys.bindAddress; # noether's tailnet address (100.64.0.5)
-  fqdn = "hermes.noether.headscale.local"; # MagicDNS name served by this reverse proxy
+  bind = config.sys.bindAddress; # this host's tailnet address
+  # MagicDNS name served by this reverse proxy; follows the including host so
+  # the module works on any tailnet machine, not just noether.
+  fqdn = "hermes.${config.sys.hostName}.headscale.local";
 
   # nginx selects a server block by (listen address, port, Host header). Both
   # `serve` and `dashboard` live under the same name but different tailnet
@@ -52,6 +54,12 @@
     '';
   };
 in {
+  # Declares sys.controlPanel.* — required by the panel link below. Inert
+  # unless the panel is enabled (control-panel's config is mkIf enable).
+  imports = [
+    ./control-panel.nix
+  ];
+
   # Tunnel: noether (reverse-proxy endpoint) -> Ubuntu VPS (loopback). Local
   # side binds 127.0.0.1 on noether so the forwards never expose anything on
   # the public interface; tailnet reachability is provided by nginx binding
@@ -117,4 +125,12 @@ in {
       value = bind;
     }
   ];
+
+  # Show the Hermes dashboard in the control panel's Services dashboard (on
+  # any host that includes this module). The serve endpoint (port 9119) is
+  # for the desktop app, not a browser, so only the dashboard is linked.
+  sys.controlPanel.links.hermes = {
+    title = "Hermes dashboard";
+    url = "http://${fqdn}/";
+  };
 }
