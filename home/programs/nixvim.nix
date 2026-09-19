@@ -17,7 +17,6 @@
     pumheight = 7;
     tabstop = 4;
     foldlevel = 99;
-    clipboard = "osc52";
   };
 
   globals.mapleader = " ";
@@ -93,9 +92,9 @@
     };
   };
 
-  extraPlugins = with pkgs.vimPlugins;
-    let
-      bloocky-nvim = (pkgs.vimUtils.buildVimPlugin {
+  extraPlugins = with pkgs.vimPlugins; let
+    bloocky-nvim =
+      (pkgs.vimUtils.buildVimPlugin {
         pname = "bloocky";
         version = "1.1.0-beta.1";
         src = pkgs.fetchFromGitHub {
@@ -113,11 +112,11 @@
             ./neovim/patches/bloocky-dav-all-privilege.patch
           ];
       });
-    in [
-      nvim-gdb
-      telescope-emoji-nvim
-      bloocky-nvim
-    ];
+  in [
+    nvim-gdb
+    telescope-emoji-nvim
+    bloocky-nvim
+  ];
 
   extraConfigLua = ''
     require("bloocky").setup({
@@ -136,7 +135,7 @@
     })
   '';
 
-  extraPackages = [ pkgs.curl ];
+  extraPackages = [pkgs.curl];
 
   dependencies = {
     git.enable = true;

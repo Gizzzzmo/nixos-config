@@ -7,7 +7,7 @@
       documentation.auto_show = true;
 
       menu = {
-        max_height = 4;
+        max_height = 5;
         direction_priority = [
           "n"
           "s"
