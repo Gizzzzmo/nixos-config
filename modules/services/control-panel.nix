@@ -267,9 +267,9 @@ in {
       });
       default = {};
       description = ''
-        Service links for the panel's "Services" dashboard. Any module can
-        declare a link (e.g. hermes-tunnel.nix). The dashboard only exists
-        when at least one link is declared.
+        Service links shown in a "Services" fieldset on the Home dashboard.
+        Any module can declare a link (e.g. hermes-tunnel.nix); the fieldset
+        only exists when at least one link is declared.
       '';
     };
   };
@@ -309,11 +309,11 @@ in {
             name = "tailnetHost";
           }
         ];
-        dashboards =
-          [
-            {
-              title = "Home";
-              contents = [
+        dashboards = [
+          {
+            title = "Home";
+            contents =
+              [
                 {
                   title = "Actions";
                   type = "fieldset";
@@ -322,6 +322,27 @@ in {
                     (name: action: {title = resolveTitle name action;})
                     cfg.actions;
                 }
+              ]
+              # Services tiles only exist when some module declares links.
+              ++ lib.optionals (cfg.links != {}) [
+                {
+                  title = "Services";
+                  type = "fieldset";
+                  # URLs/titles are baked into config.yaml at Nix level — no
+                  # templating. attrset iteration is name-sorted, so the tile
+                  # order is stable.
+                  contents =
+                    lib.mapAttrsToList
+                    (
+                      name: link: {
+                        type = "display";
+                        title = ''<a href="${link.url}">${link.title}</a>'';
+                      }
+                    )
+                    cfg.links;
+                }
+              ]
+              ++ [
                 {
                   type = "fieldset";
                   entity = "tailnetHost";
@@ -341,30 +362,8 @@ in {
                   ];
                 }
               ];
-            }
-          ]
-          # A Services dashboard only exists when some module declares links.
-          ++ lib.optional (cfg.links != {}) {
-            title = "Services";
-            contents = [
-              {
-                title = "Services";
-                type = "fieldset";
-                # URLs/titles are baked into config.yaml at Nix level — no
-                # templating. attrset iteration is name-sorted, so the tile
-                # order is stable.
-                contents =
-                  lib.mapAttrsToList
-                  (
-                    name: link: {
-                      type = "display";
-                      title = ''<a href="${link.url}">${link.title}</a>'';
-                    }
-                  )
-                  cfg.links;
-              }
-            ];
-          };
+          }
+        ];
       };
     };
 

@@ -126,9 +126,10 @@ in {
     }
   ];
 
-  # Show the Hermes dashboard in the control panel's Services dashboard (on
-  # any host that includes this module). The serve endpoint (port 9119) is
-  # for the desktop app, not a browser, so only the dashboard is linked.
+  # Show the Hermes dashboard in the control panel's Home page (Services
+  # fieldset, on any host that includes this module). The serve endpoint
+  # (port 9119) is for the desktop app, not a browser, so only the
+  # dashboard is linked.
   sys.controlPanel.links.hermes = {
     title = "Hermes dashboard";
     url = "http://${fqdn}/";
